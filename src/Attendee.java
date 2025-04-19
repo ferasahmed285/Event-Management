@@ -10,7 +10,7 @@ public class Attendee extends User {
     private double balance;
     private String address;
     private List<String> interests;
-    private List<Ticket> tickets;//change
+  //  private List<Ticket> tickets;//change
     private Wallet wallet;
 
 //buyTicket(String eventId): Deducts ticket price from the wallet and registers the attendee for the event.
