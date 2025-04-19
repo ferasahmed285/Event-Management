@@ -41,7 +41,7 @@ Validation validator = new Validation();
     }
 
     public void buyTickets(Double price){
-        if (validator.hasSufficientBalance(this.attendee , price)) {
+        if (validator.hasSufficientBalance(this , price)) {
 this.wallet.deductFunds(price);
 //ADD EVENT TO USERS TICKETS
         }
