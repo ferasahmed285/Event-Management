@@ -1,54 +1,7 @@
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-class Transaction {
-    String type;
-    double amount;
-    String eventId;
-    String date;
-
-    // Constructor — this runs when you create a new Transaction
-    public Transaction(String type, double amount, String eventId) {
-        this.type = type;
-        this.amount = amount;
-        this.eventId = eventId;
-        this.date = java.time.LocalDateTime.now().toString();
-    }
-
-    public String toString() {
-        return "[" + date + "] " + type + ": $" + amount +
-                (eventId != null ? " (Event ID: " + eventId + ")" : "");
-    }
-}
-
-class Category{
-    String categoryid;
-    String categoryname;
-    String description;
-
-
-    public Category(String categoryid, String categoryname, String description) {
-        this.categoryid = categoryid;
-        this.categoryname = categoryname;
-        this.description = description;
-    }
-    public List<Event> getEvents(List<Event> allevents) {
-        List<Event> filtered = new ArrayList<>();
-
-        for (Event e : allevents) {
-            if (e.categoryid.equals(this.categoryid)) {
-                filtered.add(e);
-            }
-        }
-
-        return filtered;
-    }
-    public void updateDetails(String newName, String newDescription) {
-        this.categoryname = newName;
-        this.description = newDescription;
-    }
-
-}
-class Wallet{
+public class Wallet{
     double balance;
     List<Transaction> transactions;
 
