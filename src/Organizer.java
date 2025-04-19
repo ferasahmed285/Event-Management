@@ -17,31 +17,31 @@ public class Organizer extends User {
 //chatWithAdmin(String message): Uses network functionality (Milestone 2) for direct communication with the Admin.
 
     public void createEvent(Event event) {
-
+//WAITING FOR CLASS EVENT TO BE IMPLEMENTED
 }
 
 public void updateEvent(Event event) {
-
+//WAITING FOR CLASS EVENT TO BE IMPLEMENTED
 }
 
 public void deleteEvent(String eventId) {
-
+//WAITING FOR CLASS EVENT TO BE IMPLEMENTED
 }
 
 public void viewAvailableRooms() {
-
+//WAITING FOR CLASS ROOM TO BE IMPLEMENTED
 }
 
 public void viewAttendeesForMyEvents() {
-
+//WAITING FOR CLASS EVENT TO BE IMPLEMENTED
 }
 
 public void chatWithAdmin(String message) {
-
+//THREADS
 }
 
     @Override
     public void displayDashboard() {
-
+//WAITING
     }
 }
