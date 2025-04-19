@@ -12,6 +12,7 @@ public class Attendee extends User {
     private List<String> interests;
     //private List<Ticket> tickets;
     public Wallet wallet;
+Validation validator = new Validation();
 
 //buyTicket(String eventId): Deducts ticket price from the wallet and registers the attendee for the event.
 //browseEvents(): Displays available events filtered by interests or category.
@@ -39,28 +40,31 @@ public class Attendee extends User {
         return interests;
     }
 
-    public void buyTickets(){
-
+    public void buyTickets(Double price){
+        if (validator.hasSufficientBalance(this.attendee , price)) {
+this.wallet.deductFunds(price);
+//ADD EVENT TO USERS TICKETS
+        }
     }
 
     public void browseEvents() {
-
+//WAITING FOR EVENT CLASS TO BE IMPLEMENTED
     }
 
     public void viewTickets() {
-
+//WAITING FOR DATABASE TO BE IMPLEMENTED
     }
 
-    public void addFunds(){
-
+    public void addFunds(int amount){
+this.wallet.addFunds(amount);
     }
 
     public void rateEvent(){
-
+//WAITING FOR EVENT CLASS TO BE IMPLEMENTED
     }
 
     @Override
     public void displayDashboard() {
-
+//WAITING
     }
 }
