@@ -73,5 +73,6 @@ public void viewAvailableRooms() {
         System.out.println("5. Chat with Admin");
         System.out.println("6. Logout");
         System.out.print("Enter your choice: ");
+        //choices
     }
 }
