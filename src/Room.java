@@ -85,15 +85,12 @@ import java.util.*;
     public int getId() {
         return id;
     }
-
     public String getName() {
         return name;
     }
-
     public int getRoomCapacity() {
         return roomCapacity;
     }
-
     public int getNumberOfGuests() {
         return numberOfGuests;
     }
