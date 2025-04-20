@@ -58,14 +58,14 @@ public void displaySummary() {
     System.out.println("Remaining Capacity: " + remainingCapacity());
 }
 
-public boolean registerAttendee(String name) {
+public void registerAttendee(String name) {
     if (attendees.contains(name)) {
-        System.out.println(name + " is already registered."); return false;
+        System.out.println(name + " is already registered.");
     }
     if (attendees.size() < capacity) {
-        attendees.add(name); return true;
+        attendees.add(name);
     }
-    System.out.println("Room is full."); return false;
+    System.out.println("Room is full.");
 }
 
 public boolean removeAttendee(String name) {

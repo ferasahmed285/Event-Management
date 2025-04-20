@@ -9,6 +9,7 @@ public class Attendee extends User {
 
     public Attendee(String username, String password, LocalDate dateOfBirth, Gender gender) {
         super(username, password, dateOfBirth, gender);
+        this.wallet = new Wallet(0);
     }
 
     public void setInterests(List<String> interests) {
