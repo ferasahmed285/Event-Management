@@ -59,6 +59,7 @@ public void viewAvailableRooms() {
 
     public void viewMyEvents() {
         for (Event event : eventsOrganized) {
+            System.out.println("My Events:");
             event.displaySummary();
         }
     }
