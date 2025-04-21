@@ -9,7 +9,7 @@ public class Validation {
     }
 
     public boolean isRoomCapacityValid(Room room, int numberOfGuests) {
-        return numberOfGuests <= room.getCapacity();
+        return numberOfGuests <= room.getRoomCapacity();
     }
 
     public boolean isValidUsername(String username) {
