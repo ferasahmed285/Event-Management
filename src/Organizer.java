@@ -52,33 +52,58 @@ public void viewAvailableRooms() {
 }
 
     public void viewAttendeesForMyEvents() {
+        System.out.println("Attendees for My Events:");
             for (Event event : eventsOrganized) {
             System.out.println(event.getTitle() + ": " + event.getAttendees().size());
             }
     }
 
     public void viewMyEvents() {
+        System.out.println("My Events:");
         for (Event event : eventsOrganized) {
-            System.out.println("My Events:");
             event.displaySummary();
         }
     }
 
-//public void chatWithAdmin(String message) {
-////THREADS
-//}
+public void chatWithAdmin(String message) {
+//THREADS
+}
 
     @Override
     public void displayDashboard() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Welcome " + this.username + "!");
         System.out.println("1. Create Event");
-        System.out.println("2. View Events");
-        System.out.println("3. View Available Rooms");
+        System.out.println("2. View My Events");
+        //System.out.println("3. View Available Rooms");
         System.out.println("4. View Attendees for My Events");
         System.out.println("5. Chat with Admin");
         System.out.println("6. Logout");
         System.out.print("Enter your choice: ");
+        int choice = Integer.parseInt(scanner.nextLine());
+        switch (choice) {
+            case 1:
+                createEvent();
+                break;
+            case 2:
+                viewMyEvents();
+                break;
+            case 3:
+                viewAvailableRooms();
+                break;
+            case 4:
+                viewAttendeesForMyEvents();
+                break;
+            case 5:
+                chatWithAdmin("TEST");
+                break;
+            case 6:
+                logout();
+                break;
+            default:
+                System.out.println("Invalid choice.");
+                break;
+        }
         //choices
     }
 }
