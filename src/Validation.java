@@ -4,22 +4,40 @@ import java.util.List;
 public class Validation {
     private List<String> usernames = new ArrayList<>();
 
-    public boolean hasSufficientBalance(Attendee attendee, double amount) {
-        return attendee.wallet.getBalance() >= amount;
+    public class Instructor {
+        Wallet wallet;
+
+        public Instructor(double balance) {
+            this.wallet = new Wallet(balance);
+        }
+
+        public Wallet getWallet() {
+            return wallet;
+        }
+
+        public class Wallet {
+            private double balance;
+
+            public Wallet(double balance) {
+                this.balance = balance;
+            }
+
+            public double getBalance() {
+                return balance;
+            }
+        }
     }
 
-    public boolean isRoomCapacityValid(Room room, int numberOfGuests) {
-        return numberOfGuests <= room.getRoomCapacity();
+    public boolean hasSufficientBalance(Instructor instructor, double amount) {
+        return instructor.wallet.getBalance() >= amount;
     }
 
     public boolean isValidUsername(String username) {
         if (username == null || username.length() <= 0) return false;
-
         for (int i = 0; i < username.length(); i++) {
             char ch = username.charAt(i);
             if (!Character.isLetterOrDigit(ch) && ch != '_') return false;
         }
-
         return !usernames.contains(username);
     }
 
