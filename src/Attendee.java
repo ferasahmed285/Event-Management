@@ -35,6 +35,10 @@ public class Attendee extends User {
 //        }
 //    }
 
+    public void refundTickets(Event event) {
+        event.removeAttendee(this.username);
+    }
+
     public void viewTickets() {
         for (Event event : Database.events) {
             if (event.getAttendees().contains(this.username)) {
@@ -71,7 +75,7 @@ public class Attendee extends User {
                 break;
             default:
                 System.out.println("Invalid choice. Please try again.");
-                displayDashboard();
+                    displayDashboard();
                 break;
         }
     }

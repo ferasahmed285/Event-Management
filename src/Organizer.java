@@ -44,17 +44,20 @@ public void updateEvent(Event event) {
     }
 
     public void deleteEvent(Event event) {
-//DATABASE        Database.removeEntity(event);
+        //DATABASE        Database.removeEntity(event);
     }
 
-public void viewAvailableRooms() {
-//WAITING FOR CLASS ROOM TO BE IMPLEMENTED
-}
+    public void viewAvailableRooms() {
+        System.out.println("Available Rooms:");
+        for (Room room : Database.rooms) {
+                System.out.println(room.getId() + ": " + room.getName() + " (" + room.getRoomCapacity() + " seats)");
+        }
+    }
 
     public void viewAttendeesForMyEvents() {
         System.out.println("Attendees for My Events:");
             for (Event event : eventsOrganized) {
-            System.out.println(event.getTitle() + ": " + event.getAttendees().size());
+            System.out.println(event.getTitle() + ": " + event.getAttendees());
             }
     }
 
@@ -65,9 +68,9 @@ public void viewAvailableRooms() {
         }
     }
 
-public void chatWithAdmin(String message) {
-//THREADS
-}
+    public void chatWithAdmin(String message) {
+        //NOT NOW
+    }
 
     @Override
     public void displayDashboard() {
@@ -102,8 +105,8 @@ public void chatWithAdmin(String message) {
                 break;
             default:
                 System.out.println("Invalid choice.");
+                displayDashboard();
                 break;
         }
-        //choices
     }
 }
