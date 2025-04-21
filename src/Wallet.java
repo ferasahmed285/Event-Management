@@ -5,6 +5,10 @@ class Wallet{
     double balance;
     List<Transaction> transactions;
 
+    public Wallet(){
+
+    }
+
     public Wallet (double balance){
         this.balance =balance;
         this.transactions = new ArrayList<>();
@@ -33,15 +37,15 @@ class Wallet{
     public void checkBalance(){
         System.out.println(balance);
     }
-//    public void transferToOrganizer(double amount, String eventId) {
-//        if (balance >= amount) {
-//            balance -= amount;
-//            organizer.receiveFunds(amount);
-//            transactions.add(new Transaction("Transfer to Organizer", amount, eventId));
-//            System.out.println("Transferred $" + amount + " to organizer for event: " + eventId);
-//        } else {
-//            System.out.println("Insufficient balance for transfer.");
-//        }
-//    }
+    public void transferToOrganizer(double amount, String title,Organizer organizer) {
+        if (balance >= amount) {
+            balance -= amount;
+            organizer.receiveFunds(amount);
+            transactions.add(new Transaction("Transfer to Organizer", amount, title));
+            System.out.println("Transferred $" + amount + " to organizer for event: " + title);
+        } else {
+            System.out.println("Insufficient balance for transfer.");
+        }
+    }
 
 }

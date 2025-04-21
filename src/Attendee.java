@@ -1,11 +1,9 @@
-//waiting for wallet
 import java.time.LocalDate;
 import java.util.List;
 
 public class Attendee extends User {
     private List<String> interests;
     public Wallet wallet;
-    private final Validation validator = new Validation();
 
     public Attendee(String username, String password, LocalDate dateOfBirth, String address, Gender gender, List<String> interests) {
         super(username, password, dateOfBirth, address, gender);
@@ -27,13 +25,12 @@ public class Attendee extends User {
         }
     }
 
-//    public void buyTickets(Event event){
-//        if (validator.hasSufficientBalance(this , event.getPrice())) {
-//            this.wallet.deductFunds(event.getPrice());
-////WAITING DEDUCT OR TRANSFER TO ORGANIZER
-//            event.registerAttendee(this.username);
-//        }
-//    }
+    public void buyTickets(Event event , Organizer organizer){
+        if (this.wallet.getBalance() >= event.getPrice()) {
+            this.wallet.transferToOrganizer(event.getPrice(), event.getTitle(), organizer );
+            event.registerAttendee(this.username);
+        }
+    }
 
     public void refundTickets(Event event) {
         event.removeAttendee(this.username);
@@ -53,6 +50,7 @@ public class Attendee extends User {
 
     @Override
     public void displayDashboard() {
+        //update
         System.out.println("Welcome " + this.username + "!");
         System.out.println("1. Browse Events");
         System.out.println("2. View Tickets");

@@ -7,22 +7,42 @@ class Category{
     String description;
 
 
+    public Category(){
+
+    }
+
     public Category(String categoryid, String categoryname, String description) {
         this.categoryid = categoryid;
         this.categoryname = categoryname;
         this.description = description;
     }
-//    public List<Event> getEvents(List<Event> allevents) {
-//        List<Event> filtered = new ArrayList<>();
-//
-//        for (Event e : allevents) {
-//            if (e.categoryid.equals(this.categoryid)) {
-//                filtered.add(e);
-//            }
-//        }
-//
-//        return filtered;
-//    }
+
+    public String getCategoryid(){
+        return categoryid;
+    }
+
+    public String getCategoryname(){
+        return categoryname;
+
+    }
+
+    public String getDescription(){
+        return description;
+
+    }
+
+    public List<Event> getEvents(List<Event> allevents) {
+        List<Event> filtered = new ArrayList<>();
+
+        for (Event e : allevents) {
+            if (e.getCategory() != null && e.getCategory().equalsIgnoreCase(this.categoryname)) {
+                filtered.add(e);
+            }
+        }
+
+        return filtered;
+    }
+
     public void updateDetails(String newname, String newdescription) {
         this.categoryname = newname;
         this.description = newdescription;
