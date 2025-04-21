@@ -19,7 +19,7 @@ public class Validation {
 //        }
 //        return true;
 //    }
-
+//testt
     public boolean hasSufficientBalance(Attendee attendee, double amount) {
         return attendee.wallet.getBalance() >= amount;
     }
