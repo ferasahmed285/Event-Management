@@ -1,4 +1,6 @@
-public class Transaction {
+import java.util.*;
+
+class Transaction {
     String type;
     double amount;
     String eventId;

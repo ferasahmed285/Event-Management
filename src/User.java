@@ -1,5 +1,6 @@
 import java.time.LocalDate;
-abstract class User {
+
+public abstract class User {
 
     protected String username;
     protected String password;
@@ -37,6 +38,22 @@ abstract class User {
     }
 
     public abstract void displayDashboard();
-}
 
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public LocalDate getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+}
 

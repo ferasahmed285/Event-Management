@@ -28,13 +28,13 @@ public class Attendee extends User {
         }
     }
 
-    public void buyTickets(Event event){
-        if (validator.hasSufficientBalance(this , event.getPrice())) {
-            this.wallet.deductFunds(event.getPrice());
-//WAITING DEDUCT OR TRANSFER TO ORGANIZER
-            event.registerAttendee(this.username);
-        }
-    }
+//    public void buyTickets(Event event){
+//        if (validator.hasSufficientBalance(this , event.getPrice())) {
+//            this.wallet.deductFunds(event.getPrice());
+////WAITING DEDUCT OR TRANSFER TO ORGANIZER
+//            event.registerAttendee(this.username);
+//        }
+//    }
 
     public void viewTickets() {
         for (Event event : Database.events) {

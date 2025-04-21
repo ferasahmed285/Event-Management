@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Wallet{
+class Wallet{
     double balance;
     List<Transaction> transactions;
 
@@ -29,29 +29,19 @@ public class Wallet{
         return balance;
     }
 
-    public double deductFunds(double amount) {
-        if (balance >= amount){
-           balance -= amount;
-            transactions.add(new Transaction("Purchase", amount, null));
-            System.out.println("Deducted $" + amount + " from wallet.");
-        }
-        else{
-            System.out.println("No Enough Balance");
-            return balance;
-        }
-        return balance;
-    }
+
     public void checkBalance(){
         System.out.println(balance);
     }
-    public void transferToOrganizer(double amount, String eventId) {
-        if (balance >= amount) {
-            balance -= amount;
-            transactions.add(new Transaction("Transfer to Organizer", amount, eventId));
-            System.out.println("Transferred $" + amount + " to organizer for event: " + eventId);
-        } else {
-            System.out.println("Insufficient balance for transfer.");
-        }
-    }
+//    public void transferToOrganizer(double amount, String eventId) {
+//        if (balance >= amount) {
+//            balance -= amount;
+//            organizer.receiveFunds(amount);
+//            transactions.add(new Transaction("Transfer to Organizer", amount, eventId));
+//            System.out.println("Transferred $" + amount + " to organizer for event: " + eventId);
+//        } else {
+//            System.out.println("Insufficient balance for transfer.");
+//        }
+//    }
 
 }
