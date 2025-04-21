@@ -5,6 +5,7 @@ public abstract class User {
     protected String username;
     protected String password;
     protected LocalDate dateOfBirth;
+    protected String address;
     protected Gender gender;
 
     public enum Gender {
@@ -14,10 +15,11 @@ public abstract class User {
     public User() {
     }
 
-    public User(String username, String password, LocalDate dateOfBirth, Gender gender) {
+    public User(String username, String password, LocalDate dateOfBirth, String address, Gender gender) {
         this.username = username;
         this.password = password;
         this.dateOfBirth = dateOfBirth;
+        this.address = address;
         this.gender = gender;
     }
 
@@ -51,9 +53,12 @@ public abstract class User {
         return dateOfBirth;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
     public Gender getGender() {
         return gender;
     }
 
 }
-
