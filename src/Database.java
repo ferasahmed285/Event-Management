@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.time.LocalDate;
+import static User.Gender.*;
 
 public class Database {
 
@@ -9,17 +11,17 @@ public class Database {
     public static ArrayList<Category> categories = new ArrayList<>();
 
     // 1. Method to Load sample data (dummy data)
-//    public static void initializeDummyData() {
-//        users.add(new Admin("admin1", "password1", "2006/2/4", "newCairo", "male", "CEO"));
-//        users.add(new Organizer("organizer1", "password2", "));
-//        users.add(new Attendee("attendee1", "attendee2"));
-//
-//        rooms.add(new Room("Room1", "Room2"));
-//
-//        events.add(new Event("Workshop", "Meeting"));
-//
-//        categories.add(new Category("Tech"));
-//    }
+    public static void initializeDummyData() {
+        users.add(new Admin("admin1", "password1", LocalDate.of(2006, 2, 4), "newCairo", Gender.MALE, "CEO", "9-5"));
+        users.add(new Organizer("organizer1", "password2", LocalDate.of(2005, 8, 2), "Alex", Gender.MALE));
+        users.add(new Attendee("attendee1", "attendee2", LocalDate.of(2000, 1, 1), "Cairo", Gender.MALE, new ArrayList<>()));
+
+        rooms.add(new Room(new Scanner(System.in)));
+
+        events.add(new Event(new Scanner(System.in), 100, "Workshop"));
+
+        categories.add(new Category("category1", "Technology", "New tech events"));
+    }
 
     // 2. Method to Add a new entity to the appropriate list
     public static void addEntity(Object entity) {
@@ -48,21 +50,21 @@ public class Database {
     }
 
     // 4. Method to Retrieve an entity by its username
-//    public static Object getEntityByUsername(String username) {
-//        for (User user : users) {
-//            if (user.getUsername().equals(username)) return user;
-//        }
-//        for (Event event : events) {
-//            if (event.getName().equals(username)) return event;
-//        }
-//        for (Room room : rooms) {
-//            if (room.getName().equals(username)) return room;
-//        }
-//        for (Category category : categories) {
-//            if (category.getName().equals(username)) return category;
-//        }
-//        return null; // Not found
-//    }
+    public static Object getEntityByUsername(String username) {
+        for (User user : users) {
+            if (user.getUsername().equals(username)) return user;
+        }
+        for (Event event : events) {
+            if (event.getTitle().equals(username)) return event;
+        }
+        for (Room room : rooms) {
+            if (room.getName().equals(username)) return room;
+        }
+        for (Category category : categories) {
+            if (category.getCategoryid().equals(username)) return category;
+        }
+        return null; // Not found
+    }
 
     
 }
