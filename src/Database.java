@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 import java.time.LocalDate;
-import static User.Gender.*;
+import java.util.Scanner;
 
 public class Database {
 
@@ -12,9 +12,9 @@ public class Database {
 
     // 1. Method to Load sample data (dummy data)
     public static void initializeDummyData() {
-        users.add(new Admin("admin1", "password1", LocalDate.of(2006, 2, 4), "newCairo", Gender.MALE, "CEO", "9-5"));
-        users.add(new Organizer("organizer1", "password2", LocalDate.of(2005, 8, 2), "Alex", Gender.MALE));
-        users.add(new Attendee("attendee1", "attendee2", LocalDate.of(2000, 1, 1), "Cairo", Gender.MALE, new ArrayList<>()));
+        users.add(new Admin("admin1", "password1", LocalDate.of(2006, 2, 4), "newCairo", User.Gender.MALE, "CEO", "9-5"));
+        users.add(new Organizer("organizer1", "password2", LocalDate.of(2005, 8, 2), "Alex", User.Gender.MALE));
+        users.add(new Attendee("attendee1", "attendee2", LocalDate.of(2000, 1, 1), "Cairo", User.Gender.MALE, new ArrayList<>()));
 
         rooms.add(new Room(new Scanner(System.in)));
 
