@@ -57,6 +57,12 @@ public void viewAvailableRooms() {
             }
     }
 
+    public void viewMyEvents() {
+        for (Event event : eventsOrganized) {
+            event.displaySummary();
+        }
+    }
+
 //public void chatWithAdmin(String message) {
 ////THREADS
 //}
