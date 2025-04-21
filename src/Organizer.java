@@ -1,3 +1,4 @@
+//waiting for event
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
@@ -7,20 +8,21 @@ public class Organizer extends User {
     private List<Event> eventsOrganized;
     private Wallet wallet;
 
-//createEvent(Event event): Adds a new event (validates the chosen room’s availability).
-//deleteEvent(String eventId): Cancels or removes an event.
-//viewAvailableRooms(): Fetches a list of rooms available for event booking.
-
     public Organizer(String username, String password, LocalDate dateOfBirth, String address, Gender gender) {
         super(username, password, dateOfBirth, address, gender);
         this.wallet = new Wallet(0);
     }
 
     public void createEvent() {
-//DATABASE        Database.events.add(new Event(new Scanner(System.in), 0, ""));
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter event Capacity: ");
+        int Capacity = Integer.parseInt(scanner.nextLine());
+        System.out.print("Enter event Category  : ");
+        String Category = scanner.nextLine();
+        eventsOrganized.add(new Event(scanner, Capacity, Category));
     }
 
-public void updateEvent(Event event) {
+    public void updateEvent(Event event) {
         System.out.println("Choose which field to update: ");
         System.out.println("1. Title");
         System.out.println("2. Description");

@@ -1,8 +1,8 @@
+//waiting for wallet
 import java.time.LocalDate;
 import java.util.List;
 
 public class Attendee extends User {
-//add address to user
     private List<String> interests;
     public Wallet wallet;
     private final Validation validator = new Validation();
