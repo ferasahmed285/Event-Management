@@ -75,7 +75,7 @@ public void chatWithAdmin(String message) {
         System.out.println("Welcome " + this.username + "!");
         System.out.println("1. Create Event");
         System.out.println("2. View My Events");
-        //System.out.println("3. View Available Rooms");
+        System.out.println("3. View Available Rooms");
         System.out.println("4. View Attendees for My Events");
         System.out.println("5. Chat with Admin");
         System.out.println("6. Logout");
