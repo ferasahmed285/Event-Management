@@ -68,6 +68,11 @@ public class Attendee extends User {
                 break;
             case 4:
                 logout();
+                break;
+            default:
+                System.out.println("Invalid choice. Please try again.");
+                displayDashboard();
+                break;
         }
     }
 }
