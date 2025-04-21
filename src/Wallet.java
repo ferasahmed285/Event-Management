@@ -22,7 +22,7 @@ class Wallet{
         return balance;
     }
 
-    public double addFunds(double amount){
+    public void addFunds(double amount){
         if (amount > 0) {
             balance += amount;
             transactions.add(new Transaction("Deposit", amount, null));
@@ -30,7 +30,6 @@ class Wallet{
         } else {
             System.out.println("Amount must be positive.");
         }
-        return balance;
     }
 
 
