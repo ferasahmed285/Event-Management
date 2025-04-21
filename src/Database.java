@@ -10,8 +10,8 @@ public class Database {
 
     // 1. Method to Load sample data (dummy data)
 //    public static void initializeDummyData() {
-//        users.add(new Admin("admin1", "admin2"));
-//        users.add(new Organizer("organizer1", "organiser2"));
+//        users.add(new Admin("admin1", "password1", "2006/2/4", "newCairo", "male", "CEO"));
+//        users.add(new Organizer("organizer1", "password2", "));
 //        users.add(new Attendee("attendee1", "attendee2"));
 //
 //        rooms.add(new Room("Room1", "Room2"));
