@@ -11,9 +11,8 @@ public class Organizer extends User {
 //deleteEvent(String eventId): Cancels or removes an event.
 //viewAvailableRooms(): Fetches a list of rooms available for event booking.
 
-
-    public Organizer(String username, String password, LocalDate dateOfBirth, Gender gender) {
-        super(username, password, dateOfBirth, gender);
+    public Organizer(String username, String password, LocalDate dateOfBirth, String address, Gender gender) {
+        super(username, password, dateOfBirth, address, gender);
         this.wallet = new Wallet(0);
     }
 

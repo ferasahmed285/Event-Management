@@ -7,9 +7,8 @@ public class Attendee extends User {
     public Wallet wallet;
     private final Validation validator = new Validation();
 
-    public Attendee(String username, String password, LocalDate dateOfBirth, Gender gender) {
-        super(username, password, dateOfBirth, gender);
-        this.wallet = new Wallet(0);
+    public Attendee(String username, String password, LocalDate dateOfBirth, String address, Gender gender, List<String> interests) {
+        super(username, password, dateOfBirth, address, gender);
     }
 
     public void setInterests(List<String> interests) {
