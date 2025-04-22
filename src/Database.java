@@ -1,10 +1,12 @@
+//add entity to constructors
+//add deletes to classes
 import java.util.ArrayList;
 import java.time.LocalDate;
 import java.util.Scanner;
 
 public class Database {
 
-    // Attributes as list of objects
+    // Attributes as a list of objects
     public static ArrayList<User> users = new ArrayList<>();
     public static ArrayList<Event> events = new ArrayList<>();
     public static ArrayList<Room> rooms = new ArrayList<>();
