@@ -6,16 +6,20 @@ public class Event {
     private String title, description, category;
     private LocalDateTime dateTime;
     private double price;
-    private List<String> attendees = new ArrayList<>();
+    private List<Attendee> attendees = new ArrayList<>();
     private int capacity;
+    private boolean isDeleted = false;
+    private Room room;
 
-    public Event(Scanner scanner, int capacity, String category) {
+    public Event(Scanner scanner, int capacity, String category, Room room) {
         this.capacity = capacity;
         this.category = category;
+        this.room = room;
         inputTitle(scanner);
         inputDescription(scanner);
         inputDateTime(scanner);
         inputPrice(scanner);
+        Database.addEntity(this);
     }
 
     public void inputTitle(Scanner scanner) {
@@ -54,17 +58,36 @@ public class Event {
         }
     }
 
-    public void deleteEvent() {
-        description = title + " event not found";
-        category = title + " event not found";
-        dateTime = null;
-        price = 0;
-        attendees.clear();
-        capacity = 0;
+    public void deleteEvent(Organizer organizer) {
+        issueRefunds(organizer);
+        releaseRoom();
+        Database.removeEntity(this);
+        isDeleted = true;
+        System.out.println("Event '" + title + "' has been removed from the database.");
     }
 
+    //refund
+    private void issueRefunds(Organizer organizer) {
+        for (Attendee attendee : attendees) {
+            attendee.wallet.refund(this,attendee,organizer);
+            System.out.println("Refunded " + price + " EGP to: " + attendee);
+            System.out.println("Organizer charged " + price + " EGP refunded to: " + attendee);
+        }
+    }
+
+    private void releaseRoom() {
+        if (room != null) {
+            room.clearRoom();
+            System.out.println("Room for event '" + title + "' has been released.");
+        } else {
+            System.out.println("No room assigned to this event.");
+        }
+    }
+
+
+
     public void displaySummary() {
-        if (capacity == 0) {
+        if (isDeleted) {
             System.out.println("Event deleted");
             return;
         }
@@ -79,22 +102,30 @@ public class Event {
         System.out.println("Remaining Capacity: " + remainingCapacity());
     }
 
-    public void registerAttendee(String name) {
-        if (attendees.contains(name)) {
-            System.out.println(name + " is already registered.");
+    public void registerAttendee(String username) {
+        if (isDeleted) {
+            System.out.println("Cannot register. Event has been deleted.");
+            return;
+        }
+        if (attendees.contains(username)) {
+            System.out.println(username + " is already registered.");
         } else if (attendees.size() < capacity) {
-            attendees.add(name);
+            attendees.add(username);
+            System.out.println(username + " has been registered.");
         } else {
             System.out.println("Room is full.");
         }
     }
 
-    public boolean removeAttendee(String name) {
-        if (attendees.remove(name)) {
-            System.out.println(name + " has been removed.");
+    public boolean removeAttendee(Attendee username , Organizer organizer) {
+        if (attendees.remove(username)) {
+            username.wallet.refund(this, username, organizer);
+            System.out.println(username + " has been removed.");
+            System.out.println("Refunded " + price + " EGP to: " + username);
+            System.out.println("Organizer charged " + price + " EGP refunded to: " + username);
             return true;
         }
-        System.out.println(name + " not found.");
+        System.out.println(username + " not found.");
         return false;
     }
 
@@ -102,28 +133,10 @@ public class Event {
         return capacity - attendees.size();
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public LocalDateTime getDateTime() {
-        return dateTime;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public List<String> getAttendees() {
-        return attendees;
-    }
+    public String getTitle() { return title; }
+    public String getDescription() { return description; }
+    public LocalDateTime getDateTime() { return dateTime; }
+    public String getCategory() { return category; }
+    public double getPrice() { return price; }
+    public List<String> getAttendees() { return attendees; }
 }
-//da bel delete mengheir transfer w change balance

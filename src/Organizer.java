@@ -1,6 +1,4 @@
-//waiting for delete event
 //update dashboard
-//waiting for view available rooms
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
@@ -8,7 +6,7 @@ import java.util.Scanner;
 public class Organizer extends User {
 
     private List<Event> eventsOrganized;
-    private Wallet wallet;
+    public Wallet wallet;
 
     public Organizer(String username, String password, LocalDate dateOfBirth, String address, Gender gender) {
         super(username, password, dateOfBirth, address, gender);
@@ -21,7 +19,9 @@ public class Organizer extends User {
         int Capacity = Integer.parseInt(scanner.nextLine());
         System.out.print("Enter event Category  : ");
         String Category = scanner.nextLine();
-        eventsOrganized.add(new Event(scanner, Capacity, Category));
+        System.out.print("Choose event Room     : ");
+        Room room = new Room(scanner);
+        eventsOrganized.add(new Event(scanner, Capacity, Category , room));
     }
 
     public void updateEvent(Event event) {
@@ -48,13 +48,13 @@ public class Organizer extends User {
     }
 
     public void deleteEvent(Event event) {
-        //DATABASE        Database.removeEntity(event);
+        event.deleteEvent(this);
     }
 
     public void viewAvailableRooms() {
         System.out.println("Available Rooms:");
         for (Room room : Database.rooms) {
-                System.out.println(room.getId() + ": " + room.getName() + " (" + room.getRoomCapacity() + " seats)");
+                room.displayRoomInfo();
         }
     }
 

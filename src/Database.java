@@ -1,5 +1,3 @@
-//add entity to constructors
-//add deletes to classes
 import java.util.ArrayList;
 import java.time.LocalDate;
 import java.util.Scanner;
@@ -20,7 +18,7 @@ public class Database {
 
         rooms.add(new Room(new Scanner(System.in)));
 
-        events.add(new Event(new Scanner(System.in), 100, "Workshop"));
+        events.add(new Event(new Scanner(System.in), 100, "Workshop" , rooms.get(0)));
 
         categories.add(new Category("category1", "Technology", "New tech events"));
     }

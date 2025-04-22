@@ -7,6 +7,7 @@ public class Room {
     private int roomCapacity;
     private List<String> organiserDate;
     private String attendeeDate;
+    private boolean isReserved;
 
     public Room(Scanner scanner) {
         this.id = inputId(scanner);
@@ -15,6 +16,7 @@ public class Room {
         this.numberOfGuests = inputGuestNumber(scanner);
         this.organiserDate = inDates(scanner);
         this.attendeeDate = chosenDate(scanner);
+        Database.addEntity(this);
     }
 
     private int inputId(Scanner scanner) {
@@ -78,27 +80,33 @@ public class Room {
             scanner.nextLine();
 
             if (choice >= 1 && choice <= organiserDate.size()) {
+                isReserved = true;
                 return organiserDate.get(choice - 1);
             } else {
                 System.out.println("Invalid choice.");
             }
         }
     }
-    public void reservationStat(){
-      if(this.numberOfGuests > 0){
-        System.out.println("Room is reserved");
-      }
-        else {
-          System.out.println("Room is empty");
+
+    public void reservationStat() {
+        if (this.numberOfGuests > 0 && isReserved) {
+            System.out.println("Room is reserved");
+        } else {
+            System.out.println("Room is empty");
         }
     }
+
     public void clearRoom() {
         this.name = null;
+        this.organiserDate.clear();
+        this.attendeeDate = null;
+        this.isReserved = false;
+        this.numberOfGuests = 0;
         System.out.println("Room " + id + " has been cleared.");
     }
 
     public void displayRoomInfo() {
-        if(this.name != null){
+        if (this.name != null) {
             System.out.println("Room ID: " + id);
             System.out.println("Room Name: " + name);
             System.out.println("Room Capacity: " + roomCapacity);
@@ -112,7 +120,6 @@ public class Room {
             System.out.println("Remaining Capacity: " + (roomCapacity - numberOfGuests));
         }
     }
-
 
     public int getId() {
         return id;

@@ -21,6 +21,7 @@ public abstract class User {
         this.dateOfBirth = dateOfBirth;
         this.address = address;
         this.gender = gender;
+        Database.addEntity(this);
     }
 
     public boolean login(String username, String password) {

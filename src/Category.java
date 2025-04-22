@@ -5,15 +5,11 @@ public class Category{
     String categoryname;
     String description;
 
-
-    public Category(){
-
-    }
-
     public Category(String categoryid, String categoryname, String description) {
         this.categoryid = categoryid;
         this.categoryname = categoryname;
         this.description = description;
+        Database.categories.add(this);
     }
 
     public String getCategoryid(){

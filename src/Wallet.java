@@ -46,5 +46,25 @@ public class Wallet{
             System.out.println("Insufficient balance for transfer.");
         }
     }
-
+    public void refund(Event event, Attendee attendee,Organizer organizer) {
+        if (organizer.wallet.balance >= event.getPrice()) {
+            organizer.wallet.balance -= event.getPrice();
+            attendee.wallet.addFunds(event.getPrice());
+            transactions.add(new Transaction("Transfer to Attendee", event.getPrice(), event.getTitle()));
+            System.out.println("Refunded $" + event.getPrice() + " to Attendee for event: " + event.getTitle());
+        } else {
+            System.out.println("Insufficient balance for transfer.");
+        }
+    }
+//    public double Refund(double amount ){
+//        if (amount > 0) {
+//            balance += amount;
+//            transactions.add(new Transaction("Refund", amount, null));
+//            System.out.println("Refunded $" + amount + " to user.");
+//        } else {
+//            System.out.println("Refund amount must be positive.");
+//        }
+//        return balance;
+//
+//    }
 }

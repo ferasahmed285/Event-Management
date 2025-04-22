@@ -33,8 +33,9 @@ public class Attendee extends User {
         }
     }
 
-    public void refundTickets(Event event) {
-        event.removeAttendee(this.username);
+    public void refundTickets(Event event , Organizer organizer) {
+        event.removeAttendee(this, organizer);
+        this.wallet.refund( event,this,organizer);
     }
 
     public void viewTickets() {
