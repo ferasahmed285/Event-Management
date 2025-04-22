@@ -1,5 +1,6 @@
 //waiting for delete event
 //update dashboard
+//waiting for view available rooms
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
