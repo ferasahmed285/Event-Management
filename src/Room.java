@@ -1,6 +1,6 @@
 import java.util.*;
 
-class Room {
+public class Room {
     private int id;
     private String name;
     private int numberOfGuests;
