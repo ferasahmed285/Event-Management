@@ -66,7 +66,6 @@ public class Event {
         System.out.println("Event '" + title + "' has been removed from the database.");
     }
 
-    //refund
     private void issueRefunds(Organizer organizer) {
         for (Attendee attendee : attendees) {
             attendee.wallet.refund(this,attendee,organizer);
@@ -117,16 +116,15 @@ public class Event {
         }
     }
 
-    public boolean removeAttendee(Attendee username , Organizer organizer) {
+    public void removeAttendee(Attendee username , Organizer organizer) {
         if (attendees.remove(username)) {
             username.wallet.refund(this, username, organizer);
             System.out.println(username + " has been removed.");
             System.out.println("Refunded " + price + " EGP to: " + username);
             System.out.println("Organizer charged " + price + " EGP refunded to: " + username);
-            return true;
+            return;
         }
         System.out.println(username + " not found.");
-        return false;
     }
 
     public int remainingCapacity() {

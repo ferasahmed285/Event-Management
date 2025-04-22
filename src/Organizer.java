@@ -81,11 +81,14 @@ public class Organizer extends User {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Welcome " + this.username + "!");
         System.out.println("1. Create Event");
-        System.out.println("2. View My Events");
-        System.out.println("3. View Available Rooms");
-        System.out.println("4. View Attendees for My Events");
-        System.out.println("5. Chat with Admin");
-        System.out.println("6. Logout");
+        System.out.println("2. Update Event");
+        System.out.println("3. Delete Event");
+        System.out.println("4. View Available Rooms");
+        System.out.println("5. View Attendees for My Events");
+        System.out.println("6. View My Events");
+        System.out.println("7. Chat with Admin");
+        System.out.println("8. Update Profile");
+        System.out.println("9. Logout");
         System.out.print("Enter your choice: ");
         int choice = Integer.parseInt(scanner.nextLine());
         switch (choice) {
@@ -93,24 +96,41 @@ public class Organizer extends User {
                 createEvent();
                 break;
             case 2:
-                viewMyEvents();
+                System.out.println("Choose an event to update:");
+                for (Event event : eventsOrganized) {
+                    event.displaySummary();
+                }
+                System.out.print("Enter event ID: ");
+                String eventID = scanner.nextLine();
+                Event event = (Event) Database.getEntityByUsername(eventID);
+                updateEvent(event);
                 break;
             case 3:
+                System.out.println("Choose an event to delete:");
+                for (Event event1 : eventsOrganized) {
+                    event1.displaySummary();
+                }
+                System.out.print("Enter event ID: ");
+                String eventID1 = scanner.nextLine();
+                Event event1 = (Event) Database.getEntityByUsername(eventID1);
+                deleteEvent(event1);
+                break;
+                case 4:
                 viewAvailableRooms();
                 break;
-            case 4:
+                case 5:
                 viewAttendeesForMyEvents();
                 break;
-            case 5:
-                chatWithAdmin("TEST");
+                case 6:
+                viewMyEvents();
                 break;
-            case 6:
-                logout();
+                case 7:
+                chatWithAdmin("Hello Admin!");
                 break;
-            default:
-                System.out.println("Invalid choice.");
-                displayDashboard();
-                break;
+                case 8:
+                System.out.println("Update Profile");
+                //t3ban
+                    break;
         }
     }
 
