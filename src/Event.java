@@ -102,16 +102,16 @@ public class Event {
         System.out.println("Remaining Capacity: " + remainingCapacity());
     }
 
-    public void registerAttendee(String username) {
+    public void registerAttendee(Attendee attendee) {
         if (isDeleted) {
             System.out.println("Cannot register. Event has been deleted.");
             return;
         }
-        if (attendees.contains(username)) {
-            System.out.println(username + " is already registered.");
+        if (attendees.contains(attendee.getUsername())) {
+            System.out.println(attendee.getUsername() + " is already registered.");
         } else if (attendees.size() < capacity) {
-            attendees.add(username);
-            System.out.println(username + " has been registered.");
+            attendees.add(attendee);
+            System.out.println(attendee.getUsername() + " has been registered.");
         } else {
             System.out.println("Room is full.");
         }
@@ -138,5 +138,5 @@ public class Event {
     public LocalDateTime getDateTime() { return dateTime; }
     public String getCategory() { return category; }
     public double getPrice() { return price; }
-    public List<String> getAttendees() { return attendees; }
+    public List<Attendee> getAttendees() { return attendees; }
 }

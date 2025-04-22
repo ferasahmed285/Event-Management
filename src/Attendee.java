@@ -29,7 +29,7 @@ public class Attendee extends User {
     public void buyTickets(Event event , Organizer organizer){
         if (this.wallet.getBalance() >= event.getPrice()) {
             this.wallet.transferToOrganizer(event.getPrice(), event.getTitle(), organizer );
-            event.registerAttendee(this.username);
+            event.registerAttendee(this);
         }
     }
 
