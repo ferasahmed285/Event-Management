@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-class Wallet{
+public class Wallet{
     double balance;
     List<Transaction> transactions;
 

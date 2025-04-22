@@ -1,4 +1,4 @@
-class Transaction {
+public class Transaction {
     String type;
     double amount;
     String eventId;

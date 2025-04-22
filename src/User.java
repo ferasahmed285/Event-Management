@@ -9,7 +9,7 @@ public abstract class User {
     protected Gender gender;
 
     public enum Gender {
-        MALE, FEMALE, OTHER;
+        MALE, FEMALE, OTHER
     }
 
     public User() {

@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
-
-class Category{
+public class Category{
     String categoryid;
     String categoryname;
     String description;
