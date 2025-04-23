@@ -1,4 +1,4 @@
-//the update profile will be improved later
+//handle null error
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
@@ -28,11 +28,17 @@ public class Attendee extends User {
         }
     }
 
-    public void buyTickets(Event event , Organizer organizer){
+    public void buyTickets(Event event){
         if (this.wallet.getBalance() >= event.getPrice()) {
-            this.wallet.transferToOrganizer(event.getPrice(), event.getTitle(), organizer );
+            this.wallet.transferToOrganizer(event.getPrice(), event.getTitle(), event.organizer );
             event.registerAttendee(this);
+            System.out.println("Ticket purchased successfully.");
         }
+        else {
+            System.out.println("Insufficient funds.");
+            System.out.println("Please try again.");
+        }
+        displayDashboard();
     }
 
     public void refundTickets(Event event) {
@@ -59,7 +65,7 @@ public class Attendee extends User {
         System.out.println("1. Browse Events");
         System.out.println("2. Buy Tickets");
         System.out.println("3. Refund Tickets");
-        System.out.println("4. View Profile");//info + tickets
+        System.out.println("4. View Profile");
         System.out.println("5. Add Funds");
         System.out.println("6. Add Interest");
         System.out.println("7. Remove All Interests");
@@ -75,25 +81,22 @@ public class Attendee extends User {
             case 2:
                 System.out.println("Choose an event to buy tickets:");
                 browseEvents();
-                System.out.print("Enter event ID: ");
-                String eventID = scanner.nextLine();
-                Event event = (Event) Database.getEntityByUsername(eventID);
-                System.out.print("Enter organizer username: ");
-                String organizerUsername = scanner.nextLine();
-                Organizer organizer = (Organizer) Database.getEntityByUsername(organizerUsername);
+                System.out.print("Enter event Name: ");
+                String eventName = scanner.nextLine();
+                Event event = (Event) Database.getEntityByUsername(eventName);
                 assert event != null;
-                buyTickets(event, organizer);
+                buyTickets(event);
                 break;
             case 3:
                 System.out.println("Choose an event to refund tickets:");
                 for (Event event1 : Database.events) {
-                    if (event1.getCategory().equals(this.interests.get(0))) {
+                    if (event1.getCategory().equals(this.interests.getFirst())) {
                         event1.displaySummary();
                     }
                 }
-                System.out.print("Enter event ID: ");
-                String eventID1 = scanner.nextLine();
-                Event event1 = (Event) Database.getEntityByUsername(eventID1);
+                System.out.print("Enter event Name: ");
+                String eventName1 = scanner.nextLine();
+                Event event1 = (Event) Database.getEntityByUsername(eventName1);
                 assert event1 != null;
                 refundTickets(event1);
                 break;
