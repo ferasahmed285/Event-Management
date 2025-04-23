@@ -10,8 +10,9 @@ public class Event {
     private int capacity;
     private boolean isDeleted = false;
     private Room room;
+    public Organizer organizer;
 
-    public Event(Scanner scanner, int capacity, String category, Room room) {
+    public Event(Scanner scanner, int capacity, String category, Room room , Organizer organizer) {
         this.capacity = capacity;
         this.category = category;
         this.room = room;
@@ -20,6 +21,7 @@ public class Event {
         inputDateTime(scanner);
         inputPrice(scanner);
         Database.addEntity(this);
+        this.organizer = organizer;
     }
 
     public void inputTitle(Scanner scanner) {
@@ -68,7 +70,7 @@ public class Event {
 
     private void issueRefunds(Organizer organizer) {
         for (Attendee attendee : attendees) {
-            attendee.wallet.refund(this,attendee,organizer);
+            attendee.wallet.refund(this,attendee);
             System.out.println("Refunded " + price + " EGP to: " + attendee);
             System.out.println("Organizer charged " + price + " EGP refunded to: " + attendee);
         }
@@ -83,8 +85,6 @@ public class Event {
         }
     }
 
-
-
     public void displaySummary() {
         if (isDeleted) {
             System.out.println("Event deleted");
@@ -93,6 +93,7 @@ public class Event {
 
         System.out.println("Event Summary:");
         System.out.println("Title: " + title);
+        System.out.println("Organizer: " + organizer.getUsername());
         System.out.println("Description: " + description);
         System.out.println("Date & Time: " + dateTime);
         System.out.println("Category: " + category);
@@ -106,7 +107,7 @@ public class Event {
             System.out.println("Cannot register. Event has been deleted.");
             return;
         }
-        if (attendees.contains(attendee.getUsername())) {
+        if (attendees.contains(attendee)) {
             System.out.println(attendee.getUsername() + " is already registered.");
         } else if (attendees.size() < capacity) {
             attendees.add(attendee);
@@ -116,9 +117,9 @@ public class Event {
         }
     }
 
-    public void removeAttendee(Attendee username , Organizer organizer) {
+    public void removeAttendee(Attendee username) {
         if (attendees.remove(username)) {
-            username.wallet.refund(this, username, organizer);
+            username.wallet.refund(this, username);
             System.out.println(username + " has been removed.");
             System.out.println("Refunded " + price + " EGP to: " + username);
             System.out.println("Organizer charged " + price + " EGP refunded to: " + username);

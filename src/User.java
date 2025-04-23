@@ -12,9 +12,6 @@ public abstract class User {
         MALE, FEMALE, OTHER
     }
 
-    public User() {
-    }
-
     public User(String username, String password, LocalDate dateOfBirth, String address, Gender gender) {
         this.username = username;
         this.password = password;
@@ -32,12 +29,8 @@ public abstract class User {
         System.out.println("You have logged out");
     }
 
-    public void updateProfile(String newUsername, String newPassword, LocalDate newDateOfBirth, Gender newGender) {
-
-        this.username = newUsername;
+    public void updatePassword(String newPassword) {
         this.password = newPassword;
-        this.dateOfBirth = newDateOfBirth;
-        this.gender = newGender;
     }
 
     public abstract void displayDashboard();

@@ -1,4 +1,4 @@
-//update dashboard
+//the update profile will be improved later
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
@@ -9,19 +9,17 @@ public class Attendee extends User {
 
     public Attendee(String username, String password, LocalDate dateOfBirth, String address, Gender gender, List<String> interests) {
         super(username, password, dateOfBirth, address, gender);
-    }
-
-    public void setInterests(List<String> interests) {
         this.interests = interests;
+        this.wallet = new Wallet(0);
     }
 
-    public List<String> getInterests() {
-        return interests;
+    public void addInterests(List<String> interests) {
+        this.interests.addAll(interests);
     }
 
     public void browseEvents() {
         for (Event event : Database.events) {
-            if (event.getCategory().equals(this.interests.get(0))) {
+            if (this.interests.getFirst().equals(event.getCategory())) {
                 event.displaySummary();
             }
         }
@@ -34,14 +32,14 @@ public class Attendee extends User {
         }
     }
 
-    public void refundTickets(Event event , Organizer organizer) {
-        event.removeAttendee(this, organizer);
-        this.wallet.refund( event,this,organizer);
+    public void refundTickets(Event event) {
+        event.removeAttendee(this);
+        this.wallet.refund( event,this);
     }
 
     public void viewTickets() {
         for (Event event : Database.events) {
-            if (event.getAttendees().contains(this.username)) {
+            if (event.getAttendees().contains(this)) {
                 event.displaySummary();
             }
         }
@@ -57,10 +55,13 @@ public class Attendee extends User {
         System.out.println("Welcome " + this.username + "!");
         System.out.println("1. Browse Events");
         System.out.println("2. Buy Tickets");
-        System.out.println("3. View Tickets");
-        System.out.println("4. Refund Tickets");
-        System.out.println("5. Update Profile");
-        System.out.println("6. Logout");
+        System.out.println("3. Refund Tickets");
+        System.out.println("4. View Profile");//info + tickets
+        System.out.println("5. Add Funds");
+        System.out.println("6. Add Interest");
+        System.out.println("7. Remove All Interests");
+        System.out.println("8. Update Password");
+        System.out.println("9. Logout");
         System.out.print("Enter your choice: ");
         int choice = Integer.parseInt(scanner.nextLine());
         switch (choice) {
@@ -69,23 +70,17 @@ public class Attendee extends User {
                 break;
             case 2:
                 System.out.println("Choose an event to buy tickets:");
-                for (Event event : Database.events) {
-                    if (event.getCategory().equals(this.interests.get(0))) {
-                        event.displaySummary();
-                    }
-                }
+                browseEvents();
                 System.out.print("Enter event ID: ");
                 String eventID = scanner.nextLine();
                 Event event = (Event) Database.getEntityByUsername(eventID);
                 System.out.print("Enter organizer username: ");
                 String organizerUsername = scanner.nextLine();
                 Organizer organizer = (Organizer) Database.getEntityByUsername(organizerUsername);
+                assert event != null;
                 buyTickets(event, organizer);
                 break;
-                case 3:
-                viewTickets();
-                break;
-                case 4:
+            case 3:
                 System.out.println("Choose an event to refund tickets:");
                 for (Event event1 : Database.events) {
                     if (event1.getCategory().equals(this.interests.get(0))) {
@@ -98,11 +93,45 @@ public class Attendee extends User {
                 System.out.print("Enter organizer username: ");
                 String organizerUsername1 = scanner.nextLine();
                 Organizer organizer1 = (Organizer) Database.getEntityByUsername(organizerUsername1);
-                refundTickets(event1, organizer1);
+                assert event1 != null;
+                refundTickets(event1);
+                break;
+            case 4:
+                System.out.println("Profile Info:");
+                System.out.println("Username: " + username);
+                System.out.println("Date of Birth: " + dateOfBirth);
+                System.out.println("Address: " + address);
+                System.out.println("Gender: " + gender);
+                System.out.println("Wallet Balance: " + wallet.getBalance());
+                System.out.println("Interests: " + interests);
+                System.out.println("Tickets: ");
+                viewTickets();
                 break;
             case 5:
-                System.out.println("Update Profile");
-                //t3ban
+                System.out.print("Enter amount to add: ");
+                int amount = Integer.parseInt(scanner.nextLine());
+                addFunds(amount);
+                break;
+            case 6:
+                System.out.print("Enter interest to add: ");
+                String interest = scanner.nextLine();
+                addInterests(List.of(interest));
+                break;
+            case 7:
+                this.interests.clear();
+                break;
+            case 8:
+                System.out.println("Update Password");
+                System.out.print("Enter new password: ");
+                String newPassword = scanner.nextLine();
+                updatePassword(newPassword);
+                break;
+            case 9:
+                this.logout();
+                break;
+            default:
+                System.out.println("Invalid choice!");
+                displayDashboard();
                 break;
         }
     }

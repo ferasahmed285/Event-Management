@@ -1,4 +1,4 @@
-//update dashboard
+//update profile, chat with admin
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
@@ -21,7 +21,7 @@ public class Organizer extends User {
         String Category = scanner.nextLine();
         System.out.print("Choose event Room     : ");
         Room room = new Room(scanner);
-        eventsOrganized.add(new Event(scanner, Capacity, Category , room));
+        eventsOrganized.add(new Event(scanner, Capacity, Category , room , this));
     }
 
     public void updateEvent(Event event) {
@@ -73,7 +73,7 @@ public class Organizer extends User {
     }
 
     public void chatWithAdmin(String message) {
-        //NOT NOW
+        System.out.println("NOT IMPLEMENTED");
     }
 
     @Override
@@ -87,7 +87,7 @@ public class Organizer extends User {
         System.out.println("5. View Attendees for My Events");
         System.out.println("6. View My Events");
         System.out.println("7. Chat with Admin");
-        System.out.println("8. Update Profile");
+        System.out.println("8. Update Password");
         System.out.println("9. Logout");
         System.out.print("Enter your choice: ");
         int choice = Integer.parseInt(scanner.nextLine());
@@ -113,27 +113,36 @@ public class Organizer extends User {
                 System.out.print("Enter event ID: ");
                 String eventID1 = scanner.nextLine();
                 Event event1 = (Event) Database.getEntityByUsername(eventID1);
+                assert event1 != null;
                 deleteEvent(event1);
                 break;
-                case 4:
+            case 4:
                 viewAvailableRooms();
                 break;
-                case 5:
+            case 5:
                 viewAttendeesForMyEvents();
                 break;
-                case 6:
+            case 6:
                 viewMyEvents();
                 break;
-                case 7:
+            case 7:
                 chatWithAdmin("Hello Admin!");
                 break;
-                case 8:
-                System.out.println("Update Profile");
-                //t3ban
+            case 8:
+                System.out.println("Update Password");
+                System.out.print("Enter new password: ");
+                String newPassword = scanner.nextLine();
+                updatePassword(newPassword);
+                break;
+            case 9:
+                    this.logout();
+                    break;
+            default:
+                    System.out.println("Invalid choice!");
+                    displayDashboard();
                     break;
         }
     }
-
     public void receiveFunds(double amount) {
         this.wallet.addFunds(amount);
     }
