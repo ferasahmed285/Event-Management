@@ -9,7 +9,7 @@ public class Event {
     private double price;
     private List<Attendee> attendees = new ArrayList<>();
     private boolean isDeleted = false;
-    private Room room;
+    Room room;
     public Organizer organizer;
 
     public Event( String Title , String Description , LocalDateTime Time , double price ,String category, Room room , Organizer organizer) {

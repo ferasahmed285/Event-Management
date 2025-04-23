@@ -28,18 +28,18 @@ public class Main {
                 }
                 break;
             case 2:
-                System.out.print("Enter username: ");
-                String username1 = System.console().readLine();
-                System.out.print("Enter password: ");
-                String password1 = System.console().readLine();
-                System.out.print("Enter your Birthday: ");
-                String dateOfBirth = System.console().readLine();
-                System.out.print("Enter your Address: ");
-                String address = System.console().readLine();
-                System.out.print("Enter your Gender:");
-                String gender = System.console().readLine();
-                System.out.println("ERR");
-                //Attendee newuser = new Attendee(username1,password1,dateOfBirth,address,gender,null);
+                System.out.println("NOT COMPLETED");
+//                System.out.print("Enter username: ");
+//                String username1 = System.console().readLine();
+//                System.out.print("Enter password: ");
+//                String password1 = System.console().readLine();
+//                System.out.print("Enter your Birthday: ");
+//                String dateOfBirth = System.console().readLine();
+//                System.out.print("Enter your Address: ");
+//                String address = System.console().readLine();
+//                System.out.print("Enter your Gender:");
+//                String gender = System.console().readLine();
+//                Attendee newuser = new Attendee(username1,password1,dateOfBirth,address,gender,null);
                 break;
             case 3:
                 System.out.println("Exiting...");

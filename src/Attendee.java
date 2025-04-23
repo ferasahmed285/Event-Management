@@ -7,10 +7,10 @@ public class Attendee extends User {
     private List<String> interests;
     public Wallet wallet;
 
-    public Attendee(String username, String password, LocalDate dateOfBirth, String address, Gender gender, List<String> interests) {
+    public Attendee(String username, String password, LocalDate dateOfBirth, String address, Gender gender) {
         super(username, password, dateOfBirth, address, gender);
-        this.interests = interests;
         this.wallet = new Wallet(0);
+        this.interests = List.of();
     }
 
     public void addInterests(List<String> interests) {
@@ -19,7 +19,10 @@ public class Attendee extends User {
 
     public void browseEvents() {
         for (Event event : Database.events) {
-            if (this.interests.getFirst().equals(event.getCategory())) {
+            if (this.interests.isEmpty()) {
+                event.displaySummary();
+            }
+            else if (this.interests.getFirst().equals(event.getCategory())) {
                 event.displaySummary();
             }
         }
@@ -67,6 +70,7 @@ public class Attendee extends User {
         switch (choice) {
             case 1:
                 browseEvents();
+                displayDashboard();
                 break;
             case 2:
                 System.out.println("Choose an event to buy tickets:");
@@ -90,9 +94,6 @@ public class Attendee extends User {
                 System.out.print("Enter event ID: ");
                 String eventID1 = scanner.nextLine();
                 Event event1 = (Event) Database.getEntityByUsername(eventID1);
-                System.out.print("Enter organizer username: ");
-                String organizerUsername1 = scanner.nextLine();
-                Organizer organizer1 = (Organizer) Database.getEntityByUsername(organizerUsername1);
                 assert event1 != null;
                 refundTickets(event1);
                 break;

@@ -248,7 +248,9 @@ public class Organizer extends User {
                     break;
         }
     }
+
     public void receiveFunds(double amount) {
         this.wallet.addFunds(amount);
     }
+
 }

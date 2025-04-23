@@ -1,12 +1,8 @@
+/// user validation
 public interface Validation {
-
-    boolean hasSufficientBalance(Attendee attendee, double amount);
-
-    boolean isRoomCapacityValid(Room room, int numberOfGuests);
-
-    boolean isValidUsername(String username);
-
-    boolean isValidPassword(String password);
-
-    void addUsername(String username);
+    boolean hasEnoughBalance(Attendee attendee, double amount);
+    boolean canFitAttendeesInRoom(Room room, int attendeeCount);
+    boolean isUsernameTaken(String username);
+    boolean meetsPasswordCriteria(String password);
+    boolean isRoomAvailableAtTime(Room room, java.time.LocalDateTime dateTime);
 }

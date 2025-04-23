@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.time.LocalDate;
-import java.util.Scanner;
 
 public class Database {
 
@@ -16,7 +15,7 @@ public class Database {
         Category category = new Category("category1", "Technology", "New tech events");
         Admin admin = new Admin("admin1", "password1", LocalDate.of(2006, 2, 4), "newCairo", User.Gender.MALE, "CEO", "9-5");
         Organizer organizer = new Organizer("organizer1", "password2", LocalDate.of(2005, 8, 2), "Alex", User.Gender.MALE );
-        Attendee attendee = new Attendee("attendee1", "attendee2", LocalDate.of(2000, 1, 1), "Cairo", User.Gender.MALE, new ArrayList<>());
+        Attendee attendee = new Attendee("attendee1", "attendee2", LocalDate.of(2000, 1, 1), "Cairo", User.Gender.MALE);
         Event event = new Event("Happy Work", "Workshop" ,null , 20 , "KIDS", room , new Organizer("feras" , "password123" , LocalDate.of(2005, 8, 2), "Alex", User.Gender.MALE));
     }
 
