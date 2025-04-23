@@ -1,3 +1,4 @@
+///many logical errors
 import java.util.*;
 
 public class Room {
@@ -9,34 +10,20 @@ public class Room {
     private String attendeeDate;
     private boolean isReserved;
 
-    public Room(Scanner scanner) {
-        this.id = inputId(scanner);
-        this.name = inputName(scanner);
-        this.roomCapacity = inputRoomCapacity(scanner);
-        this.numberOfGuests = inputGuestNumber(scanner);
-        this.organiserDate = inDates(scanner);
-        this.attendeeDate = chosenDate(scanner);
+    public Room(int id, String name, int roomCapacity, int numberOfGuests, List<String> organiserDate, String attendeeDate) {
+        this.id = id;
+        this.name = name;
+        this.roomCapacity = roomCapacity;
+        this.numberOfGuests = numberOfGuests;
+        this.organiserDate = organiserDate;
+        this.attendeeDate = attendeeDate;
         Database.addEntity(this);
+//        this.numberOfGuests = inputGuestNumber(scanner);
+//        this.organiserDate = inDates(scanner);
+//        this.attendeeDate = chosenDate(scanner);
+//        Database.addEntity(this);
     }
 
-    private int inputId(Scanner scanner) {
-        System.out.print("Enter room ID: ");
-        int roomId = scanner.nextInt();
-        scanner.nextLine();
-        return roomId;
-    }
-
-    private String inputName(Scanner scanner) {
-        System.out.print("Enter Room Name: ");
-        return scanner.nextLine();
-    }
-
-    private int inputRoomCapacity(Scanner scanner) {
-        System.out.print("Enter the capacity of the room: ");
-        int maxCap = scanner.nextInt();
-        scanner.nextLine();
-        return maxCap;
-    }
 
     private List<String> inDates(Scanner scanner) {
         List<String> dates = new ArrayList<>();
@@ -106,19 +93,15 @@ public class Room {
     }
 
     public void displayRoomInfo() {
-        if (this.name != null) {
             System.out.println("Room ID: " + id);
             System.out.println("Room Name: " + name);
             System.out.println("Room Capacity: " + roomCapacity);
             System.out.println("Number of Guests: " + numberOfGuests);
-
             System.out.println("Available Time Slots:");
             for (int i = 0; i < organiserDate.size(); i++) {
                 System.out.println((i + 1) + ". " + organiserDate.get(i));
             }
-
             System.out.println("Remaining Capacity: " + (roomCapacity - numberOfGuests));
-        }
     }
 
     public int getId() {

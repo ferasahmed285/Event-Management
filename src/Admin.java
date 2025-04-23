@@ -12,11 +12,19 @@ public class Admin extends User {
         this.workingHours = workingHours;
     }
 
-    @Override
+@Override
     public void displayDashboard() {
         System.out.println("=== Admin Dashboard ===");
         System.out.println("Username: " + username);
         System.out.println("Role: " + role);
+        System.out.println("Working Hours: " + workingHours);
+        System.out.println("1. View All Rooms");
+        System.out.println("2. View All Events");
+        System.out.println("3. View All Attendees");
+        System.out.println("4. Create/Update/Delete Categories");
+        System.out.println("5. Ban Users");
+        System.out.println("6. Generate Reports");
+        System.out.println("----------------------------\n");
     }
 
     public void addRoom(Room room) {

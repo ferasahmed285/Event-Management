@@ -1,5 +1,6 @@
-//update profile, chat with admin
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Scanner;
 
@@ -11,43 +12,138 @@ public class Organizer extends User {
     public Organizer(String username, String password, LocalDate dateOfBirth, String address, Gender gender) {
         super(username, password, dateOfBirth, address, gender);
         this.wallet = new Wallet(0);
+        this.eventsOrganized = Database.events;
+        for (Event event : eventsOrganized) {
+            event.organizer = this;
+        }
+        System.out.println("Organizer created successfully.");
     }
 
     public void createEvent() {
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter event Capacity: ");
-        int Capacity = Integer.parseInt(scanner.nextLine());
-        System.out.print("Enter event Category  : ");
+        System.out.print("Enter Event Title: ");
+        String title = scanner.nextLine();
+        System.out.print("Enter Event Description: ");
+        String description = scanner.nextLine();
+        LocalDateTime dateTime;
+        while (true) {
+            System.out.print("Enter Event Date and Time (YYYY-MM-DD HH:MM): ");
+            try {
+                dateTime = LocalDateTime.parse(scanner.nextLine(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+                break;
+            } catch (Exception e) {
+                System.out.println("Invalid format. Try again.");
+            }
+        }
+        double price = 0;
+        while (price <= 0) {
+            System.out.print("Enter ticket price: ");
+            price = scanner.nextDouble();
+            if (price < 0) {
+                System.out.println("Invalid price.");
+            }
+        }
+        System.out.println(" ");
+        System.out.print("Enter event Category:");
         String Category = scanner.nextLine();
-        System.out.print("Choose event Room     : ");
-        Room room = new Room(scanner);
-        eventsOrganized.add(new Event(scanner, Category , room , this));
+        System.out.println(" ");
+        viewAvailableRooms();
+        System.out.println("Enter room name:");
+        String roomName = scanner.nextLine();
+        Room room = (Room) Database.getEntityByUsername(roomName);
+        eventsOrganized.add(new Event(title, description, dateTime, price, Category, room, this));
     }
 
     public void updateEvent(Event event) {
+        Scanner scanner = new Scanner(System.in);
         System.out.println("Choose which field to update: ");
         System.out.println("1. Title");
         System.out.println("2. Description");
-        System.out.println("3. Date & Time");
+        System.out.println("3. Date and Time");
         System.out.println("4. Price");
+        System.out.println("5. Category");
+        System.out.println("6. Room");
+        System.out.println("7. Cancel");
+        System.out.print("Enter your choice: ");
         int choice = Integer.parseInt(System.console().readLine());
         switch (choice) {
             case 1:
-                event.inputTitle(new Scanner(System.in));
+                System.out.print("Enter Event Title: ");
+                String title = scanner.nextLine();
+                event.setTitle(title);
+                System.out.println("Event title updated successfully.");
                 break;
             case 2:
-                event.inputDescription(new Scanner(System.in));
+                System.out.print("Enter Event Description: ");
+                String description = scanner.nextLine();
+                event.setDescription(description);
+                System.out.println("Event description updated successfully.");
                 break;
             case 3:
-                event.inputDateTime(new Scanner(System.in));
+                LocalDateTime dateTime;
+                while (true) {
+                    System.out.print("Enter Event Date and Time (Year-Month-Day Hour : Minutes): ");
+                    try {
+                        dateTime = LocalDateTime.parse(scanner.nextLine(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+                        break;
+                    } catch (Exception e) {
+                        System.out.println("Invalid format. Try again.");
+                    }
+                }
                 break;
             case 4:
-                event.inputPrice(new Scanner(System.in));
+                while (true) {
+                    System.out.print("Enter ticket price: ");
+                    if (scanner.hasNextDouble()) ;
+                    double price = scanner.nextDouble();
+                    if (price > 0) {
+                         event.setPrice(price);
+                         System.out.println("Ticket price updated successfully.");
+                         break;
+                    }
+                    else {
+                        System.out.println("Invalid price.");
+                     }
+                }
                 break;
+            case 5:
+                System.out.print("Enter event Category  : ");
+                String Category = scanner.nextLine();
+                event.setCategory(Category);
+                System.out.println("Event Category updated successfully.");
+                break;
+            case 6:
+                System.out.print("Choose event Room     : ");
+                viewAvailableRooms();
+                System.out.print("Enter room name: ");
+                String roomName = scanner.nextLine();
+                Room room = (Room) Database.getEntityByUsername(roomName);
+                if (room == null) {
+                    System.out.println("Room not found. Please try again.");
+                    updateEvent(event);
+                    return;
+                }
+                else if (room.getRoomCapacity() <= event.getAttendees().size()) {
+                    System.out.println("Room is full. Please try again.");
+                    updateEvent(event);
+                    return;
+                }
+                else if (room.getRoomCapacity() < event.getAttendees().size()) {
+                    System.out.println("Room is not large enough. Please try again.");
+                    updateEvent(event);
+                    return;
+                }
+                event.setRoom(room);
+                System.out.println("Event Room updated successfully.");
+                break;
+            default:
+                System.out.println("Invalid choice!");
+                updateEvent(event);
         }
     }
 
     public void deleteEvent(Event event) {
+        eventsOrganized.remove(event);
         event.deleteEvent(this);
     }
 

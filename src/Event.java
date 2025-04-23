@@ -1,11 +1,10 @@
 import java.util.*;
 import java.time.*;
-import java.time.format.DateTimeFormatter;
 
 public class Event {
     private String title;
     private String description;
-    private final String category;
+    private String category;
     private LocalDateTime dateTime;
     private double price;
     private List<Attendee> attendees = new ArrayList<>();
@@ -13,51 +12,39 @@ public class Event {
     private Room room;
     public Organizer organizer;
 
-    public Event(Scanner scanner, String category, Room room , Organizer organizer) {
+    public Event( String Title , String Description , LocalDateTime Time , double price ,String category, Room room , Organizer organizer) {
         this.category = category;
         this.room = room;
-        inputTitle(scanner);
-        inputDescription(scanner);
-        inputDateTime(scanner);
-        inputPrice(scanner);
+        this.title = Title;
+        this.description = Description;
+        this.dateTime = Time;
+        this.price = price;
         Database.addEntity(this);
         this.organizer = organizer;
     }
 
-    public void inputTitle(Scanner scanner) {
-        System.out.print("Enter Event Title: ");
-        title = scanner.nextLine();
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public void inputDescription(Scanner scanner) {
-        System.out.print("Enter Event Description: ");
-        description = scanner.nextLine();
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public void inputDateTime(Scanner scanner) {
-        while (true) {
-            System.out.print("Enter Event Date and Time (Year-Month-Day Hour : Minutes): ");
-            try {
-                dateTime = LocalDateTime.parse(scanner.nextLine(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-                break;
-            } catch (Exception e) {
-                System.out.println("Invalid format. Try again.");
-            }
-        }
+    public void setPrice(double price) {
+        this.price = price;
     }
 
-    public void inputPrice(Scanner scanner) {
-        while (true) {
-            System.out.print("Enter ticket price: ");
-            if (scanner.hasNextDouble()) {
-                price = scanner.nextDouble();
-                scanner.nextLine();
-                break;
-            } else {
-                System.out.println("Invalid price.");
-                scanner.nextLine();
-            }
-        }
+    public void setDateTime(LocalDateTime dateTime){
+        this.dateTime = dateTime;
+    }
+
+    public void setCategory(String category){
+        this.category = category;
+    }
+
+    public void setRoom(Room room){
+        this.room = room;
     }
 
     public void deleteEvent(Organizer organizer) {

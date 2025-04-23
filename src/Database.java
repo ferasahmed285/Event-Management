@@ -16,9 +16,10 @@ public class Database {
         users.add(new Organizer("organizer1", "password2", LocalDate.of(2005, 8, 2), "Alex", User.Gender.MALE ));
         users.add(new Attendee("attendee1", "attendee2", LocalDate.of(2000, 1, 1), "Cairo", User.Gender.MALE, new ArrayList<>()));
 
-        rooms.add(new Room(new Scanner(System.in)));
+        rooms.add(new Room(1, "test" , 10 , 1 , new ArrayList<String>(), "test" ));
 
-        events.add(new Event(new Scanner(System.in), "Workshop", rooms.get(0) , new Organizer("feras" , "password123" , LocalDate.of(2005, 8, 2), "Alex", User.Gender.MALE)));
+
+        events.add(new Event("Happy Work", "Workshop" ,null , 20 , "KIDS", rooms.getFirst() , new Organizer("feras" , "password123" , LocalDate.of(2005, 8, 2), "Alex", User.Gender.MALE)));
 
         categories.add(new Category("category1", "Technology", "New tech events"));
     }
