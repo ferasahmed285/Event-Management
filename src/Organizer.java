@@ -1,7 +1,6 @@
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 import java.util.Scanner;
 
 public class Organizer extends User {
@@ -195,9 +194,9 @@ public class Organizer extends User {
                     event.displaySummary();
                     }
                 }
-                System.out.print("Enter event ID: ");
-                String eventID = scanner.nextLine();
-                Event event = (Event) Database.getEntityByUsername(eventID);
+                System.out.print("Enter event name: ");
+                String eventName = scanner.nextLine();
+                Event event = (Event) Database.getEntityByUsername(eventName);
                 updateEvent(event);
                 break;
             case 3:
@@ -207,9 +206,9 @@ public class Organizer extends User {
                     event1.displaySummary();
                     }
                 }
-                System.out.print("Enter event ID: ");
-                String eventID1 = scanner.nextLine();
-                Event event1 = (Event) Database.getEntityByUsername(eventID1);
+                System.out.print("Enter event Name: ");
+                String eventName1 = scanner.nextLine();
+                Event event1 = (Event) Database.getEntityByUsername(eventName1);
                 assert event1 != null;
                 deleteEvent(event1);
                 System.out.println("Event deleted successfully.");
