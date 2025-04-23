@@ -12,16 +12,12 @@ public class Database {
 
     // 1. Method to Load sample data (dummy data)
     public static void initializeDummyData() {
+        Room room = new Room(1, "test" , 10 , 1 , new ArrayList<String>(), "test" );
+        Category category = new Category("category1", "Technology", "New tech events");
         users.add(new Admin("admin1", "password1", LocalDate.of(2006, 2, 4), "newCairo", User.Gender.MALE, "CEO", "9-5"));
         users.add(new Organizer("organizer1", "password2", LocalDate.of(2005, 8, 2), "Alex", User.Gender.MALE ));
         users.add(new Attendee("attendee1", "attendee2", LocalDate.of(2000, 1, 1), "Cairo", User.Gender.MALE, new ArrayList<>()));
-
-        rooms.add(new Room(1, "test" , 10 , 1 , new ArrayList<String>(), "test" ));
-
-
-        events.add(new Event("Happy Work", "Workshop" ,null , 20 , "KIDS", rooms.getFirst() , new Organizer("feras" , "password123" , LocalDate.of(2005, 8, 2), "Alex", User.Gender.MALE)));
-
-        categories.add(new Category("category1", "Technology", "New tech events"));
+        events.add(new Event("Happy Work", "Workshop" ,null , 20 , "KIDS", room , new Organizer("feras" , "password123" , LocalDate.of(2005, 8, 2), "Alex", User.Gender.MALE)));
     }
 
     // 2. Method to Add a new entity to the appropriate list

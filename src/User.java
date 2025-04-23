@@ -27,6 +27,7 @@ public abstract class User {
 
     public void logout() {
         System.out.println("You have logged out");
+        Main main;
     }
 
     public void updatePassword(String newPassword) {

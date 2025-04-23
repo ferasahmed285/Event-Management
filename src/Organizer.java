@@ -16,7 +16,6 @@ public class Organizer extends User {
         for (Event event : eventsOrganized) {
             event.organizer = this;
         }
-        System.out.println("Organizer created successfully.");
     }
 
     public void createEvent() {
@@ -38,20 +37,21 @@ public class Organizer extends User {
         double price = 0;
         while (price <= 0) {
             System.out.print("Enter ticket price: ");
-            price = scanner.nextDouble();
+            String temp = scanner.nextLine();
+            price = Double.parseDouble(temp);
             if (price < 0) {
                 System.out.println("Invalid price.");
             }
         }
-        System.out.println(" ");
         System.out.print("Enter event Category:");
         String Category = scanner.nextLine();
-        System.out.println(" ");
         viewAvailableRooms();
         System.out.println("Enter room name:");
         String roomName = scanner.nextLine();
         Room room = (Room) Database.getEntityByUsername(roomName);
         eventsOrganized.add(new Event(title, description, dateTime, price, Category, room, this));
+        System.out.println("Event created successfully.");
+        displayDashboard();
     }
 
     public void updateEvent(Event event) {
@@ -140,6 +140,7 @@ public class Organizer extends User {
                 System.out.println("Invalid choice!");
                 updateEvent(event);
         }
+        displayDashboard();
     }
 
     public void deleteEvent(Event event) {
@@ -149,9 +150,7 @@ public class Organizer extends User {
 
     public void viewAvailableRooms() {
         System.out.println("Available Rooms:");
-        for (Room room : Database.rooms) {
-                room.displayRoomInfo();
-        }
+        for (Room room : Database.rooms) room.displayRoomInfo();
     }
 
     public void viewAttendeesForMyEvents() {
@@ -211,24 +210,33 @@ public class Organizer extends User {
                 Event event1 = (Event) Database.getEntityByUsername(eventID1);
                 assert event1 != null;
                 deleteEvent(event1);
+                System.out.println("Event deleted successfully.");
+                displayDashboard();
                 break;
             case 4:
                 viewAvailableRooms();
+                displayDashboard();
                 break;
             case 5:
                 viewAttendeesForMyEvents();
+                displayDashboard();
                 break;
             case 6:
                 viewMyEvents();
+                displayDashboard();
                 break;
             case 7:
                 chatWithAdmin("Hello Admin!");
+                System.out.println("Message sent successfully.");
+                displayDashboard();
                 break;
             case 8:
                 System.out.println("Update Password");
                 System.out.print("Enter new password: ");
                 String newPassword = scanner.nextLine();
                 updatePassword(newPassword);
+                System.out.println("Password updated successfully.");
+                displayDashboard();
                 break;
             case 9:
                     this.logout();

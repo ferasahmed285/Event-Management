@@ -9,7 +9,7 @@ public class Category{
         this.categoryid = categoryid;
         this.categoryname = categoryname;
         this.description = description;
-        Database.categories.add(this);
+        Database.addEntity(this);
     }
 
     public String getCategoryid(){
