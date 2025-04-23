@@ -3,17 +3,17 @@ import java.time.*;
 import java.time.format.DateTimeFormatter;
 
 public class Event {
-    private String title, description, category;
+    private String title;
+    private String description;
+    private final String category;
     private LocalDateTime dateTime;
     private double price;
     private List<Attendee> attendees = new ArrayList<>();
-    private int capacity;
     private boolean isDeleted = false;
     private Room room;
     public Organizer organizer;
 
-    public Event(Scanner scanner, int capacity, String category, Room room , Organizer organizer) {
-        this.capacity = capacity;
+    public Event(Scanner scanner, String category, Room room , Organizer organizer) {
         this.category = category;
         this.room = room;
         inputTitle(scanner);
@@ -109,7 +109,7 @@ public class Event {
         }
         if (attendees.contains(attendee)) {
             System.out.println(attendee.getUsername() + " is already registered.");
-        } else if (attendees.size() < capacity) {
+        } else if (attendees.size() < room.getRoomCapacity() && remainingCapacity() > 0) {
             attendees.add(attendee);
             System.out.println(attendee.getUsername() + " has been registered.");
         } else {
@@ -129,7 +129,7 @@ public class Event {
     }
 
     public int remainingCapacity() {
-        return capacity - attendees.size();
+        return room.getRoomCapacity() - attendees.size();
     }
 
     public String getTitle() { return title; }

@@ -18,7 +18,7 @@ public class Database {
 
         rooms.add(new Room(new Scanner(System.in)));
 
-        events.add(new Event(new Scanner(System.in), 100, "Workshop" , rooms.get(0) , new Organizer("feras" , "password123" , LocalDate.of(2005, 8, 2), "Alex", User.Gender.MALE)));
+        events.add(new Event(new Scanner(System.in), "Workshop", rooms.get(0) , new Organizer("feras" , "password123" , LocalDate.of(2005, 8, 2), "Alex", User.Gender.MALE)));
 
         categories.add(new Category("category1", "Technology", "New tech events"));
     }

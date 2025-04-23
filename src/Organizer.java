@@ -21,7 +21,7 @@ public class Organizer extends User {
         String Category = scanner.nextLine();
         System.out.print("Choose event Room     : ");
         Room room = new Room(scanner);
-        eventsOrganized.add(new Event(scanner, Capacity, Category , room , this));
+        eventsOrganized.add(new Event(scanner, Category , room , this));
     }
 
     public void updateEvent(Event event) {
