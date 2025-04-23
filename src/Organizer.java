@@ -6,16 +6,11 @@ import java.util.Scanner;
 
 public class Organizer extends User {
 
-    private List<Event> eventsOrganized;
     public Wallet wallet;
 
     public Organizer(String username, String password, LocalDate dateOfBirth, String address, Gender gender) {
         super(username, password, dateOfBirth, address, gender);
         this.wallet = new Wallet(0);
-        this.eventsOrganized = Database.events;
-        for (Event event : eventsOrganized) {
-            event.organizer = this;
-        }
     }
 
     public void createEvent() {
@@ -49,7 +44,7 @@ public class Organizer extends User {
         System.out.println("Enter room name:");
         String roomName = scanner.nextLine();
         Room room = (Room) Database.getEntityByUsername(roomName);
-        eventsOrganized.add(new Event(title, description, dateTime, price, Category, room, this));
+        new Event(title, description, dateTime, price, Category, room, this);
         System.out.println("Event created successfully.");
         displayDashboard();
     }
@@ -144,7 +139,6 @@ public class Organizer extends User {
     }
 
     public void deleteEvent(Event event) {
-        eventsOrganized.remove(event);
         event.deleteEvent(this);
     }
 
@@ -155,15 +149,19 @@ public class Organizer extends User {
 
     public void viewAttendeesForMyEvents() {
         System.out.println("Attendees for My Events:");
-            for (Event event : eventsOrganized) {
-            System.out.println(event.getTitle() + ": " + event.getAttendees());
-            }
+            for (Event event : Database.events) {
+                if (event.organizer.equals(this)){
+                    System.out.println(event.getTitle() + ": " + event.getAttendees());
+                }
+        }
     }
 
     public void viewMyEvents() {
         System.out.println("My Events:");
-        for (Event event : eventsOrganized) {
-            event.displaySummary();
+        for (Event event : Database.events) {
+            if (event.organizer.equals(this)) {
+                event.displaySummary();
+            }
         }
     }
 
@@ -192,8 +190,10 @@ public class Organizer extends User {
                 break;
             case 2:
                 System.out.println("Choose an event to update:");
-                for (Event event : eventsOrganized) {
+                for (Event event : Database.events) {
+                    if (event.organizer.equals(this)) {
                     event.displaySummary();
+                    }
                 }
                 System.out.print("Enter event ID: ");
                 String eventID = scanner.nextLine();
@@ -202,8 +202,10 @@ public class Organizer extends User {
                 break;
             case 3:
                 System.out.println("Choose an event to delete:");
-                for (Event event1 : eventsOrganized) {
+                for (Event event1 : Database.events) {
+                    if (event1.organizer.equals(this)) {
                     event1.displaySummary();
+                    }
                 }
                 System.out.print("Enter event ID: ");
                 String eventID1 = scanner.nextLine();

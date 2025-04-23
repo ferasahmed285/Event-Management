@@ -1,7 +1,6 @@
 public class Main {
     public static void main(String[] args) {
         Database.initializeDummyData();
-                Database.initializeDummyData();
         System.out.println("=== Event Management System ===");
         System.out.println("1. Login");
         System.out.println("2. Register");
