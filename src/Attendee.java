@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Attendee extends User {
-    private List<String> interests;
+    public List<String> interests;
     public Wallet wallet;
 
     public Attendee(String username, String password, LocalDate dateOfBirth, String address, Gender gender) {
