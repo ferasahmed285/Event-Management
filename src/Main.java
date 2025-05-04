@@ -1,5 +1,5 @@
-public class Main{
-    public static void main(String[] args) {
-            Database.initializeDummyData();
-    }
-}
+//public class Main{
+//    public static void main(String[] args) {
+//            Database.initializeDummyData();
+//    }
+//}
