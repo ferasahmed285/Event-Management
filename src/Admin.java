@@ -1,11 +1,18 @@
-import javafx.beans.property.ReadOnlyStringWrapper;//start feras
+import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;//end feras
+import javafx.stage.Stage;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.time.LocalDate;
 
@@ -57,37 +64,24 @@ public class Admin extends User {
         }
     }
 
-    public void showAllEvents() {
-        System.out.println("=== All Events ===");
-        for (Event e : Database.events) {
-            e.displaySummary();
-
-        }
-    }
-
     public void createCategory(Category category) {
         Database.categories.add(category);
     }
 
-//    public void updateCategory(String id, String newName, String newDesc) {
-//        for (Category cat : Database.categories) {
-//            if (cat.getId().equals(id)) {
-//                cat.updateDetails(newName, newDesc);
-//                return;
-//            }
-//        }
-//
-//    }
-//
-//    public void deleteCategory(String categoryName) {
-//        Category category = (Category) Database.getEntityByUsername(categoryName);
-//        Database.categories.remove(category);
-//    }
-//
-//    public void banUser(String username) {
-//        User user = (User) Database.getEntityByUsername(username);
-//        Database.users.remove(user);
-//    }
+    public void updateCategory(String id, String newName, String newDesc) {
+        for (Category cat : Database.categories) {
+            if (cat.getCategoryid().equals(id)) {
+                cat.updateDetails(newName, newDesc);
+                return;
+            }
+        }
+
+    }
+
+    public void deleteCategory(String categoryName) {
+        Category category = (Category) Database.getEntityByUsername(categoryName);
+        Database.categories.remove(category);
+    }
 
     public void generateReport() {
         System.out.println("--- SYSTEM REPORT ---");
@@ -105,7 +99,66 @@ public class Admin extends User {
         return Database.events;
     }
 
-    public void viewAllUsers(Stage stage) {//start feras
+//    public void showAllEvents() {
+//        System.out.println("=== All Events ===");
+//        for (Event e : Database.events) {
+//            e.displaySummary();
+//
+//        }
+        private Scene showAllEvents() {
+        TableView<Event> tableView = new TableView<>();
+
+        TableColumn<Event, String> titleCol = new TableColumn<>("Title");
+        titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
+
+        TableColumn<Event, String> descCol = new TableColumn<>("Description");
+        descCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+
+        TableColumn<Event, String> categoryCol = new TableColumn<>("Category");
+        categoryCol.setCellValueFactory(new PropertyValueFactory<>("category"));
+
+        TableColumn<Event, String> dateTimeCol = new TableColumn<>("Date & Time");
+        dateTimeCol.setCellValueFactory(cellData -> {
+            DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+            return new SimpleStringProperty(cellData.getValue().getDateTime().format(fmt));
+        });
+
+        TableColumn<Event, Double> priceCol = new TableColumn<>("Price");
+        priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
+
+        TableColumn<Event, Integer> attendeesCol = new TableColumn<>("Attendees");
+        attendeesCol.setCellValueFactory(cellData ->
+            new SimpleIntegerProperty(cellData.getValue().getAttendees().size()).asObject()
+        );
+
+        TableColumn<Event, String> roomCol = new TableColumn<>("Room");
+        roomCol.setCellValueFactory(new PropertyValueFactory<>("room"));
+
+        TableColumn<Event, String> organizerCol = new TableColumn<>("Organizer");
+        organizerCol.setCellValueFactory(cellData ->
+            new SimpleStringProperty(cellData.getValue().organizer.getUsername())
+        );
+
+        tableView.getColumns().addAll(
+            titleCol, descCol, categoryCol,
+            dateTimeCol, priceCol, attendeesCol,
+            roomCol, organizerCol
+        );
+
+        List<Event> events = Database.events;
+        ObservableList<Event> data = FXCollections.observableArrayList(events);
+        tableView.setItems(data);
+
+        Button backButton = new Button("Back");
+        //backButton.setOnAction(e -> primaryStage.setScene(createStartScene()));
+
+        VBox layout = new VBox(10, backButton, tableView);
+        layout.setPadding(new Insets(20));
+
+        return new Scene(layout, 800, 600);
+    }
+
+    private Scene viewAllUsers() {//feras
         TableView<User> table = new TableView<>();
 
         TableColumn<User, String> usernameCol = new TableColumn<>("Username");
@@ -140,9 +193,12 @@ public class Admin extends User {
 
         table.setItems(FXCollections.observableArrayList(Database.users));
 
-        VBox layout = new VBox(Database.users.size(), table);
+        Button backButton = new Button("Back");
+        //backButton.setOnAction(e -> primaryStage.setScene(createStartScene()));
+
+        VBox layout = new VBox(Database.users.size(), backButton, table);
         layout.setStyle("-fx-padding: 20");
-        Scene tableScene = new Scene(layout, 800, 400);
-        stage.setScene(tableScene);
-    }//end feras
+
+        return new Scene(layout, 800, 400);
+    }
 }
