@@ -105,7 +105,7 @@ public class Admin extends User {
 //            e.displaySummary();
 //
 //        }
-        private Scene showAllEvents() {
+    private Scene showAllEvents() {//feras
         TableView<Event> tableView = new TableView<>();
 
         TableColumn<Event, String> titleCol = new TableColumn<>("Title");
