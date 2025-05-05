@@ -1,3 +1,11 @@
+import javafx.beans.property.ReadOnlyStringWrapper;//start feras
+import javafx.collections.FXCollections;
+import javafx.scene.Scene;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;//end feras
+
 import java.util.List;
 import java.time.LocalDate;
 
@@ -97,4 +105,44 @@ public class Admin extends User {
         return Database.events;
     }
 
+    public void viewAllUsers(Stage stage) {//start feras
+        TableView<User> table = new TableView<>();
+
+        TableColumn<User, String> usernameCol = new TableColumn<>("Username");
+        usernameCol.setCellValueFactory(data ->
+            new ReadOnlyStringWrapper(data.getValue().getUsername())
+        );
+
+        TableColumn<User, String> dobCol = new TableColumn<>("Date of Birth");
+        dobCol.setCellValueFactory(data ->
+            new ReadOnlyStringWrapper(data.getValue().getDateOfBirth().toString())
+        );
+
+        TableColumn<User, String> addressCol = new TableColumn<>("Address");
+        addressCol.setCellValueFactory(data ->
+            new ReadOnlyStringWrapper(data.getValue().getAddress())
+        );
+
+        TableColumn<User, String> genderCol = new TableColumn<>("Gender");
+        genderCol.setCellValueFactory(data ->
+            new ReadOnlyStringWrapper(data.getValue().getGender().toString())
+        );
+
+        TableColumn<User, String> typeCol = new TableColumn<>("Type");
+        typeCol.setCellValueFactory(data -> {
+            if (data.getValue() instanceof Organizer) {
+                return new ReadOnlyStringWrapper("Organizer");
+            }
+            return new ReadOnlyStringWrapper("Attendee");
+        });
+
+        table.getColumns().addAll(usernameCol, dobCol, addressCol, genderCol, typeCol);//common
+
+        table.setItems(FXCollections.observableArrayList(Database.users));
+
+        VBox layout = new VBox(Database.users.size(), table);
+        layout.setStyle("-fx-padding: 20");
+        Scene tableScene = new Scene(layout, 800, 400);
+        stage.setScene(tableScene);
+    }//end feras
 }
