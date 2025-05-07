@@ -156,7 +156,7 @@ public class Attendee extends User {
 
         // Add a Back button
         Button backButton = new Button("Back");
-        backButton.setOnAction(e -> goBack.run());
+        backButton.setOnAction(e -> displayDashboard(primaryStage));
 
         // Add everything to the layout
         layout.getChildren().add(0, titleLabel); // Add title at the top

@@ -187,7 +187,7 @@ public class Admin extends User {
         VBox layout = new VBox(10, backButton, tableView);
         layout.setPadding(new Insets(20));
         layout.setStyle("-fx-padding: 20");
-        primaryStage.setScene(new Scene(layout, 400, 600));
+        primaryStage.setScene(new Scene(layout, 700, 400));
     }
 
     private void showAllUsers(Stage primaryStage) {//feras
@@ -230,6 +230,6 @@ public class Admin extends User {
 
         VBox layout = new VBox(Database.users.size(), backButton, table);
         layout.setStyle("-fx-padding: 20");
-        primaryStage.setScene(new Scene(layout, 400, 400));
+        primaryStage.setScene(new Scene(layout, 500, 400));
     }
 }
