@@ -1,9 +1,11 @@
+import javafx.application.Application;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -16,6 +18,8 @@ import javafx.stage.Stage;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.time.LocalDate;
+
+import static javafx.application.Application.launch;
 
 public class Admin extends User {
 
@@ -43,22 +47,31 @@ public class Admin extends User {
         System.out.println("----------------------------\n");
     }
 
-    private VBox AdminDashboard() {
+    public void displayDashboard(Stage primaryStage) {
         VBox adminPane = new VBox(10);
         adminPane.setStyle("-fx-padding: 20; -fx-alignment: center;");
-        Label adminLabel = new Label("Admin Dashboard");
+        Label adminLabel = new Label("Welcome, " + this   .getUsername());
+        adminLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
         Button categoryButton = new Button("Manage Categories");
         Button roomButton = new Button("Manage Rooms");
-        Button eventButton = new Button("Manage Events");
+        Button eventButton = new Button("View All Events");
         Button usersButton = new Button("View All Users");
         Button logoutButton = new Button("Logout");
-//        categoryButton.setOnAction(e -> mainLayout.setCenter(createListPane("Categories", categories)));
-//        roomButton.setOnAction(e -> mainLayout.setCenter(createListPane("Rooms", rooms)));
-//        eventButton.setOnAction(e -> mainLayout.setCenter(createListPane("Events", events)));
-//        usersButton.setOnAction(e -> mainLayout.setCenter(createListPane("Users", users)));
-//        logoutButton.setOnAction(e -> mainLayout.setCenter(createLoginPane()));
+        categoryButton.setMaxWidth(Double.MAX_VALUE);
+        roomButton.setMaxWidth(Double.MAX_VALUE);
+        eventButton.setMaxWidth(Double.MAX_VALUE);
+        usersButton.setMaxWidth(Double.MAX_VALUE);
+        logoutButton.setMaxWidth(Double.MAX_VALUE);
+//        categoryButton.setOnAction(e -> mainLayout.setCenter(createListPane("Categories", categories)));//not done yet
+//        roomButton.setOnAction(e -> mainLayout.setCenter(createListPane("Rooms", rooms)));//not done yet
+        eventButton.setOnAction(e -> showAllEvents(primaryStage));
+        usersButton.setOnAction(e -> showAllUsers(primaryStage));
+        logoutButton.setOnAction(e -> primaryStage.setScene(LoginRegisterSystem.loginScene));
         adminPane.getChildren().addAll(adminLabel, categoryButton, roomButton, eventButton, usersButton, logoutButton);
-        return adminPane;
+        VBox layout = new VBox(10, adminPane);
+        layout.setStyle("-fx-padding: 20");
+        layout.setAlignment(Pos.CENTER);
+        primaryStage.setScene(new Scene(layout, 400, 300));
     }
 
     public void addRoom(Room room) {
@@ -124,7 +137,7 @@ public class Admin extends User {
 //            e.displaySummary();
 //
 //        }
-    private Scene showAllEvents() {//feras
+    private void showAllEvents(Stage primaryStage) {//feras
         TableView<Event> tableView = new TableView<>();
 
         TableColumn<Event, String> titleCol = new TableColumn<>("Title");
@@ -169,15 +182,15 @@ public class Admin extends User {
         tableView.setItems(data);
 
         Button backButton = new Button("Back");
-        //backButton.setOnAction(e -> primaryStage.setScene(createStartScene()));
+        backButton.setOnAction(e -> displayDashboard(primaryStage));
 
         VBox layout = new VBox(10, backButton, tableView);
         layout.setPadding(new Insets(20));
-
-        return new Scene(layout, 800, 600);
+        layout.setStyle("-fx-padding: 20");
+        primaryStage.setScene(new Scene(layout, 400, 600));
     }
 
-    private Scene viewAllUsers() {//feras
+    private void showAllUsers(Stage primaryStage) {//feras
         TableView<User> table = new TableView<>();
 
         TableColumn<User, String> usernameCol = new TableColumn<>("Username");
@@ -213,11 +226,10 @@ public class Admin extends User {
         table.setItems(FXCollections.observableArrayList(Database.users));
 
         Button backButton = new Button("Back");
-        //backButton.setOnAction(e -> primaryStage.setScene(createStartScene()));
+        backButton.setOnAction(e -> displayDashboard(primaryStage));
 
         VBox layout = new VBox(Database.users.size(), backButton, table);
         layout.setStyle("-fx-padding: 20");
-
-        return new Scene(layout, 800, 400);
+        primaryStage.setScene(new Scene(layout, 400, 400));
     }
 }

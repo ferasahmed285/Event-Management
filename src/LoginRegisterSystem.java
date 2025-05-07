@@ -10,7 +10,8 @@ import java.time.LocalDate;
 public class LoginRegisterSystem extends Application {//hamza
 
     private Stage primaryStage;
-    private Scene loginScene, registerScene;
+    public static Scene loginScene;
+    public Scene registerScene;
 
     @Override
     public void start(Stage primaryStage) {
@@ -25,7 +26,7 @@ public class LoginRegisterSystem extends Application {//hamza
         primaryStage.show();
     }
 
-    private void createLoginScene() {
+    public void createLoginScene() {
         // Login Form Components
         Label titleLabel = new Label("Event Management Login");
         titleLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
@@ -175,11 +176,11 @@ public class LoginRegisterSystem extends Application {//hamza
     private void openUserDashboard(User user) {
         // This would open different dashboards based on user type
         if (user instanceof Admin) {
-            ((Admin)user).displayDashboard();
+            ((Admin)user).displayDashboard(primaryStage);
         } else if (user instanceof Organizer) {
-            ((Organizer)user).displayDashboard();
+            ((Organizer)user).displayDashboard(primaryStage);
         } else if (user instanceof Attendee) {
-            ((Attendee)user).displayDashboard();
+            ((Attendee)user).displayDashboard(primaryStage);
         }
     }
 

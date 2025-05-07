@@ -261,7 +261,7 @@ public class Organizer extends User {
         this.wallet.addFunds(amount);
     }
 
-    private Scene organizerDashboard() {
+    public void displayDashboard(Stage primaryStage) {
         Label welcomeLabel = new Label("Welcome, " + this   .getUsername());
         welcomeLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
 
@@ -278,7 +278,7 @@ public class Organizer extends User {
 //        eventsButton.setOnAction(e -> showEventsScene(stage));
 //        profileButton.setOnAction(e -> showProfileScene(stage));
 //        chatButton.setOnAction(e -> showChatScene(stage));
-//        logoutButton.setOnAction(e -> performLogout(stage));
+        logoutButton.setOnAction(e -> primaryStage.setScene(LoginRegisterSystem.loginScene));
 
         VBox menuRoot = new VBox(10,
                                   welcomeLabel,
@@ -288,8 +288,6 @@ public class Organizer extends User {
                                   logoutButton);
         menuRoot.setAlignment(Pos.CENTER);
         menuRoot.setPadding(new Insets(20));
-        menuRoot.setPrefWidth(300);
-
-        return new Scene(menuRoot);
+        primaryStage.setScene(new Scene(menuRoot, 400, 300));
     }
 }

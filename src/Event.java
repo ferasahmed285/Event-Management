@@ -125,4 +125,5 @@ public class Event {
     public String getCategory() { return category; }
     public double getPrice() { return price; }
     public List<Attendee> getAttendees() { return attendees; }
+    public Room getRoom() {return room;}
 }

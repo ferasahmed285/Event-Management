@@ -1,5 +1,6 @@
 //handle null error
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -7,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -94,7 +96,7 @@ public class Attendee extends User {
         return sortedEvents;
     }
 
-    public Scene getScene() {//ali
+    public void viewEvents(Stage primaryStage) {//ali
         // Create a vertical box to hold everything
         VBox layout = new VBox(10); // 10 is spacing between items
         layout.setStyle("-fx-padding: 20;"); // Add some padding
@@ -164,7 +166,7 @@ public class Attendee extends User {
         layout.getChildren().add(backButton);
 
         // Create and return the Scene
-        return new Scene(layout, 600, 400); // Window size: 600x400
+        primaryStage.setScene(new Scene(layout, 600, 400));
     }
 
     public void refundTickets(Event event) {
@@ -265,7 +267,7 @@ public class Attendee extends User {
 //                break;
 //        }
     }
-    private VBox AttendeeDashboard() {
+    public void displayDashboard(Stage primaryStage) {
         VBox attendeePane = new VBox(10);
         attendeePane.setStyle("-fx-padding: 20; -fx-alignment: center;");
         Label attendeeLabel = new Label("Attendee Dashboard");
@@ -273,12 +275,12 @@ public class Attendee extends User {
         Button myTicketsButton = new Button("See My Tickets");
         Button profileButton = new Button("View Profile");
         Button logoutButton = new Button("Logout");
-//        viewEventsButton.setOnAction(e -> mainLayout.setCenter(createListPane("Available Events", events)));
+        viewEventsButton.setOnAction(e -> viewEvents(primaryStage));
 //        myTicketsButton.setOnAction(e -> mainLayout.setCenter(createListPane("My Tickets", myTickets)));
 //        profileButton.setOnAction(e -> mainLayout.setCenter(createProfilePane()));
-//        logoutButton.setOnAction(e -> mainLayout.setCenter(createLoginPane()));
+        logoutButton.setOnAction(e -> primaryStage.setScene(LoginRegisterSystem.loginScene));
         attendeePane.getChildren().addAll(attendeeLabel, viewEventsButton, myTicketsButton, profileButton, logoutButton);
-        return attendeePane;
+        primaryStage.setScene(new Scene(attendeePane, 500, 400));
     }
 //    private BorderPane mainLayout;
 //    private VBox AttendeePurchasedEvents(String title, ObservableList<String> items) {

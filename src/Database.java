@@ -19,7 +19,6 @@ public class Database {
         timeSlots.add("3:00 PM");
         new Room(1, "Room A", 50, 0, new ArrayList<>(timeSlots), null);
         new Room(2, "Room B", 30, 0, new ArrayList<>(timeSlots), null);
-        new Room(3, "Room C", 20, 0, new ArrayList<>(timeSlots), null);
         new Category("category1", "Technology", "New tech events");
         new Category("100", "Music", "listen songs");
         new Category("101", "Sports", "watch matches");
@@ -29,7 +28,8 @@ public class Database {
         new Attendee("attendee1", "attendee2", LocalDate.of(2000, 1, 1), "Cairo", User.Gender.MALE);
 //        new Event("Happy Work", "Workshop" ,null , 20 , "KIDS", rooms.get(1) , new Organizer("feras" , "password123" , LocalDate.of(2005, 8, 2), "Alex", User.Gender.MALE));
         Organizer organizer = new Organizer("feras", "password123", LocalDate.of(2005, 8, 2), "Alex",User.Gender.MALE);
-        new Event("Happy Work", "Workshop", LocalDateTime.now(), 20, "Music", rooms.getFirst(), organizer);
+        Room room = new Room(3, "Room C", 20, 0, new ArrayList<>(timeSlots), null);
+        new Event("Happy Work", "Workshop", LocalDateTime.now(), 20, "Music",room , organizer);
     }
 
     // 2. Method to Add a new entity to the appropriate list
