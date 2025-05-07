@@ -118,7 +118,7 @@ public class Event {
     public int remainingCapacity() {
         return room.getRoomCapacity() - attendees.size();
     }
-
+    
     public String getTitle() { return title; }
     public String getDescription() { return description; }
     public LocalDateTime getDateTime() { return dateTime; }
@@ -126,4 +126,5 @@ public class Event {
     public double getPrice() { return price; }
     public List<Attendee> getAttendees() { return attendees; }
     public Room getRoom() {return room;}
+    public String getRoomName() {   return room.getName(); }
 }
