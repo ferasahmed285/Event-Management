@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -40,6 +41,24 @@ public class Admin extends User {
         System.out.println("5. Ban Users");
         System.out.println("6. Generate Reports");
         System.out.println("----------------------------\n");
+    }
+
+    private VBox AdminDashboard() {
+        VBox adminPane = new VBox(10);
+        adminPane.setStyle("-fx-padding: 20; -fx-alignment: center;");
+        Label adminLabel = new Label("Admin Dashboard");
+        Button categoryButton = new Button("Manage Categories");
+        Button roomButton = new Button("Manage Rooms");
+        Button eventButton = new Button("Manage Events");
+        Button usersButton = new Button("View All Users");
+        Button logoutButton = new Button("Logout");
+//        categoryButton.setOnAction(e -> mainLayout.setCenter(createListPane("Categories", categories)));
+//        roomButton.setOnAction(e -> mainLayout.setCenter(createListPane("Rooms", rooms)));
+//        eventButton.setOnAction(e -> mainLayout.setCenter(createListPane("Events", events)));
+//        usersButton.setOnAction(e -> mainLayout.setCenter(createListPane("Users", users)));
+//        logoutButton.setOnAction(e -> mainLayout.setCenter(createLoginPane()));
+        adminPane.getChildren().addAll(adminLabel, categoryButton, roomButton, eventButton, usersButton, logoutButton);
+        return adminPane;
     }
 
     public void addRoom(Room room) {

@@ -1,3 +1,4 @@
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.time.LocalDate;
 
@@ -11,12 +12,24 @@ public class Database {
 
     // 1. Method to Load sample data (dummy data)
     public static void initializeDummyData() {
-        Room room = new Room(1, "test" , 10 , 1 , new ArrayList<String>(), "test" );
-        Category category = new Category("category1", "Technology", "New tech events");
-        Admin admin = new Admin("admin1", "password1", LocalDate.of(2006, 2, 4), "newCairo", User.Gender.MALE, "CEO", "9-5");
-        Organizer organizer = new Organizer("organizer1", "password2", LocalDate.of(2005, 8, 2), "Alex", User.Gender.MALE );
-        Attendee attendee = new Attendee("attendee1", "attendee2", LocalDate.of(2000, 1, 1), "Cairo", User.Gender.MALE);
-        Event event = new Event("Happy Work", "Workshop" ,null , 20 , "KIDS", room , new Organizer("feras" , "password123" , LocalDate.of(2005, 8, 2), "Alex", User.Gender.MALE));
+//        Room room = new Room(1, "test" , 10 , 1 , new ArrayList<String>(), "test" );
+        ArrayList<String> timeSlots = new ArrayList<>();
+        timeSlots.add("10:00 AM");
+        timeSlots.add("1:00 PM");
+        timeSlots.add("3:00 PM");
+        new Room(1, "Room A", 50, 0, new ArrayList<>(timeSlots), null);
+        new Room(2, "Room B", 30, 0, new ArrayList<>(timeSlots), null);
+        new Room(3, "Room C", 20, 0, new ArrayList<>(timeSlots), null);
+        new Category("category1", "Technology", "New tech events");
+        new Category("100", "Music", "listen songs");
+        new Category("101", "Sports", "watch matches");
+        new Category("102", "Education", "read books");
+        new Admin("admin1", "password1", LocalDate.of(2006, 2, 4), "newCairo", User.Gender.MALE, "CEO", "9-5");
+        new Organizer("organizer1", "password2", LocalDate.of(2005, 8, 2), "Alex", User.Gender.MALE );
+        new Attendee("attendee1", "attendee2", LocalDate.of(2000, 1, 1), "Cairo", User.Gender.MALE);
+//        new Event("Happy Work", "Workshop" ,null , 20 , "KIDS", rooms.get(1) , new Organizer("feras" , "password123" , LocalDate.of(2005, 8, 2), "Alex", User.Gender.MALE));
+        Organizer organizer = new Organizer("feras", "password123", LocalDate.of(2005, 8, 2), "Alex",User.Gender.MALE);
+        new Event("Happy Work", "Workshop", LocalDateTime.now(), 20, "Music", rooms.getFirst(), organizer);
     }
 
     // 2. Method to Add a new entity to the appropriate list

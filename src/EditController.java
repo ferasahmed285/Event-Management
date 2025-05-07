@@ -106,8 +106,6 @@
 //     }
 // }
 
-package gui;
-
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -252,7 +250,7 @@ public class EditController implements Initializable{
 
     // If using ComboBoxes:
     selectCategory.setValue(ev.getCategory());
-    selectRooms.setValue(ev.getRoom());
+    selectRooms.setValue(ev.room.getName());
 
                 }
 

@@ -1,13 +1,10 @@
-
-package gui;
-
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import gui.User.Gender;
+//import gui.User.Gender;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -120,7 +117,7 @@ public class AddController implements Initializable {
             }
 
             // Create dummy organizer
-            Organizer organizer = new Organizer("ahmed", "55555", LocalDate.of(2002, 8, 6), "jjjjjj", Gender.MALE);
+            Organizer organizer = new Organizer("ahmed", "55555", LocalDate.of(2002, 8, 6), "jjjjjj", User.Gender.MALE);
             // Create and add event
             Event newEvent = new Event(title, description, dateTime, price, categoryName, selectedRoom, organizer);
             // Database.addEntity(newEvent);
