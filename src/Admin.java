@@ -7,15 +7,15 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDate;
 
@@ -62,8 +62,8 @@ public class Admin extends User {
         eventButton.setMaxWidth(Double.MAX_VALUE);
         usersButton.setMaxWidth(Double.MAX_VALUE);
         logoutButton.setMaxWidth(Double.MAX_VALUE);
-//        categoryButton.setOnAction(e -> mainLayout.setCenter(createListPane("Categories", categories)));//not done yet
-//        roomButton.setOnAction(e -> mainLayout.setCenter(createListPane("Rooms", rooms)));//not done yet
+        categoryButton.setOnAction(e -> openCategoryManager());
+        roomButton.setOnAction(e -> openRoomManager());
         eventButton.setOnAction(e -> showAllEvents(primaryStage));
         usersButton.setOnAction(e -> showAllUsers(primaryStage));
         logoutButton.setOnAction(e -> primaryStage.setScene(LoginRegisterSystem.loginScene));
@@ -95,6 +95,166 @@ public class Admin extends User {
             System.out.println("ID: " + r.getId() + "\nName: " + r.getName() + "\nCapacity: " + r.getRoomCapacity());
         }
     }
+        // A list to store all room objects for the table view
+    ObservableList<Room> roomList = FXCollections.observableArrayList();
+
+    public void openRoomManager() {
+        // Load initial dummy data from the database
+        Database.initializeDummyData();
+        roomList.addAll(Database.rooms); // Add rooms from the database to our list
+
+        // Table to display rooms
+        TableView<Room> table = new TableView<>(roomList);
+
+        // Define table columns
+        TableColumn<Room, Integer> idColumn = new TableColumn<>("ID");
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+
+        TableColumn<Room, String> nameColumn = new TableColumn<>("Name");
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+
+        TableColumn<Room, Integer> capacityColumn = new TableColumn<>("Capacity");
+        capacityColumn.setCellValueFactory(new PropertyValueFactory<>("roomCapacity"));
+
+        TableColumn<Room, Integer> guestsColumn = new TableColumn<>("Guests");
+        guestsColumn.setCellValueFactory(new PropertyValueFactory<>("numberOfGuests"));
+
+        // Add all columns to the table
+        table.getColumns().addAll(idColumn, nameColumn, capacityColumn, guestsColumn);
+
+        // Buttons
+        Button addButton = new Button("Add");
+        Button editButton = new Button("Edit");
+        Button deleteButton = new Button("Delete");
+
+        // When the Add button is clicked
+        addButton.setOnAction(e -> showRoomForm(null, table));
+
+        // When the Edit button is clicked
+        editButton.setOnAction(e -> {
+            Room selectedRoom = table.getSelectionModel().getSelectedItem();
+            if (selectedRoom != null) {
+                showRoomForm(selectedRoom, table);
+            }
+        });
+
+        // When the Delete button is clicked
+        deleteButton.setOnAction(e -> {
+            Room selectedRoom = table.getSelectionModel().getSelectedItem();
+            if (selectedRoom != null) {
+                Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
+                confirmation.setTitle("Delete Room");
+                confirmation.setHeaderText("Are you sure?");
+                confirmation.setContentText("Do you really want to delete this room?");
+
+                confirmation.showAndWait().ifPresent(response -> {
+                    if (response == ButtonType.OK) {
+                        roomList.remove(selectedRoom);
+                        Database.removeEntity(selectedRoom);
+                    }
+                });
+            }
+        });
+
+        // Layout for buttons and main window
+        HBox buttonBox = new HBox(10, addButton, editButton, deleteButton);
+        VBox layout = new VBox(10, new Label("Room List:"), table, buttonBox);
+        layout.setPadding(new Insets(10));
+
+        // Set up and show the main scene
+        Stage stage = new Stage();  // New window
+        Scene scene = new Scene(layout, 700, 400);
+        stage.setTitle("Room Manager");
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    // Shows the form to add or edit a room
+    private void showRoomForm(Room roomToEdit, TableView<Room> table) {
+        Stage popup = new Stage();
+        popup.initModality(Modality.APPLICATION_MODAL);
+
+        // Text fields
+        TextField idField = new TextField();
+        TextField nameField = new TextField();
+        TextField capacityField = new TextField();
+        TextField guestsField = new TextField();
+
+        // If editing, fill in the current room's info
+        if (roomToEdit != null) {
+            popup.setTitle("Edit Room");
+            idField.setText(String.valueOf(roomToEdit.getId()));
+            idField.setDisable(true); // ID shouldn't be changed
+            nameField.setText(roomToEdit.getName());
+            capacityField.setText(String.valueOf(roomToEdit.getRoomCapacity()));
+            guestsField.setText(String.valueOf(roomToEdit.getNumberOfGuests()));
+        } else {
+            popup.setTitle("Add New Room");
+        }
+
+        // Save button
+        Button saveButton = new Button("Save");
+        saveButton.setOnAction(e -> {
+            try {
+                int id = Integer.parseInt(idField.getText().trim());
+                String name = nameField.getText().trim();
+                int capacity = Integer.parseInt(capacityField.getText().trim());
+                int guests = Integer.parseInt(guestsField.getText().trim());
+
+                // Validate input
+                if (name.isEmpty()) {
+                    showAlert(Alert.AlertType.ERROR, "Invalid Input", "Room name cannot be empty.");
+                    return;
+                }
+
+                if (guests > capacity) {
+                    showAlert(Alert.AlertType.ERROR, "Invalid Input", "Number of guests exceeds room capacity.");
+                    return;
+                }
+
+                if (roomToEdit == null) {
+                    // Check for duplicate ID
+                    for (Room r : roomList) {
+                        if (r.getId() == id) {
+                            showAlert(Alert.AlertType.ERROR, "Duplicate ID", "A room with this ID already exists.");
+                            return;
+                        }
+                    }
+
+                    // Create new room
+                    ArrayList<String> defaultDates = new ArrayList<>();
+                    defaultDates.add("10:00 AM - 12:00 PM");
+                    defaultDates.add("1:00 PM - 3:00 PM");
+
+                    Room newRoom = new Room(id, name, capacity, guests, defaultDates, null);
+                    roomList.add(newRoom);
+                } else {
+                    // Update existing room
+                    roomList.remove(roomToEdit);
+                    Room updatedRoom = new Room(roomToEdit.getId(), name, capacity, guests, roomToEdit.organiserDate, roomToEdit.attendeeDate);
+                    roomList.add(updatedRoom);
+                }
+
+                table.refresh();
+                popup.close();
+            } catch (NumberFormatException ex) {
+                showAlert(Alert.AlertType.ERROR, "Invalid Input", "Please enter valid numbers.");
+            }
+        });
+
+        // Layout for the popup
+        VBox popupLayout = new VBox(10,
+                new Label("Room ID:"), idField,
+                new Label("Name:"), nameField,
+                new Label("Capacity:"), capacityField,
+                new Label("Number of Guests:"), guestsField,
+                saveButton
+        );
+        popupLayout.setPadding(new Insets(10));
+
+        popup.setScene(new Scene(popupLayout, 300, 300));
+        popup.show();
+    }
 
     public void createCategory(Category category) {
         Database.categories.add(category);
@@ -114,6 +274,93 @@ public class Admin extends User {
         Category category = (Category) Database.getEntityByUsername(categoryName);
         Database.categories.remove(category);
     }
+
+    public void openCategoryManager() {
+        ObservableList<Category> categoryList = FXCollections.observableArrayList();
+
+        // Initialize sample data
+        categoryList.addAll(Database.categories);
+
+        // Table to show categories
+        TableView<Category> table = new TableView<>(categoryList);
+
+        // Table columns
+        TableColumn<Category, String> idCol = new TableColumn<>("ID");
+        idCol.setCellValueFactory(new PropertyValueFactory<>("categoryid"));
+
+        TableColumn<Category, String> nameCol = new TableColumn<>("Name");
+        nameCol.setCellValueFactory(new PropertyValueFactory<>("categoryname"));
+
+        TableColumn<Category, String> descCol = new TableColumn<>("Description");
+        descCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+
+        table.getColumns().addAll(idCol, nameCol, descCol);
+
+        // Buttons
+        Button addBtn = new Button("Add");
+        Button editBtn = new Button("Edit");
+        Button deleteBtn = new Button("Delete");
+
+        // Add button action
+        addBtn.setOnAction(e -> showPopup(null, table));
+
+        // Edit button action
+        editBtn.setOnAction(e -> {
+            Category selected = table.getSelectionModel().getSelectedItem();
+            if (selected != null) {
+                showPopup(selected, table);
+            }
+        });
+
+        // Delete button action
+        deleteBtn.setOnAction(e -> {
+            Category selected = table.getSelectionModel().getSelectedItem();
+            if (selected != null) {
+                // Confirm before deleting
+                Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+                confirm.setTitle("Confirm Delete");
+                confirm.setHeaderText("Delete Category?");
+                confirm.setContentText("Category will be deleted");
+
+                confirm.showAndWait().ifPresent(response -> {
+                    if (response == ButtonType.OK) {
+                        // Remove events related to this category
+                        Database.events.removeIf(event -> event.getCategory().equals(selected.getCategoryname()));
+                        // Remove category
+                        categoryList.remove(selected);
+                        Database.removeEntity(selected);
+                    }
+                });
+            }
+        });
+
+        // Layout
+        HBox buttonBox = new HBox(10, addBtn, editBtn, deleteBtn);
+        VBox root = new VBox(10, new Label("Categories:"), table, buttonBox);
+        root.setPadding(new Insets(10));
+
+        // Show window
+        Stage stage = new Stage();  // New window
+        stage.setScene(new Scene(root, 600, 400));
+        stage.setTitle("Category Manager");
+        stage.show();
+    }
+
+    // Show popup for adding or editing category
+    private void showPopup(Category category, TableView<Category> table) {
+        // (This function remains the same)
+    }
+
+    // Show alert method
+    private void showAlert(Alert.AlertType type, String title, String message) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+
 
     public void generateReport() {
         System.out.println("--- SYSTEM REPORT ---");

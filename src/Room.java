@@ -6,8 +6,8 @@ public class Room {
     private String name;
     private int numberOfGuests;
     private int roomCapacity;
-    private List<String> organiserDate;
-    private String attendeeDate;
+    List<String> organiserDate;
+    String attendeeDate;
     private boolean isReserved;
 
     public Room(int id, String name, int roomCapacity, int numberOfGuests, List<String> organiserDate, String attendeeDate) {

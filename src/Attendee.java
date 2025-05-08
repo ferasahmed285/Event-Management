@@ -260,6 +260,152 @@ public class Attendee extends User {
             }
         };
     }
+    Label addressLabel = new Label("Address: Cairo, Egypt"); //Dummy to be changed in full code appended to each attendee
+    ObservableList<String> interest = FXCollections.observableArrayList("AI", "Robotics");
+    ListView<String> interestsListView = new ListView<>(interest);
+    Label balanceLabel = new Label("Balance: EGP 100.00");
+    double balance = 100.00;
+
+    public void showProfileWindow() {
+        Stage stage = new Stage(); // New window
+
+        interestsListView.setPrefHeight(100);
+
+        HBox interestButtons = new HBox(10,
+                createButton("Add", e -> addInterest()),
+                createButton("Edit", e -> editSelectedInterest()),
+                createButton("Delete", e -> deleteSelectedInterest())
+        );
+        interestButtons.setPadding(new Insets(0, 0, 10, 0));
+
+        VBox layout = new VBox(10);
+        layout.setPadding(new Insets(20));
+        layout.getChildren().addAll(
+                new Label("Username: Attendee1"), //Dummy to be changed in full code appended to each attendee
+                addressLabel,
+                new Label("Interests:"),
+                interestsListView,
+                interestButtons,
+                balanceLabel,
+                createButton("Edit Password", e -> changePassword()),
+                createButton("Edit Address", e -> editText("Address", addressLabel)),
+                createButton("Add Funds (Fawry)", e -> addFunds())
+        );
+
+        stage.setScene(new Scene(layout, 360, 520));
+        stage.setTitle("Attendee Profile");
+        stage.show();
+    }
+
+    Button createButton(String text, javafx.event.EventHandler<javafx.event.ActionEvent> action) {
+        Button btn = new Button(text);
+        btn.setOnAction(action);
+        return btn;
+    }
+
+    void editText(String field, Label label) {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Edit " + field);
+        dialog.setContentText("New " + field + ":");
+        dialog.showAndWait().ifPresent(input -> {
+            if (input.trim().isEmpty()) {
+                showAlert("Error", field + " cannot be blank.", Alert.AlertType.ERROR);
+            } else {
+                label.setText(field + ": " + input);
+            }
+        });
+    }
+
+    void addInterest() {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Add Interest");
+        dialog.setContentText("Enter new interest:");
+        dialog.showAndWait().ifPresent(input -> {
+            if (input.trim().isEmpty()) {
+                showAlert("Error", "Interest cannot be blank.", Alert.AlertType.ERROR);
+            } else {
+                interest.add(input.trim());
+            }
+        });
+    }
+
+    void editSelectedInterest() {
+        String selected = interestsListView.getSelectionModel().getSelectedItem();
+        int selectedIndex = interestsListView.getSelectionModel().getSelectedIndex();
+
+        if (selected == null) {
+            showAlert("No Selection", "Please select an interest to edit.", Alert.AlertType.WARNING);
+            return;
+        }
+
+        TextInputDialog dialog = new TextInputDialog(selected);
+        dialog.setTitle("Edit Interest");
+        dialog.setContentText("Edit interest:");
+        dialog.showAndWait().ifPresent(input -> {
+            if (input.trim().isEmpty()) {
+                showAlert("Error", "Interest cannot be blank.", Alert.AlertType.ERROR);
+            } else {
+                interest.set(selectedIndex, input.trim());
+            }
+        });
+    }
+
+    void deleteSelectedInterest() {
+        String selected = interestsListView.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            showAlert("No Selection", "Please select an interest to delete.", Alert.AlertType.WARNING);
+            return;
+        }
+
+        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+        confirm.setTitle("Confirm Delete");
+        confirm.setHeaderText(null);
+        confirm.setContentText("Are you sure you want to delete \"" + selected + "\"?");
+        confirm.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.OK) {
+                interest.remove(selected);
+            }
+        });
+    }
+
+    void changePassword() {
+        PasswordField oldPass = new PasswordField();
+        PasswordField newPass = new PasswordField();
+        VBox box = new VBox(10, new Label("Old Password:"), oldPass, new Label("New Password:"), newPass);
+        box.setPadding(new Insets(10));
+
+        Dialog<Void> dialog = new Dialog<>();
+        dialog.setTitle("Change Password");
+        dialog.getDialogPane().setContent(box);
+        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+
+        dialog.setResultConverter(btn -> {
+            if (btn == ButtonType.OK) {
+                if (oldPass.getText().isEmpty() || newPass.getText().isEmpty())
+                    showAlert("Error", "Password fields cannot be empty.", Alert.AlertType.ERROR);
+            }
+            return null;
+        });
+        dialog.showAndWait();
+    }
+
+    void addFunds() {
+        int fawryCode = 100000 + (int) (Math.random() * 900000);
+
+        Alert info = new Alert(Alert.AlertType.INFORMATION);
+        info.setTitle("Fawry Payment Instructions");
+        info.setHeaderText("Visit the nearest Fawry stand");
+        info.setContentText("Give this code to the Fawry agent: " + fawryCode);
+        info.showAndWait();
+    }
+
+    void showAlert(String title, String message, Alert.AlertType type) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
     public void addFunds(int amount){
         this.wallet.addFunds(amount);
     }
@@ -355,7 +501,7 @@ public class Attendee extends User {
         Button logoutButton = new Button("Logout");
         viewEventsButton.setOnAction(e -> viewEvents(primaryStage));
         myTicketsButton.setOnAction(e -> myTickets(primaryStage));
-//        profileButton.setOnAction(e -> mainLayout.setCenter(createProfilePane()));
+        profileButton.setOnAction(e -> showProfileWindow());
         logoutButton.setOnAction(e -> primaryStage.setScene(LoginRegisterSystem.loginScene));
         attendeePane.getChildren().addAll(attendeeLabel, viewEventsButton, myTicketsButton, profileButton, logoutButton);
         primaryStage.setScene(new Scene(attendeePane, 500, 400));
