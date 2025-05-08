@@ -262,7 +262,7 @@ public class Organizer extends User {
     }
 
     public void displayDashboard(Stage primaryStage) {
-        Label welcomeLabel = new Label("Welcome, " + this   .getUsername());
+        Label welcomeLabel = new Label("Welcome, " + this.getUsername());
         welcomeLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
 
         Button eventsButton = new Button("1 - Events");
@@ -275,17 +275,17 @@ public class Organizer extends User {
         chatButton.setMaxWidth(Double.MAX_VALUE);
         logoutButton.setMaxWidth(Double.MAX_VALUE);
 
-//        eventsButton.setOnAction(e -> showEventsScene(stage));
-//        profileButton.setOnAction(e -> showProfileScene(stage));
-//        chatButton.setOnAction(e -> showChatScene(stage));
+        eventsButton.setOnAction(e -> showAllEvents(primaryStage));
+        // profileButton.setOnAction(e -> showProfileScene(stage));
+        // chatButton.setOnAction(e -> showChatScene(stage));
         logoutButton.setOnAction(e -> primaryStage.setScene(LoginRegisterSystem.loginScene));
 
         VBox menuRoot = new VBox(10,
-                                  welcomeLabel,
-                                  eventsButton,
-                                  profileButton,
-                                  chatButton,
-                                  logoutButton);
+                welcomeLabel,
+                eventsButton,
+                profileButton,
+                chatButton,
+                logoutButton);
         menuRoot.setAlignment(Pos.CENTER);
         menuRoot.setPadding(new Insets(20));
         primaryStage.setScene(new Scene(menuRoot, 400, 300));
