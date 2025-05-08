@@ -141,26 +141,26 @@ public class LoginRegisterSystem extends Application {//hamza
             
             switch(roleCombo.getValue()) {
                 case "ADMIN":
-                    Database.addEntity(new Admin(
+                    new Admin(
                         usernameField.getText(),
                         passwordField.getText(),
                         dob, address, gender,
                         "System Admin", "9-5" // Default admin properties
-                    ));
+                    );
                     break;
                 case "ORGANIZER":
-                    Database.addEntity(new Organizer(
+                    new Organizer(
                         usernameField.getText(),
                         passwordField.getText(),
                         dob, address, gender
-                    ));
+                    );
                     break;
                 case "ATTENDEE":
-                    Database.addEntity(new Attendee(
+                    new Attendee(
                         usernameField.getText(),
                         passwordField.getText(),
                         dob, address, gender
-                    ));
+                    );
                     break;
             }
             

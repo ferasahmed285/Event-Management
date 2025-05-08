@@ -100,7 +100,6 @@ public class Admin extends User {
 
     public void openRoomManager() {
         // Load initial dummy data from the database
-        Database.initializeDummyData();
         roomList.addAll(Database.rooms); // Add rooms from the database to our list
 
         // Table to display rooms
