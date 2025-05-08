@@ -1,14 +1,15 @@
 //handle null error
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -19,8 +20,6 @@ import java.util.Scanner;
 public class Attendee extends User {
     public List<String> interests;
     public Wallet wallet;
-    private Runnable goBack; // To go back to dashboard
-
 
     public Attendee(String username, String password, LocalDate dateOfBirth, String address, Gender gender) {
         super(username, password, dateOfBirth, address, gender);
@@ -174,14 +173,93 @@ public class Attendee extends User {
         this.wallet.refund( event,this);
     }
 
-    public void viewTickets() {
+//    public void viewTickets() {
+//        for (Event event : Database.events) {
+//            if (event.getAttendees().contains(this)) {
+//                event.displaySummary();
+//            }
+//        }
+//    }
+        private void myTickets(Stage primaryStage) {
+        // Table setup
+        TableView<Event> table = new TableView<>();
+
+        // Columns
+        TableColumn<Event, String> titleCol = new TableColumn<>("Event Title");
+        titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
+
+        TableColumn<Event, String> dateCol = new TableColumn<>("Description");
+        dateCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+
+        TableColumn<Event, String> category = new TableColumn<>("Category");
+        category.setCellValueFactory(new PropertyValueFactory<>("category"));
+
+        TableColumn<Event, String> dateCol1 = new TableColumn<>("Date & Time");
+        dateCol1.setCellValueFactory(new PropertyValueFactory<>("dateTime"));
+
+        TableColumn<Event,String> priceCol = new TableColumn<>("Price");
+        priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
+
+        TableColumn<Event, String> roomCol = new TableColumn<>("Room");
+        roomCol.setCellValueFactory(new PropertyValueFactory<>("room"));
+
+        TableColumn<Event, String> organizerCol = new TableColumn<>("Organizer");
+        organizerCol.setCellValueFactory(new PropertyValueFactory<>("organizer"));
+
+        TableColumn<Event, Void> actionCol = new TableColumn<>("Action");
+        actionCol.setCellFactory(createButtonCellFactory());
+
+        table.getColumns().addAll(titleCol, dateCol, category, dateCol1, priceCol, roomCol, organizerCol, actionCol);
+
+        // Data loading
+        ObservableList<Event> data = FXCollections.observableArrayList();
         for (Event event : Database.events) {
             if (event.getAttendees().contains(this)) {
-                event.displaySummary();
+                data.add(event);
             }
         }
+        table.setItems(data);
+
+        // Back button
+        Button backBtn = new Button("Back");
+        backBtn.setOnAction(e -> displayDashboard(primaryStage));
+
+        BorderPane root = new BorderPane();
+        root.setCenter(table);
+        HBox bottomBox = new HBox(backBtn);
+        bottomBox.setPadding(new Insets(10));
+        root.setBottom(bottomBox);
+
+        primaryStage.setScene(new Scene(root, 800, 600));
     }
 
+    private Callback<TableColumn<Event, Void>, TableCell<Event, Void>> createButtonCellFactory() {
+        return new Callback<>() {
+            @Override
+            public TableCell<Event, Void> call(final TableColumn<Event, Void> param) {
+                return new TableCell<>() {
+                    private final Button btn = new Button("Refund");
+
+                    {
+                        btn.setOnAction(e -> {
+                            Event event = getTableView().getItems().get(getIndex());
+                            refundTickets(event);
+                        });
+                    }
+
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(btn);
+                        }
+                    }
+                };
+            }
+        };
+    }
     public void addFunds(int amount){
         this.wallet.addFunds(amount);
     }
@@ -276,25 +354,10 @@ public class Attendee extends User {
         Button profileButton = new Button("View Profile");
         Button logoutButton = new Button("Logout");
         viewEventsButton.setOnAction(e -> viewEvents(primaryStage));
-//        myTicketsButton.setOnAction(e -> mainLayout.setCenter(createListPane("My Tickets", myTickets)));
+        myTicketsButton.setOnAction(e -> myTickets(primaryStage));
 //        profileButton.setOnAction(e -> mainLayout.setCenter(createProfilePane()));
         logoutButton.setOnAction(e -> primaryStage.setScene(LoginRegisterSystem.loginScene));
         attendeePane.getChildren().addAll(attendeeLabel, viewEventsButton, myTicketsButton, profileButton, logoutButton);
         primaryStage.setScene(new Scene(attendeePane, 500, 400));
     }
-//    private BorderPane mainLayout;
-//    private VBox AttendeePurchasedEvents(String title, ObservableList<String> items) {
-//        VBox listPane = new VBox(10);
-//        listPane.setStyle("-fx-padding: 20; -fx-alignment: center;");
-//        Label titleLabel = new Label(title);
-//        ListView<String> listView = new ListView<>(items);
-//        Button backButton = new Button("Back");
-//        if (title.equals("Available Events") || title.equals("My Tickets") || title.equals("Attendee Profile")) {
-//            backButton.setOnAction(e -> mainLayout.setCenter(AttendeeDashboard()));
-//        } else {
-//            backButton.setOnAction(e -> mainLayout.setCenter(AdminDashboard()));
-//        }
-//        listPane.getChildren().addAll(titleLabel, listView, backButton);
-//        return listPane;
-//    }
 }
