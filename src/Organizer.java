@@ -290,4 +290,16 @@ public class Organizer extends User {
         menuRoot.setPadding(new Insets(20));
         primaryStage.setScene(new Scene(menuRoot, 400, 300));
     }
+       
+    public void showAllEvents(Stage primaryStage) {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("EventsController.fxml"));
+            primaryStage.setTitle("Organizer Events");
+            primaryStage.setScene(new Scene(root));
+            primaryStage.setResizable(true);
+            primaryStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
