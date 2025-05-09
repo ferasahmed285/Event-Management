@@ -8,10 +8,6 @@ public abstract class User {
     protected String address;
     protected Gender gender;
 
-    public enum Gender {
-        MALE, FEMALE, OTHER
-    }
-
     public User(String username, String password, LocalDate dateOfBirth, String address, Gender gender) {
         this.username = username;
         this.password = password;
@@ -40,39 +36,43 @@ public abstract class User {
         return username;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public LocalDate getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public Gender getGender() {
-        return gender;
-    }
-
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
     }
 
+    public LocalDate getDateOfBirth() {
+        return dateOfBirth;
+    }
+
     public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
+    }
+
+    public String getAddress() {
+        return address;
     }
 
     public void setAddress(String address) {
         this.address = address;
     }
 
+    public Gender getGender() {
+        return gender;
+    }
+
     public void setGender(Gender gender) {
         this.gender = gender;
+    }
+
+    public enum Gender {
+        MALE, FEMALE, OTHER
     }
 }

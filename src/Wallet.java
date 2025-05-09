@@ -5,24 +5,24 @@ public class Wallet implements Validation {
     double balance;
     List<Transaction> transactions;
 
-    public Wallet(){
+    public Wallet() {
 
     }
 
-    public Wallet (double balance){
-        this.balance =balance;
-        this.transactions = new ArrayList<>();
-    }
-
-    public void setBalance(double balance) {
+    public Wallet(double balance) {
         this.balance = balance;
+        this.transactions = new ArrayList<>();
     }
 
     public double getBalance() {
         return this.balance;
     }
 
-    public void addFunds(double amount){
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+
+    public void addFunds(double amount) {
         if (amount > 0) {
             this.balance += amount;
             transactions.add(new Transaction("Deposit", amount, null));
@@ -33,10 +33,11 @@ public class Wallet implements Validation {
     }
 
 
-    public void checkBalance(){
+    public void checkBalance() {
         System.out.println(balance);
     }
-    public void transferToOrganizer(double amount, String title,Organizer organizer) {
+
+    public void transferToOrganizer(double amount, String title, Organizer organizer) {
         if (balance >= amount) {
             this.balance -= amount;
             organizer.receiveFunds(amount);
@@ -46,6 +47,7 @@ public class Wallet implements Validation {
             System.out.println("Insufficient balance for transfer.");
         }
     }
+
     public void refund(Event event, Attendee attendee) {
         if (event.organizer.wallet.balance >= event.getPrice()) {
             event.organizer.wallet.balance -= event.getPrice();

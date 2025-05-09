@@ -20,6 +20,8 @@ import java.util.List;
 
 public class Admin extends User {
 
+    // A list to store all room objects for the table view
+    ObservableList<Room> roomList = FXCollections.observableArrayList();
     private String role;
     private String workingHours;
 
@@ -29,7 +31,7 @@ public class Admin extends User {
         this.workingHours = workingHours;
     }
 
-@Override
+    @Override
     public void displayDashboard() {
         System.out.println("=== Admin Dashboard ===");
         System.out.println("Username: " + username);
@@ -47,7 +49,7 @@ public class Admin extends User {
     public void displayDashboard(Stage primaryStage) {
         VBox adminPane = new VBox(10);
         adminPane.setStyle("-fx-padding: 20; -fx-alignment: center;");
-        Label adminLabel = new Label("Welcome, " + this   .getUsername());
+        Label adminLabel = new Label("Welcome, " + this.getUsername());
         adminLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
         Button categoryButton = new Button("Manage Categories");
         Button roomButton = new Button("Manage Rooms");
@@ -92,8 +94,6 @@ public class Admin extends User {
             System.out.println("ID: " + r.getId() + "\nName: " + r.getName() + "\nCapacity: " + r.getRoomCapacity());
         }
     }
-        // A list to store all room objects for the table view
-    ObservableList<Room> roomList = FXCollections.observableArrayList();
 
     public void openRoomManager(Stage primaryStage) {
         // Load initial dummy data from the database
@@ -339,7 +339,7 @@ public class Admin extends User {
         parentStage.setScene(new Scene(root, 600, 400));
     }
 
-// Show popup for adding or editing category
+    // Show popup for adding or editing category
     private void showPopup(Category category, TableView<Category> table) {
         Stage popup = new Stage();
         popup.setTitle(category == null ? "Add Category" : "Edit Category");
@@ -425,7 +425,7 @@ public class Admin extends User {
         return Database.events;
     }
 
-//    public void showAllEvents() {
+    //    public void showAllEvents() {
 //        System.out.println("=== All Events ===");
 //        for (Event e : Database.events) {
 //            e.displaySummary();
@@ -454,21 +454,21 @@ public class Admin extends User {
 
         TableColumn<Event, Integer> attendeesCol = new TableColumn<>("Attendees");
         attendeesCol.setCellValueFactory(cellData ->
-            new SimpleIntegerProperty(cellData.getValue().getAttendees().size()).asObject()
+                new SimpleIntegerProperty(cellData.getValue().getAttendees().size()).asObject()
         );
 
         TableColumn<Event, String> roomCol = new TableColumn<>("Room");
         roomCol.setCellValueFactory(cellData ->
-            new SimpleStringProperty(cellData.getValue().room.getName()));
+                new SimpleStringProperty(cellData.getValue().room.getName()));
 
         TableColumn<Event, String> organizerCol = new TableColumn<>("Organizer");
         organizerCol.setCellValueFactory(cellData ->
                 new SimpleStringProperty(cellData.getValue().organizer.getUsername()));
 
         tableView.getColumns().addAll(
-            titleCol, descCol, categoryCol,
-            dateTimeCol, priceCol, attendeesCol,
-            roomCol, organizerCol
+                titleCol, descCol, categoryCol,
+                dateTimeCol, priceCol, attendeesCol,
+                roomCol, organizerCol
         );
 
         List<Event> events = Database.events;
@@ -489,22 +489,22 @@ public class Admin extends User {
 
         TableColumn<User, String> usernameCol = new TableColumn<>("Username");
         usernameCol.setCellValueFactory(data ->
-            new ReadOnlyStringWrapper(data.getValue().getUsername())
+                new ReadOnlyStringWrapper(data.getValue().getUsername())
         );
 
         TableColumn<User, String> dobCol = new TableColumn<>("Date of Birth");
         dobCol.setCellValueFactory(data ->
-            new ReadOnlyStringWrapper(data.getValue().getDateOfBirth().toString())
+                new ReadOnlyStringWrapper(data.getValue().getDateOfBirth().toString())
         );
 
         TableColumn<User, String> addressCol = new TableColumn<>("Address");
         addressCol.setCellValueFactory(data ->
-            new ReadOnlyStringWrapper(data.getValue().getAddress())
+                new ReadOnlyStringWrapper(data.getValue().getAddress())
         );
 
         TableColumn<User, String> genderCol = new TableColumn<>("Gender");
         genderCol.setCellValueFactory(data ->
-            new ReadOnlyStringWrapper(data.getValue().getGender().toString())
+                new ReadOnlyStringWrapper(data.getValue().getGender().toString())
         );
 
         TableColumn<User, String> typeCol = new TableColumn<>("Type");

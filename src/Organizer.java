@@ -1,4 +1,3 @@
-
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -304,7 +303,7 @@ public class Organizer extends User {
             Parent root = loader.load();
 
             EventsController controller = loader.getController();
-            controller.setData(this, primaryStage); 
+            controller.setData(this, primaryStage);
 
             primaryStage.setScene(new Scene(root));
         } catch (IOException e) {

@@ -1,24 +1,18 @@
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-
-public class EditController implements Initializable{
+public class EditController implements Initializable {
 
     @FXML
     private Label category;
@@ -79,6 +73,7 @@ public class EditController implements Initializable{
 
     @FXML
     private VBox vbox4;
+    private Event eventToEdit;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -129,23 +124,21 @@ public class EditController implements Initializable{
         String selected = selectRooms.getValue();
 
     }
-    private Event eventToEdit;
-
 
     public void SetText(Event ev) {
         this.eventToEdit = ev;
-                    txtTitle.setText(ev.getTitle());
-                    txtDescription.setText(ev.getDescription());
-                    txtprice.setText(String.valueOf(ev.getPrice()));
+        txtTitle.setText(ev.getTitle());
+        txtDescription.setText(ev.getDescription());
+        txtprice.setText(String.valueOf(ev.getPrice()));
 
-    // If selectDate is a DatePicker:
-    selectDate.setValue(ev.getDateTime().toLocalDate());
+        // If selectDate is a DatePicker:
+        selectDate.setValue(ev.getDateTime().toLocalDate());
 
-    // If using ComboBoxes:
-    selectCategory.setValue(ev.getCategory());
-    selectRooms.setValue(ev.room.getName());
+        // If using ComboBoxes:
+        selectCategory.setValue(ev.getCategory());
+        selectRooms.setValue(ev.room.getName());
 
-                }
+    }
 
     @FXML
     void submitOn(ActionEvent event) {
@@ -170,10 +163,10 @@ public class EditController implements Initializable{
         eventToEdit.setCategory(selectedCategory);
         eventToEdit.setDateTime(LocalDateTime.of(selectedDate, eventToEdit.getDateTime().toLocalTime()));
         eventToEdit.setRoom(selectedRoom);
-        
+
         // Close the window
         ((Stage) submit.getScene().getWindow()).close();
     }
-    
+
 
 }

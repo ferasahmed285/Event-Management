@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
-public class Category{
+
+public class Category {
     String categoryid;
     String categoryname;
     String description;
@@ -12,16 +13,16 @@ public class Category{
         Database.addEntity(this);
     }
 
-    public String getCategoryid(){
+    public String getCategoryid() {
         return categoryid;
     }
 
-    public String getCategoryname(){
+    public String getCategoryname() {
         return categoryname;
 
     }
 
-    public String getDescription(){
+    public String getDescription() {
         return description;
 
     }

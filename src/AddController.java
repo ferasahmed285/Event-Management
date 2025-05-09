@@ -115,20 +115,17 @@ public class AddController implements Initializable {
             }
 
             if (selectedRoom == null || currentOrganizer == null) {
-              
+
                 return;
             }
 
             // Create and save the new event
             Event newEvent = new Event(title, description, dateTime, price,
                     categoryName, selectedRoom, currentOrganizer);
-            
+
             System.out.println("Event created: " + newEvent.getTitle());
 
-          
-            
 
-            
             Stage stage = (Stage) submit.getScene().getWindow();
             stage.close();
 

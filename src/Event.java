@@ -1,8 +1,10 @@
-
-import java.time.*;
-import java.util.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Event {
+    public Organizer organizer;
+    Room room;
     private String title;
     private String description;
     private String category;
@@ -10,11 +12,9 @@ public class Event {
     private double price;
     private List<Attendee> attendees = new ArrayList<>();
     private boolean isDeleted = false;
-    Room room;
-    public Organizer organizer;
 
     public Event(String Title, String Description, LocalDateTime Time, double price, String category, Room room,
-            Organizer organizer) {
+                 Organizer organizer) {
         this.category = category;
         this.room = room;
         this.title = Title;
@@ -23,30 +23,6 @@ public class Event {
         this.price = price;
         Database.addEntity(this);
         this.organizer = organizer;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public void setRoom(Room room) {
-        this.room = room;
     }
 
     public void deleteEvent(Organizer organizer) {
@@ -125,20 +101,40 @@ public class Event {
         return title;
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public String getDescription() {
         return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public LocalDateTime getDateTime() {
         return dateTime;
     }
 
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
+    }
+
     public String getCategory() {
         return category;
     }
 
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
     public double getPrice() {
         return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     public List<Attendee> getAttendees() {
@@ -147,6 +143,10 @@ public class Event {
 
     public Room getRoom() {
         return room;
+    }
+
+    public void setRoom(Room room) {
+        this.room = room;
     }
 
     public String getRoomName() {

@@ -1,16 +1,16 @@
-///many logical errors
+/// many logical errors
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class Room {
-    private int id;
-    private String name;
     public int numberOfGuests;
-    private int roomCapacity;
     List<String> organiserDate;
     String attendeeDate;
+    private int id;
+    private String name;
+    private int roomCapacity;
     private boolean isReserved;
 
     public Room(int id, String name, int roomCapacity, int numberOfGuests, List<String> organiserDate, String attendeeDate) {
@@ -96,15 +96,15 @@ public class Room {
     }
 
     public void displayRoomInfo() {
-            System.out.println("Room ID: " + id);
-            System.out.println("Room Name: " + name);
-            System.out.println("Room Capacity: " + roomCapacity);
-            System.out.println("Number of Guests: " + numberOfGuests);
-            System.out.println("Available Time Slots:");
-            for (int i = 0; i < organiserDate.size(); i++) {
-                System.out.println((i + 1) + ". " + organiserDate.get(i));
-            }
-            System.out.println("Remaining Capacity: " + (roomCapacity - numberOfGuests));
+        System.out.println("Room ID: " + id);
+        System.out.println("Room Name: " + name);
+        System.out.println("Room Capacity: " + roomCapacity);
+        System.out.println("Number of Guests: " + numberOfGuests);
+        System.out.println("Available Time Slots:");
+        for (int i = 0; i < organiserDate.size(); i++) {
+            System.out.println((i + 1) + ". " + organiserDate.get(i));
+        }
+        System.out.println("Remaining Capacity: " + (roomCapacity - numberOfGuests));
     }
 
     public int getId() {

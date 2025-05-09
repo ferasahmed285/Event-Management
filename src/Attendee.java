@@ -21,6 +21,10 @@ import java.util.Scanner;
 public class Attendee extends User {
     public List<String> interests;
     public Wallet wallet = new Wallet(100);
+    Label addressLabel = new Label(this.address);
+    ObservableList<String> interest = FXCollections.observableArrayList(this.getInterests());
+    ListView<String> interestsListView = new ListView<>(interest);
+
 
     public Attendee(String username, String password, LocalDate dateOfBirth, String address, Gender gender) {
         super(username, password, dateOfBirth, address, gender);
@@ -40,23 +44,20 @@ public class Attendee extends User {
         }
     }
 
-
     public List<String> getInterests() {
         if (this.interests == null) {
             return Collections.singletonList("GENERAL");
-        }
-        else{
+        } else {
             return interests;
         }
     }
 
-    public void buyTickets(Event event){
+    public void buyTickets(Event event) {
         if (this.wallet.getBalance() >= event.getPrice()) {
-            this.wallet.transferToOrganizer(event.getPrice(), event.getTitle(), event.organizer );
+            this.wallet.transferToOrganizer(event.getPrice(), event.getTitle(), event.organizer);
             event.registerAttendee(this);
             System.out.println("Ticket purchased successfully.");
-        }
-        else {
+        } else {
             System.out.println("Insufficient funds.");
             System.out.println("Please try again.");
         }
@@ -180,7 +181,7 @@ public class Attendee extends User {
 
     public void refundTickets(Event event) {
         event.removeAttendee(this);
-        this.wallet.refund( event,this);
+        this.wallet.refund(event, this);
     }
 
     public void viewTickets() {
@@ -208,16 +209,16 @@ public class Attendee extends User {
         TableColumn<Event, String> dateCol1 = new TableColumn<>("Date & Time");
         dateCol1.setCellValueFactory(new PropertyValueFactory<>("dateTime"));
 
-        TableColumn<Event,String> priceCol = new TableColumn<>("Price");
+        TableColumn<Event, String> priceCol = new TableColumn<>("Price");
         priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
 
         TableColumn<Event, String> roomCol = new TableColumn<>("Room");
-            roomCol.setCellValueFactory(cellData ->
-                    new SimpleStringProperty(cellData.getValue().room.getName()));
+        roomCol.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().room.getName()));
 
         TableColumn<Event, String> organizerCol = new TableColumn<>("Organizer");
-            organizerCol.setCellValueFactory(cellData ->
-                    new SimpleStringProperty(cellData.getValue().organizer.getUsername()));
+        organizerCol.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().organizer.getUsername()));
 
         TableColumn<Event, Void> actionCol = new TableColumn<>("Action");
         actionCol.setCellFactory(createButtonCellFactory());
@@ -273,9 +274,6 @@ public class Attendee extends User {
             }
         };
     }
-    Label addressLabel = new Label(this.address);
-    ObservableList<String> interest = FXCollections.observableArrayList(this.getInterests());
-    ListView<String> interestsListView = new ListView<>(interest);
 
     public void showProfileWindow(Stage parentStage) {
         Stage stage = new Stage(); // New window for profile page
@@ -408,7 +406,7 @@ public class Attendee extends User {
         alert.showAndWait();
     }
 
-    public void addFunds(int amount){
+    public void addFunds(int amount) {
         this.wallet.addFunds(amount);
     }
 
@@ -493,6 +491,7 @@ public class Attendee extends User {
                 break;
         }
     }
+
     public void displayDashboard(Stage primaryStage) {
         VBox attendeePane = new VBox(10);
         attendeePane.setStyle("-fx-padding: 20; -fx-alignment: center;");

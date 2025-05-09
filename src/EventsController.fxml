@@ -1,104 +1,106 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-
-<AnchorPane prefHeight="560.0" prefWidth="826.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="EventsController">
-   <children>
-      <Label fx:id="MyEvents" layoutX="46.0" layoutY="46.0" prefHeight="48.0" prefWidth="104.0" text="My events">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Label>
-      <ComboBox fx:id="currentEvents" layoutX="61.0" layoutY="102.0" onAction="#currentEventsOn" prefHeight="30.0" prefWidth="229.0" promptText="Current Events" AnchorPane.topAnchor="102.0" />
-      <Label fx:id="organizer" layoutX="30.0" layoutY="11.0" text="Organizer">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Label>
-      <HBox fx:id="hbox" layoutX="14.0" layoutY="478.0" prefHeight="100.0" prefWidth="403.0" spacing="35.0">
-         <children>
-            <Button fx:id="add" mnemonicParsing="false" onAction="#addOn" prefHeight="35.0" prefWidth="120.0" text="Add event">
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </Button>
-            <Button fx:id="edit" mnemonicParsing="false" onAction="#editOn" prefHeight="35.0" prefWidth="120.0" text="Edit event">
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </Button>
-            <Button fx:id="delete" mnemonicParsing="false" onAction="#deleteOn" prefHeight="35.0" prefWidth="120.0" text="Delete event">
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </Button>
-         </children>
-      </HBox>
-      <VBox fx:id="vbox1" layoutX="421.0" layoutY="118.0" prefHeight="212.0" prefWidth="122.0" spacing="35.0">
-         <children>
-            <Label fx:id="title" prefHeight="43.0" prefWidth="50.0" text="Title ">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <Label fx:id="category" prefHeight="27.0" prefWidth="94.0" text="Category ">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <Label fx:id="date" text="Date ">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <Label fx:id="description" text="Description ">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-         </children>
-         <padding>
-            <Insets top="5.0" />
-         </padding>
-      </VBox>
-      <VBox layoutX="541.0" layoutY="126.0" prefHeight="235.0" prefWidth="180.0" spacing="35.0">
-         <children>
-            <TextField fx:id="txtTitle" editable="false" />
-            <TextField fx:id="txtCat" editable="false" />
-            <TextField fx:id="txtDate" editable="false" />
-            <TextArea fx:id="txtdesc" editable="false" prefHeight="71.0" prefWidth="100.0" />
-         </children>
-      </VBox>
-      <TextField fx:id="txtrooms" editable="false" layoutX="541.0" layoutY="431.0" prefHeight="25.6" prefWidth="180.0" />
-      <TextField fx:id="txtprice" editable="false" layoutX="541.0" layoutY="385.0" prefHeight="25.6" prefWidth="180.0" />
-      <Label fx:id="price" layoutX="427.0" layoutY="384.0" text="Price">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <Label fx:id="rooms" layoutX="427.0" layoutY="430.0" text="Rooms">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <Label fx:id="eventDetails" layoutX="493.0" layoutY="46.0" prefHeight="48.0" prefWidth="137.0" text="Event Details">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Label>
-      <Button fx:id="back" layoutX="741.0" layoutY="14.0" mnemonicParsing="false" onAction="#backOn" prefHeight="37.0" prefWidth="55.0" text="Back">
-         <font>
-            <Font size="16.0" />
-         </font>
-      </Button>
-   </children>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="560.0" prefWidth="826.0"
+            xmlns="http://javafx.com/javafx/23.0.1" fx:controller="EventsController">
+    <children>
+        <Label fx:id="MyEvents" layoutX="46.0" layoutY="46.0" prefHeight="48.0" prefWidth="104.0" text="My events">
+            <font>
+                <Font size="20.0"/>
+            </font>
+        </Label>
+        <ComboBox fx:id="currentEvents" layoutX="61.0" layoutY="102.0" onAction="#currentEventsOn" prefHeight="30.0"
+                  prefWidth="229.0" promptText="Current Events" AnchorPane.topAnchor="102.0"/>
+        <Label fx:id="organizer" layoutX="30.0" layoutY="11.0" text="Organizer">
+            <font>
+                <Font size="24.0"/>
+            </font>
+        </Label>
+        <HBox fx:id="hbox" layoutX="14.0" layoutY="478.0" prefHeight="100.0" prefWidth="403.0" spacing="35.0">
+            <children>
+                <Button fx:id="add" mnemonicParsing="false" onAction="#addOn" prefHeight="35.0" prefWidth="120.0"
+                        text="Add event">
+                    <font>
+                        <Font size="16.0"/>
+                    </font>
+                </Button>
+                <Button fx:id="edit" mnemonicParsing="false" onAction="#editOn" prefHeight="35.0" prefWidth="120.0"
+                        text="Edit event">
+                    <font>
+                        <Font size="16.0"/>
+                    </font>
+                </Button>
+                <Button fx:id="delete" mnemonicParsing="false" onAction="#deleteOn" prefHeight="35.0" prefWidth="120.0"
+                        text="Delete event">
+                    <font>
+                        <Font size="16.0"/>
+                    </font>
+                </Button>
+            </children>
+        </HBox>
+        <VBox fx:id="vbox1" layoutX="421.0" layoutY="118.0" prefHeight="212.0" prefWidth="122.0" spacing="35.0">
+            <children>
+                <Label fx:id="title" prefHeight="43.0" prefWidth="50.0" text="Title ">
+                    <font>
+                        <Font size="18.0"/>
+                    </font>
+                </Label>
+                <Label fx:id="category" prefHeight="27.0" prefWidth="94.0" text="Category ">
+                    <font>
+                        <Font size="18.0"/>
+                    </font>
+                </Label>
+                <Label fx:id="date" text="Date ">
+                    <font>
+                        <Font size="18.0"/>
+                    </font>
+                </Label>
+                <Label fx:id="description" text="Description ">
+                    <font>
+                        <Font size="18.0"/>
+                    </font>
+                </Label>
+            </children>
+            <padding>
+                <Insets top="5.0"/>
+            </padding>
+        </VBox>
+        <VBox layoutX="541.0" layoutY="126.0" prefHeight="235.0" prefWidth="180.0" spacing="35.0">
+            <children>
+                <TextField fx:id="txtTitle" editable="false"/>
+                <TextField fx:id="txtCat" editable="false"/>
+                <TextField fx:id="txtDate" editable="false"/>
+                <TextArea fx:id="txtdesc" editable="false" prefHeight="71.0" prefWidth="100.0"/>
+            </children>
+        </VBox>
+        <TextField fx:id="txtrooms" editable="false" layoutX="541.0" layoutY="431.0" prefHeight="25.6"
+                   prefWidth="180.0"/>
+        <TextField fx:id="txtprice" editable="false" layoutX="541.0" layoutY="385.0" prefHeight="25.6"
+                   prefWidth="180.0"/>
+        <Label fx:id="price" layoutX="427.0" layoutY="384.0" text="Price">
+            <font>
+                <Font size="18.0"/>
+            </font>
+        </Label>
+        <Label fx:id="rooms" layoutX="427.0" layoutY="430.0" text="Rooms">
+            <font>
+                <Font size="18.0"/>
+            </font>
+        </Label>
+        <Label fx:id="eventDetails" layoutX="493.0" layoutY="46.0" prefHeight="48.0" prefWidth="137.0"
+               text="Event Details">
+            <font>
+                <Font size="20.0"/>
+            </font>
+        </Label>
+        <Button fx:id="back" layoutX="741.0" layoutY="14.0" mnemonicParsing="false" onAction="#backOn" prefHeight="37.0"
+                prefWidth="55.0" text="Back">
+            <font>
+                <Font size="16.0"/>
+            </font>
+        </Button>
+    </children>
 </AnchorPane>
