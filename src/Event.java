@@ -1,6 +1,6 @@
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+
+import java.time.*;
+import java.util.*;
 
 public class Event {
     private String title;
@@ -10,10 +10,11 @@ public class Event {
     private double price;
     private List<Attendee> attendees = new ArrayList<>();
     private boolean isDeleted = false;
-    public Room room;
+    Room room;
     public Organizer organizer;
 
-    public Event( String Title , String Description , LocalDateTime Time , double price ,String category, Room room , Organizer organizer) {
+    public Event(String Title, String Description, LocalDateTime Time, double price, String category, Room room,
+            Organizer organizer) {
         this.category = category;
         this.room = room;
         this.title = Title;
@@ -36,15 +37,15 @@ public class Event {
         this.price = price;
     }
 
-    public void setDateTime(LocalDateTime dateTime){
+    public void setDateTime(LocalDateTime dateTime) {
         this.dateTime = dateTime;
     }
 
-    public void setCategory(String category){
+    public void setCategory(String category) {
         this.category = category;
     }
 
-    public void setRoom(Room room){
+    public void setRoom(Room room) {
         this.room = room;
     }
 
@@ -58,7 +59,7 @@ public class Event {
 
     private void issueRefunds(Organizer organizer) {
         for (Attendee attendee : attendees) {
-            attendee.wallet.refund(this,attendee);
+            attendee.wallet.refund(this, attendee);
             System.out.println("Refunded " + price + " EGP to: " + attendee);
             System.out.println("Organizer charged " + price + " EGP refunded to: " + attendee);
         }
@@ -100,7 +101,6 @@ public class Event {
         } else if (attendees.size() < room.getRoomCapacity() && remainingCapacity() > 0) {
             attendees.add(attendee);
             System.out.println(attendee.getUsername() + " has been registered.");
-            this.room.numberOfGuests = attendees.size();
         } else {
             System.out.println("Room is full.");
         }
@@ -112,7 +112,6 @@ public class Event {
             System.out.println(username + " has been removed.");
             System.out.println("Refunded " + price + " EGP to: " + username);
             System.out.println("Organizer charged " + price + " EGP refunded to: " + username);
-            this.room.numberOfGuests = attendees.size();
             return;
         }
         System.out.println(username + " not found.");
@@ -121,14 +120,44 @@ public class Event {
     public int remainingCapacity() {
         return room.getRoomCapacity() - attendees.size();
     }
-    
-    public String getTitle() { return title; }
-    public String getDescription() { return description; }
-    public LocalDateTime getDateTime() { return dateTime; }
-    public String getCategory() { return category; }
-    public double getPrice() { return price; }
-    public List<Attendee> getAttendees() { return attendees; }
-    public Room getRoom() {return room;}
-    public String getRoomName() {   return room.getName(); }
-    public String getOrganizer(){return this.organizer.getUsername();}
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public LocalDateTime getDateTime() {
+        return dateTime;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public List<Attendee> getAttendees() {
+        return attendees;
+    }
+
+    public Room getRoom() {
+        return room;
+    }
+
+    public String getRoomName() {
+        return room.getName();
+    }
+
+    public Organizer getOrganizer() {
+        return organizer;
+    }
+
+    public void setOrganizer(Organizer organizer) {
+        this.organizer = organizer;
+    }
 }
