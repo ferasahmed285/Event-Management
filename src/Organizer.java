@@ -89,7 +89,8 @@ public class Organizer extends User {
                 while (true) {
                     System.out.print("Enter Event Date and Time (Year-Month-Day Hour : Minutes): ");
                     try {
-                        dateTime = LocalDateTime.parse(scanner.nextLine(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+                        dateTime = LocalDateTime.parse(scanner.nextLine(),
+                                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
                         break;
                     } catch (Exception e) {
                         System.out.println("Invalid format. Try again.");
@@ -99,16 +100,16 @@ public class Organizer extends User {
             case 4:
                 while (true) {
                     System.out.print("Enter ticket price: ");
-                    if (scanner.hasNextDouble()) ;
+                    if (scanner.hasNextDouble())
+                        ;
                     double price = scanner.nextDouble();
                     if (price > 0) {
-                         event.setPrice(price);
-                         System.out.println("Ticket price updated successfully.");
-                         break;
-                    }
-                    else {
+                        event.setPrice(price);
+                        System.out.println("Ticket price updated successfully.");
+                        break;
+                    } else {
                         System.out.println("Invalid price.");
-                     }
+                    }
                 }
                 break;
             case 5:
@@ -127,13 +128,11 @@ public class Organizer extends User {
                     System.out.println("Room not found. Please try again.");
                     updateEvent(event);
                     return;
-                }
-                else if (room.getRoomCapacity() <= event.getAttendees().size()) {
+                } else if (room.getRoomCapacity() <= event.getAttendees().size()) {
                     System.out.println("Room is full. Please try again.");
                     updateEvent(event);
                     return;
-                }
-                else if (room.getRoomCapacity() < event.getAttendees().size()) {
+                } else if (room.getRoomCapacity() < event.getAttendees().size()) {
                     System.out.println("Room is not large enough. Please try again.");
                     updateEvent(event);
                     return;
@@ -154,15 +153,16 @@ public class Organizer extends User {
 
     public void viewAvailableRooms() {
         System.out.println("Available Rooms:");
-        for (Room room : Database.rooms) room.displayRoomInfo();
+        for (Room room : Database.rooms)
+            room.displayRoomInfo();
     }
 
     public void viewAttendeesForMyEvents() {
         System.out.println("Attendees for My Events:");
-            for (Event event : Database.events) {
-                if (event.organizer.equals(this)){
-                    System.out.println(event.getTitle() + ": " + event.getAttendees());
-                }
+        for (Event event : Database.events) {
+            if (event.organizer.equals(this)) {
+                System.out.println(event.getTitle() + ": " + event.getAttendees());
+            }
         }
     }
 
@@ -202,7 +202,7 @@ public class Organizer extends User {
                 System.out.println("Choose an event to update:");
                 for (Event event : Database.events) {
                     if (event.organizer.equals(this)) {
-                    event.displaySummary();
+                        event.displaySummary();
                     }
                 }
                 System.out.print("Enter event name: ");
@@ -214,7 +214,7 @@ public class Organizer extends User {
                 System.out.println("Choose an event to delete:");
                 for (Event event1 : Database.events) {
                     if (event1.organizer.equals(this)) {
-                    event1.displaySummary();
+                        event1.displaySummary();
                     }
                 }
                 System.out.print("Enter event Name: ");
@@ -251,12 +251,12 @@ public class Organizer extends User {
                 displayDashboard();
                 break;
             case 9:
-                    this.logout();
-                    break;
+                this.logout();
+                break;
             default:
-                    System.out.println("Invalid choice!");
-                    displayDashboard();
-                    break;
+                System.out.println("Invalid choice!");
+                displayDashboard();
+                break;
         }
     }
 
@@ -279,7 +279,7 @@ public class Organizer extends User {
         logoutButton.setMaxWidth(Double.MAX_VALUE);
 
         eventsButton.setOnAction(e -> showAllEvents(primaryStage));
-        // profileButton.setOnAction(e -> showProfileScene(stage));
+        // profileButton.setOnAction(e -> viewProfile());
         // chatButton.setOnAction(e -> showChatScene(stage));
         logoutButton.setOnAction(e -> primaryStage.setScene(LoginRegisterSystem.loginScene));
 
@@ -293,16 +293,22 @@ public class Organizer extends User {
         menuRoot.setPadding(new Insets(20));
         primaryStage.setScene(new Scene(menuRoot, 400, 300));
     }
-       
+
     public void showAllEvents(Stage primaryStage) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("EventsController.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("EventsController.fxml"));
+            Parent root = loader.load();
+
+            EventsController controller = loader.getController();
+            controller.setData(this, primaryStage); // Pass data here
+
             primaryStage.setTitle("Organizer Events");
             primaryStage.setScene(new Scene(root));
             primaryStage.setResizable(true);
-            primaryStage.show();
+            primaryStage.show(); // make sure this is included
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
 }
