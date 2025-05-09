@@ -3,12 +3,17 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -176,8 +181,53 @@ public class Organizer extends User {
         }
     }
 
-    public void chatWithAdmin(String message) {
-        System.out.println("NOT IMPLEMENTED");
+    public void chatWithAdmin(Stage stage) { //ali
+        // Create GUI
+        VBox layout = new VBox(10);
+        layout.setPadding(new Insets(10));
+        Label title = new Label("Chat with Admin");
+        title.setStyle("-fx-font-size: 18px;");
+        TextArea messages = new TextArea();
+        messages.setEditable(false);
+        messages.setPrefHeight(200);
+        TextField input = new TextField();
+        input.setPromptText("Type your message");
+        Button send = new Button("Send");
+        Button back = new Button("Back");
+
+        // Load chat history
+        for (String msg : Database.messages) {
+            messages.appendText(msg + "\n");
+        }
+
+        // Send button action
+        send.setOnAction(e -> {
+            String text = input.getText().trim();
+            if (!text.isEmpty()) {
+                try {
+                    Socket socket = new Socket("localhost", 12345);
+                    PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+                    String message = username + " to Admin: " + text;
+                    out.println(message);
+                    Database.messages.add(message); // Store in Database
+                    messages.appendText(message + "\n");
+                    input.clear();
+                    socket.close();
+                } catch (IOException ex) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setContentText("Cannot connect to Admin.");
+                    alert.showAndWait();
+                }
+            }
+        });
+
+        // Back button action
+        back.setOnAction(e -> displayDashboard(stage));
+
+        // Layout setup
+        layout.getChildren().addAll(title, messages, input, send, back);
+        stage.setScene(new Scene(layout, 300, 350));
     }
 
     @Override
@@ -239,9 +289,7 @@ public class Organizer extends User {
                 displayDashboard();
                 break;
             case 7:
-                chatWithAdmin("Hello Admin!");
-                System.out.println("Message sent successfully.");
-                displayDashboard();
+                chatWithAdmin(primaryStage);
                 break;
             case 8:
                 System.out.println("Update Password");
@@ -283,7 +331,7 @@ public class Organizer extends User {
 
         eventsButton.setOnAction(e -> showAllEvents(primaryStage));
         profileButton.setOnAction(e -> viewProfile());
-        // chatButton.setOnAction(e -> showChatScene(stage));
+        chatButton.setOnAction(e -> chatWithAdmin(primaryStage));
         logoutButton.setOnAction(e -> primaryStage.setScene(LoginRegisterSystem.loginScene));
 
         VBox menuRoot = new VBox(10,

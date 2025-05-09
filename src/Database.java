@@ -9,6 +9,7 @@ public class Database {
     public static ArrayList<Event> events = new ArrayList<>();
     public static ArrayList<Room> rooms = new ArrayList<>();
     public static ArrayList<Category> categories = new ArrayList<>();
+    public static ArrayList<String> messages = new ArrayList<>();
 
     // 1. Method to Load sample data (dummy data)
     public static void initializeDummyData() {

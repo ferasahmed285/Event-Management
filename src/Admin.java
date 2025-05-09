@@ -51,6 +51,18 @@ public class Admin extends User {
         adminPane.setStyle("-fx-padding: 20; -fx-alignment: center;");
         Label adminLabel = new Label("Welcome, " + this.getUsername());
         adminLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
+
+        // Add chat display
+        TextArea messages = new TextArea();
+        messages.setEditable(false);
+        messages.setPrefHeight(100);
+        for (String msg : Database.messages) {
+            messages.appendText(msg + "\n");
+        }
+
+        // Start chat server
+        ChatServer.startServer(messages);
+
         Button categoryButton = new Button("Manage Categories");
         Button roomButton = new Button("Manage Rooms");
         Button eventButton = new Button("View All Events");
@@ -66,11 +78,11 @@ public class Admin extends User {
         eventButton.setOnAction(e -> showAllEvents(primaryStage));
         usersButton.setOnAction(e -> showAllUsers(primaryStage));
         logoutButton.setOnAction(e -> primaryStage.setScene(LoginRegisterSystem.loginScene));
-        adminPane.getChildren().addAll(adminLabel, categoryButton, roomButton, eventButton, usersButton, logoutButton);
+        adminPane.getChildren().addAll(adminLabel, new Label("Messages from Organizers:"), messages, categoryButton, roomButton, eventButton, usersButton, logoutButton);
         VBox layout = new VBox(10, adminPane);
         layout.setStyle("-fx-padding: 20");
         layout.setAlignment(Pos.CENTER);
-        primaryStage.setScene(new Scene(layout, 400, 300));
+        primaryStage.setScene(new Scene(layout, 400, 400)); // Adjusted height for messages
     }
 
     public void addRoom(Room room) {
