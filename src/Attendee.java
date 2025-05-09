@@ -113,54 +113,56 @@ public class Attendee extends User {
         Label titleLabel = new Label("Available Events");
 
         // Create a ListView to show events
-        ListView<String> eventsList = new ListView<>();
+        ListView<Event> eventsList = new ListView<>();
+        eventsList.setCellFactory(param -> new ListCell<Event>() {
+            @Override
+            protected void updateItem(Event event, boolean empty) {
+                super.updateItem(event, empty);
+                if (empty || event == null) {
+                    setGraphic(null);
+                } else {
+                    // Format event details
+                    String eventInfo = "Title: " + event.getTitle() +
+                            ", Category: " + event.getCategory() +
+                            ", Date: " + event.getDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")) +
+                            ", Price: $" + event.getPrice();
+                    Label eventLabel = new Label(eventInfo);
 
-        // Get and sort events
+                    // Create a Buy button for this event
+                    Button buyButton = new Button("Buy");
+                    buyButton.setOnAction(e -> {
+                        // Check if attendee already bought a ticket
+                        if (event.getAttendees().contains(Attendee.this)) {
+                            showAlert("Error", "You already bought a ticket for this event.");
+                            return;
+                        }
+
+                        // Check if attendee has enough money
+                        if (Attendee.this.wallet.getBalance() < event.getPrice()) {
+                            showAlert("Error", "You don't have enough money.");
+                            return;
+                        }
+
+                        // Try to buy the ticket
+                        Attendee.this.buyTickets(event);
+                        showAlert("Success", "Ticket bought for " + event.getTitle() + "!");
+
+                        // Refresh the list
+                        eventsList.getItems().setAll(getSortedEvents());
+                    });
+
+                    // Put label and button in a horizontal box
+                    HBox eventRow = new HBox(10, eventLabel, buyButton);
+                    setGraphic(eventRow);
+                }
+            }
+        });
+
+// Get and sort events
         List<Event> sortedEvents = getSortedEvents();
 
-        // Add each event to the ListView
-        for (Event event : sortedEvents) {
-            // Format event details
-            String eventInfo = "Title: " + event.getTitle() +
-                    ", Category: " + event.getCategory() +
-                    ", Date: " + event.getDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")) +
-                    ", Price: $" + event.getPrice();
-
-            // Add event info to ListView
-            eventsList.getItems().add(eventInfo);
-
-            // Create a Buy button for this event
-            Button buyButton = new Button("Buy");
-            buyButton.setOnAction(e -> {
-                // Check if attendee already bought a ticket
-                if (event.getAttendees().contains(this)) {
-                    showAlert("Error", "You already bought a ticket for this event.");
-                    return;
-                }
-
-                // Check if attendee has enough money
-                if (this.wallet.getBalance() < event.getPrice()) {
-                    showAlert("Error", "You don't have enough money.");
-                    return;
-                }
-
-                // Try to buy the ticket
-                this.buyTickets(event);
-                showAlert("Success", "Ticket bought for " + event.getTitle() + "!");
-
-                // Refresh the list
-                eventsList.getItems().clear();
-                for (Event ev : getSortedEvents()) {
-                    eventsList.getItems().add("Title: " + ev.getTitle() +
-                            ", Category: " + ev.getCategory() +
-                            ", Date: " + ev.getDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")) +
-                            ", Price: $" + ev.getPrice());
-                }
-            });
-
-            // Add Buy button next to event (in a horizontal box if needed, but keeping simple)
-            layout.getChildren().add(buyButton);
-        }
+// Add events to ListView
+        eventsList.getItems().addAll(sortedEvents);
 
         // Add a Back button
         Button backButton = new Button("Back");
