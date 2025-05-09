@@ -53,32 +53,35 @@ public class Admin extends User {
         adminLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
 
         // Add chat display
-        TextArea messages = new TextArea();
-        messages.setEditable(false);
-        messages.setPrefHeight(100);
-        for (String msg : Database.messages) {
-            messages.appendText(msg + "\n");
-        }
+//        TextArea messages = new TextArea();
+//        messages.setEditable(false);
+//        messages.setPrefHeight(100);
+//        for (String msg : Database.messages) {
+//            messages.appendText(msg + "\n");
+//        }
 
         // Start chat server
-        ChatServer.startServer(messages);
 
         Button categoryButton = new Button("Manage Categories");
         Button roomButton = new Button("Manage Rooms");
-        Button eventButton = new Button("View All Events");
-        Button usersButton = new Button("View All Users");
+        Button eventButton = new Button("View Events");
+        Button usersButton = new Button("View Users");
+        Button chatButton = new Button("Chat");
         Button logoutButton = new Button("Logout");
         categoryButton.setMaxWidth(Double.MAX_VALUE);
         roomButton.setMaxWidth(Double.MAX_VALUE);
         eventButton.setMaxWidth(Double.MAX_VALUE);
         usersButton.setMaxWidth(Double.MAX_VALUE);
         logoutButton.setMaxWidth(Double.MAX_VALUE);
+        chatButton.setMaxWidth(Double.MAX_VALUE);
         categoryButton.setOnAction(e -> openCategoryManager(primaryStage));
         roomButton.setOnAction(e -> openRoomManager(primaryStage));
         eventButton.setOnAction(e -> showAllEvents(primaryStage));
         usersButton.setOnAction(e -> showAllUsers(primaryStage));
+        //chatButton.setOnAction(e -> ChatServer.startServer(messages));
         logoutButton.setOnAction(e -> primaryStage.setScene(LoginRegisterSystem.loginScene));
-        adminPane.getChildren().addAll(adminLabel, new Label("Messages from Organizers:"), messages, categoryButton, roomButton, eventButton, usersButton, logoutButton);
+//        ,new Label("Messages from Organizers:"),messages,chatButton
+        adminPane.getChildren().addAll(adminLabel, categoryButton, roomButton, eventButton, usersButton, logoutButton);
         VBox layout = new VBox(10, adminPane);
         layout.setStyle("-fx-padding: 20");
         layout.setAlignment(Pos.CENTER);

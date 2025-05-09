@@ -3,11 +3,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -319,10 +315,10 @@ public class Organizer extends User {
         Label welcomeLabel = new Label("Welcome, " + this.getUsername());
         welcomeLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
 
-        Button eventsButton = new Button("1 - Events");
-        Button profileButton = new Button("2 - Profile");
-        Button chatButton = new Button("3 - Chat with Admin");
-        Button logoutButton = new Button("4 - Logout");
+        Button eventsButton = new Button("Events");
+        Button profileButton = new Button("Profile");
+        Button chatButton = new Button("Chat with Admin");
+        Button logoutButton = new Button("Logout");
 
         eventsButton.setMaxWidth(Double.MAX_VALUE);
         profileButton.setMaxWidth(Double.MAX_VALUE);
@@ -331,14 +327,14 @@ public class Organizer extends User {
 
         eventsButton.setOnAction(e -> showAllEvents(primaryStage));
         profileButton.setOnAction(e -> viewProfile());
-        chatButton.setOnAction(e -> chatWithAdmin(primaryStage));
+        //chatButton.setOnAction(e -> chatWithAdmin(primaryStage));
         logoutButton.setOnAction(e -> primaryStage.setScene(LoginRegisterSystem.loginScene));
 
         VBox menuRoot = new VBox(10,
                 welcomeLabel,
                 eventsButton,
                 profileButton,
-                chatButton,
+//                chatButton,
                 logoutButton);
         menuRoot.setAlignment(Pos.CENTER);
         menuRoot.setPadding(new Insets(20));
