@@ -307,7 +307,6 @@ public class Organizer extends User {
             controller.setData(this, primaryStage); 
 
             primaryStage.setScene(new Scene(root));
-            primaryStage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -321,9 +320,7 @@ public class Organizer extends User {
             ProfileOrganizer profile = loader.getController();
             profile.setData(this, this.primaryStage); // Use the stored stage reference
 
-            Scene profileScene = new Scene(root, 600, 500);
-            this.primaryStage.setScene(profileScene);
-            this.primaryStage.show();
+            primaryStage.setScene(new Scene(root, 600, 500));
         } catch (IOException e) {
             e.printStackTrace();
 

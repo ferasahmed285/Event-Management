@@ -300,11 +300,11 @@ public class Attendee extends User {
                 new Label("Balance: EGP " + this.wallet.getBalance()),
                 createButton("Edit Password", e -> changePassword()),
                 createButton("Edit Address", e -> editText("Address", addressLabel)),
-                createButton("Add Funds (Fawry)", e -> addFunds())
+                createButton("Add Funds (Fawry)", e -> addFunds()),
+                createButton("Back", e -> displayDashboard(parentStage))
         );
 
-        stage.setScene(new Scene(layout, 360, 520));
-        stage.show();
+        parentStage.setScene(new Scene(layout, 360, 520));
     }
 
     Button createButton(String text, javafx.event.EventHandler<javafx.event.ActionEvent> action) {
