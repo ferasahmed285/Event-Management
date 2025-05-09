@@ -1,4 +1,5 @@
 
+
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -18,6 +19,7 @@ import java.util.Scanner;
 public class Organizer extends User {
 
     public Wallet wallet;
+    private Stage primaryStage;
 
     public Organizer(String username, String password, LocalDate dateOfBirth, String address, Gender gender) {
         super(username, password, dateOfBirth, address, gender);
@@ -182,83 +184,83 @@ public class Organizer extends User {
 
     @Override
     public void displayDashboard() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Welcome " + this.username + "!");
-        System.out.println("1. Create Event");
-        System.out.println("2. Update Event");
-        System.out.println("3. Delete Event");
-        System.out.println("4. View Available Rooms");
-        System.out.println("5. View Attendees for My Events");
-        System.out.println("6. View My Events");
-        System.out.println("7. Chat with Admin");
-        System.out.println("8. Update Password");
-        System.out.println("9. Logout");
-        System.out.print("Enter your choice: ");
-        int choice = Integer.parseInt(scanner.nextLine());
-        switch (choice) {
-            case 1:
-                createEvent();
-                break;
-            case 2:
-                System.out.println("Choose an event to update:");
-                for (Event event : Database.events) {
-                    if (event.organizer.equals(this)) {
-                        event.displaySummary();
-                    }
-                }
-                System.out.print("Enter event name: ");
-                String eventName = scanner.nextLine();
-                Event event = (Event) Database.getEntityByUsername(eventName);
-                updateEvent(event);
-                break;
-            case 3:
-                System.out.println("Choose an event to delete:");
-                for (Event event1 : Database.events) {
-                    if (event1.organizer.equals(this)) {
-                        event1.displaySummary();
-                    }
-                }
-                System.out.print("Enter event Name: ");
-                String eventName1 = scanner.nextLine();
-                Event event1 = (Event) Database.getEntityByUsername(eventName1);
-                assert event1 != null;
-                deleteEvent(event1);
-                System.out.println("Event deleted successfully.");
-                displayDashboard();
-                break;
-            case 4:
-                viewAvailableRooms();
-                displayDashboard();
-                break;
-            case 5:
-                viewAttendeesForMyEvents();
-                displayDashboard();
-                break;
-            case 6:
-                viewMyEvents();
-                displayDashboard();
-                break;
-            case 7:
-                chatWithAdmin("Hello Admin!");
-                System.out.println("Message sent successfully.");
-                displayDashboard();
-                break;
-            case 8:
-                System.out.println("Update Password");
-                System.out.print("Enter new password: ");
-                String newPassword = scanner.nextLine();
-                updatePassword(newPassword);
-                System.out.println("Password updated successfully.");
-                displayDashboard();
-                break;
-            case 9:
-                this.logout();
-                break;
-            default:
-                System.out.println("Invalid choice!");
-                displayDashboard();
-                break;
-        }
+        // Scanner scanner = new Scanner(System.in);
+        // System.out.println("Welcome " + this.username + "!");
+        // System.out.println("1. Create Event");
+        // System.out.println("2. Update Event");
+        // System.out.println("3. Delete Event");
+        // System.out.println("4. View Available Rooms");
+        // System.out.println("5. View Attendees for My Events");
+        // System.out.println("6. View My Events");
+        // System.out.println("7. Chat with Admin");
+        // System.out.println("8. Update Password");
+        // System.out.println("9. Logout");
+        // System.out.print("Enter your choice: ");
+        // int choice = Integer.parseInt(scanner.nextLine());
+        // switch (choice) {
+        //     case 1:
+        //         createEvent();
+        //         break;
+        //     case 2:
+        //         System.out.println("Choose an event to update:");
+        //         for (Event event : Database.events) {
+        //             if (event.organizer.equals(this)) {
+        //                 event.displaySummary();
+        //             }
+        //         }
+        //         System.out.print("Enter event name: ");
+        //         String eventName = scanner.nextLine();
+        //         Event event = (Event) Database.getEntityByUsername(eventName);
+        //         updateEvent(event);
+        //         break;
+        //     case 3:
+        //         System.out.println("Choose an event to delete:");
+        //         for (Event event1 : Database.events) {
+        //             if (event1.organizer.equals(this)) {
+        //                 event1.displaySummary();
+        //             }
+        //         }
+        //         System.out.print("Enter event Name: ");
+        //         String eventName1 = scanner.nextLine();
+        //         Event event1 = (Event) Database.getEntityByUsername(eventName1);
+        //         assert event1 != null;
+        //         deleteEvent(event1);
+        //         System.out.println("Event deleted successfully.");
+        //         displayDashboard();
+        //         break;
+        //     case 4:
+        //         viewAvailableRooms();
+        //         displayDashboard();
+        //         break;
+        //     case 5:
+        //         viewAttendeesForMyEvents();
+        //         displayDashboard();
+        //         break;
+        //     case 6:
+        //         viewMyEvents();
+        //         displayDashboard();
+        //         break;
+        //     case 7:
+        //         chatWithAdmin("Hello Admin!");
+        //         System.out.println("Message sent successfully.");
+        //         displayDashboard();
+        //         break;
+        //     case 8:
+        //         System.out.println("Update Password");
+        //         System.out.print("Enter new password: ");
+        //         String newPassword = scanner.nextLine();
+        //         updatePassword(newPassword);
+        //         System.out.println("Password updated successfully.");
+        //         displayDashboard();
+        //         break;
+        //     case 9:
+        //         this.logout();
+        //         break;
+        //     default:
+        //         System.out.println("Invalid choice!");
+        //         displayDashboard();
+        //         break;
+        // }
     }
 
     public void receiveFunds(double amount) {
@@ -266,6 +268,8 @@ public class Organizer extends User {
     }
 
     public void displayDashboard(Stage primaryStage) {
+
+        this.primaryStage = primaryStage;
         Label welcomeLabel = new Label("Welcome, " + this.getUsername());
         welcomeLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
 
@@ -280,7 +284,7 @@ public class Organizer extends User {
         logoutButton.setMaxWidth(Double.MAX_VALUE);
 
         eventsButton.setOnAction(e -> showAllEvents(primaryStage));
-        // profileButton.setOnAction(e -> viewProfile());
+        profileButton.setOnAction(e -> viewProfile());
         // chatButton.setOnAction(e -> showChatScene(stage));
         logoutButton.setOnAction(e -> primaryStage.setScene(LoginRegisterSystem.loginScene));
 
@@ -301,16 +305,32 @@ public class Organizer extends User {
             Parent root = loader.load();
 
             EventsController controller = loader.getController();
-            controller.setData(this, primaryStage); // Pass data here
+            controller.setData(this, primaryStage);
 
             primaryStage.setTitle("Organizer Events");
             primaryStage.setScene(new Scene(root));
             primaryStage.setResizable(true);
-            primaryStage.show(); // make sure this is included
+            primaryStage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    public void viewProfile() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ProfileOrganizer.fxml"));
+            Parent root = loader.load();
 
+            ProfileOrganizer profile = loader.getController();
+            profile.setData(this, this.primaryStage); // Use the stored stage reference
+
+            Scene profileScene = new Scene(root, 600, 500);
+            this.primaryStage.setScene(profileScene);
+            this.primaryStage.setTitle("Organizer Profile");
+            this.primaryStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Failed to load profile view: " + e.getMessage());
+        }
+    }
 }
