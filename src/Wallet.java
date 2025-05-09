@@ -24,7 +24,7 @@ public class Wallet{
 
     public void addFunds(double amount){
         if (amount > 0) {
-            balance += amount;
+            this.balance += amount;
             transactions.add(new Transaction("Deposit", amount, null));
             System.out.println("Added $" + amount + " to wallet.");
         } else {
@@ -38,7 +38,7 @@ public class Wallet{
     }
     public void transferToOrganizer(double amount, String title,Organizer organizer) {
         if (balance >= amount) {
-            balance -= amount;
+            this.balance -= amount;
             organizer.receiveFunds(amount);
             transactions.add(new Transaction("Transfer to Organizer", amount, title));
             System.out.println("Transferred $" + amount + " to organizer for event: " + title);

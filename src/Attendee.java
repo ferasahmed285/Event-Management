@@ -1,4 +1,5 @@
 //handle null error
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -16,7 +17,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Scanner;
 
 public class Attendee extends User {
     public List<String> interests;
@@ -272,7 +272,6 @@ public class Attendee extends User {
     Label addressLabel = new Label(this.address);
     ObservableList<String> interest = FXCollections.observableArrayList(this.getInterests());
     ListView<String> interestsListView = new ListView<>(interest);
-    Label balanceLabel = new Label("Balance: EGP " + this.wallet.getBalance());
 
     public void showProfileWindow(Stage parentStage) {
         Stage stage = new Stage(); // New window for profile page
@@ -294,7 +293,7 @@ public class Attendee extends User {
                 new Label("Interests:"),
                 interestsListView,
                 interestButtons,
-                balanceLabel,
+                new Label("Balance: EGP " + this.wallet.getBalance()),
                 createButton("Edit Password", e -> changePassword()),
                 createButton("Edit Address", e -> editText("Address", addressLabel)),
                 createButton("Add Funds (Fawry)", e -> addFunds())
