@@ -1,10 +1,13 @@
 ///many logical errors
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 public class Room {
     private int id;
     private String name;
-    private int numberOfGuests;
+    public int numberOfGuests;
     private int roomCapacity;
     List<String> organiserDate;
     String attendeeDate;

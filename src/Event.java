@@ -1,5 +1,6 @@
-import java.util.*;
-import java.time.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Event {
     private String title;
@@ -99,6 +100,7 @@ public class Event {
         } else if (attendees.size() < room.getRoomCapacity() && remainingCapacity() > 0) {
             attendees.add(attendee);
             System.out.println(attendee.getUsername() + " has been registered.");
+            this.room.numberOfGuests = attendees.size();
         } else {
             System.out.println("Room is full.");
         }
@@ -110,6 +112,7 @@ public class Event {
             System.out.println(username + " has been removed.");
             System.out.println("Refunded " + price + " EGP to: " + username);
             System.out.println("Organizer charged " + price + " EGP refunded to: " + username);
+            this.room.numberOfGuests = attendees.size();
             return;
         }
         System.out.println(username + " not found.");
