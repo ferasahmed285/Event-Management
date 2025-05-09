@@ -1,3 +1,4 @@
+
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -310,5 +311,6 @@ public class Organizer extends User {
             e.printStackTrace();
         }
     }
+
 
 }
