@@ -20,6 +20,9 @@ import javafx.scene.control.ButtonType;
 
 public class EventsController {
 
+    private Organizer organizer1;
+    private Stage primaryStage;
+
     @FXML
     private Label MyEvents;
 
@@ -43,6 +46,9 @@ public class EventsController {
 
     @FXML
     private Button edit;
+
+    @FXML
+    private Button back;
 
     @FXML
     private Label eventDetails;
@@ -165,7 +171,7 @@ public class EventsController {
             String selectedTitle = currentEvents.getValue();
             if (selectedTitle == null)
                 return;
-    
+
             Event selectedEvent = null;
             for (Event ev : Database.events) {
                 if (ev.getTitle().equals(selectedTitle)) {
@@ -173,30 +179,39 @@ public class EventsController {
                     break;
                 }
             }
-    
+
             if (selectedEvent == null)
                 return;
-    
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("EditController.fxml"));
             Parent popupRoot = loader.load();
-    
+
             // Get the controller instance and pass the event to it
             EditController controller = loader.getController();
-            controller.SetText(selectedEvent); 
-    
+            controller.SetText(selectedEvent);
+
             Stage popupStage = new Stage();
             popupStage.setTitle("Edit Event");
             popupStage.setScene(new Scene(popupRoot));
             popupStage.initModality(Modality.APPLICATION_MODAL);
             popupStage.showAndWait();
-    
-            //currentEventsOn(null);
+
+            // currentEventsOn(null);
             currentEvents.setValue(null); // clear selection
             currentEvents.setValue(selectedTitle);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    
+
+    @FXML
+    void backOn(ActionEvent event) {
+        organizer1.displayDashboard(primaryStage);
+    }
+
+    public void setData(Organizer organizer1, Stage primaryStage) {
+        this.organizer1 = organizer1;
+        this.primaryStage = primaryStage;
+    }
 
 }
