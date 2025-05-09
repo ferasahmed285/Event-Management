@@ -45,7 +45,7 @@
                      <Font size="18.0" />
                   </font>
                </Label>
-               <Label fx:id="description" text="Descreption ">
+               <Label fx:id="description" text="Description ">
                   <font>
                      <Font size="18.0" />
                   </font>
@@ -70,7 +70,7 @@
                      <Font size="18.0" />
                   </font>
                </Label>
-               <Label fx:id="rooms" prefHeight="0.0" prefWidth="55.0" text="Rooms">
+               <Label fx:id="rooms" prefHeight="27.0" prefWidth="68.0" text="Rooms">
                   <font>
                      <Font size="18.0" />
                   </font>

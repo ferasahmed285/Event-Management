@@ -60,7 +60,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label fx:id="description" text="Descreption ">
+            <Label fx:id="description" text="Description ">
                <font>
                   <Font size="18.0" />
                </font>
