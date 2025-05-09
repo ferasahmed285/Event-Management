@@ -1,19 +1,22 @@
+import java.net.URL;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
+import gui.User.Gender;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-
-import java.net.URL;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.ResourceBundle;
+import javafx.scene.Node;
 
 public class AddController implements Initializable {
+
+    private Organizer currentOrganizer;
 
     @FXML
     private Label addEvent, category, date, description, enter, organizer, price, rooms, title;
@@ -35,6 +38,10 @@ public class AddController implements Initializable {
 
     @FXML
     private Button submit;
+
+    public void setCurrentOrganizer(Organizer organizer) {
+        this.currentOrganizer = organizer;
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -88,7 +95,6 @@ public class AddController implements Initializable {
 
     @FXML
     void submitOn(ActionEvent event) {
-
         try {
             String title = txtTitle.getText();
             String description = txtDescription.getText();
@@ -110,37 +116,26 @@ public class AddController implements Initializable {
                 }
             }
 
-            if (selectedRoom == null) {
-                
+            if (selectedRoom == null || currentOrganizer == null) {
+              
                 return;
             }
 
-            // Find existing organizer from dummy data
-            Organizer existingOrganizer = null;
-            for (User user : Database.users) {
-                if (user instanceof Organizer && user.getUsername().equals("organizer1")) {
-                    existingOrganizer = (Organizer) user;
-                    break;
-                }
-            }
-
-            if (existingOrganizer == null) {
-                
-                return;
-            }
-
-            // Create and add event using existing organizer
-            Event newEvent = new Event(title, description, dateTime, price, categoryName, selectedRoom, existingOrganizer);
-           
-
+            // Create and save the new event
+            Event newEvent = new Event(title, description, dateTime, price,
+                    categoryName, selectedRoom, currentOrganizer);
+            
             System.out.println("Event created: " + newEvent.getTitle());
 
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+          
+            
+
+            
+            Stage stage = (Stage) submit.getScene().getWindow();
             stage.close();
 
         } catch (Exception e) {
             e.printStackTrace();
-            
         }
     }
 
