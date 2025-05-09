@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Wallet{
+public class Wallet implements Validation {
     double balance;
     List<Transaction> transactions;
 
@@ -56,15 +56,4 @@ public class Wallet{
             System.out.println("Insufficient balance for transfer.");
         }
     }
-//    public double Refund(double amount ){
-//        if (amount > 0) {
-//            balance += amount;
-//            transactions.add(new Transaction("Refund", amount, null));
-//            System.out.println("Refunded $" + amount + " to user.");
-//        } else {
-//            System.out.println("Refund amount must be positive.");
-//        }
-//        return balance;
-//
-//    }
 }
