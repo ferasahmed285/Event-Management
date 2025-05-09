@@ -60,7 +60,7 @@ public class Attendee extends User {
             System.out.println("Insufficient funds.");
             System.out.println("Please try again.");
         }
-        displayDashboard();
+//        displayDashboard();
     }
 
     private void showAlert(String title, String message) {//ali
