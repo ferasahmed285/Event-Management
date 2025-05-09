@@ -23,6 +23,7 @@ public class Database {
         new Category("100", "Music", "listen songs");
         new Category("101", "Sports", "watch matches");
         new Category("102", "Education", "read books");
+        new Category("103", "GENERAL", "GENERAL");
         new Admin("admin1", "password1", LocalDate.of(2006, 2, 4), "newCairo", User.Gender.MALE, "CEO", "9-5");
         new Organizer("organizer1", "password2", LocalDate.of(2005, 8, 2), "Alex", User.Gender.MALE );
         new Attendee("attendee1", "attendee2", LocalDate.of(2000, 1, 1), "Cairo", User.Gender.MALE);

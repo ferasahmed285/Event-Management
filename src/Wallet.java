@@ -19,7 +19,7 @@ public class Wallet{
     }
 
     public double getBalance() {
-        return balance;
+        return this.balance;
     }
 
     public void addFunds(double amount){

@@ -14,17 +14,16 @@ import javafx.util.Callback;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
 public class Attendee extends User {
     public List<String> interests;
-    public Wallet wallet;
+    public Wallet wallet = new Wallet(100);
 
     public Attendee(String username, String password, LocalDate dateOfBirth, String address, Gender gender) {
         super(username, password, dateOfBirth, address, gender);
-        this.wallet = new Wallet(0);
-        this.interests = List.of();
     }
 
     public void addInterests(List<String> interests) {
@@ -41,6 +40,16 @@ public class Attendee extends User {
 //            }
 //        }
 //    }
+
+
+    public List<String> getInterests() {
+        if (this.interests == null) {
+            return Collections.singletonList("GENERAL");
+        }
+        else{
+            return interests;
+        }
+    }
 
     public void buyTickets(Event event){
         if (this.wallet.getBalance() >= event.getPrice()) {
@@ -260,11 +269,10 @@ public class Attendee extends User {
             }
         };
     }
-    Label addressLabel = new Label("Address: Cairo, Egypt"); //Dummy to be changed in full code appended to each attendee
-    ObservableList<String> interest = FXCollections.observableArrayList("AI", "Robotics");
+    Label addressLabel = new Label(this.address);
+    ObservableList<String> interest = FXCollections.observableArrayList(this.getInterests());
     ListView<String> interestsListView = new ListView<>(interest);
-    Label balanceLabel = new Label("Balance: EGP 100.00");
-    double balance = 100.00;
+    Label balanceLabel = new Label("Balance: EGP " + this.wallet.getBalance());
 
     public void showProfileWindow() {
         Stage stage = new Stage(); // New window
@@ -281,7 +289,7 @@ public class Attendee extends User {
         VBox layout = new VBox(10);
         layout.setPadding(new Insets(20));
         layout.getChildren().addAll(
-                new Label("Username: Attendee1"), //Dummy to be changed in full code appended to each attendee
+                new Label("Username: " + this.username),
                 addressLabel,
                 new Label("Interests:"),
                 interestsListView,
