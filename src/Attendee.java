@@ -1,5 +1,6 @@
 //handle null error
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -210,10 +211,12 @@ public class Attendee extends User {
         priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
 
         TableColumn<Event, String> roomCol = new TableColumn<>("Room");
-        roomCol.setCellValueFactory(new PropertyValueFactory<>("room"));
+            roomCol.setCellValueFactory(cellData ->
+                    new SimpleStringProperty(cellData.getValue().room.getName()));
 
         TableColumn<Event, String> organizerCol = new TableColumn<>("Organizer");
-        organizerCol.setCellValueFactory(new PropertyValueFactory<>("organizer"));
+            organizerCol.setCellValueFactory(cellData ->
+                    new SimpleStringProperty(cellData.getValue().organizer.getUsername()));
 
         TableColumn<Event, Void> actionCol = new TableColumn<>("Action");
         actionCol.setCellFactory(createButtonCellFactory());
@@ -329,7 +332,9 @@ public class Attendee extends User {
 
         // Iterate through the categories in Database.categories and add each category's name to the list
         for (Category category : Database.categories) {
-            categoryNames.add(category.getCategoryname()); // Get category name
+            if (!interest.contains(category.getCategoryname())) {
+                categoryNames.add(category.getCategoryname()); // Get category name
+            }
         }
 
         // Show a ChoiceDialog with the list of categories as available interests
