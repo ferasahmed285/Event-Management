@@ -1,4 +1,4 @@
-/// user validation
+//wallet validation
 public interface Validation {
     void addFunds(double amount);
 
