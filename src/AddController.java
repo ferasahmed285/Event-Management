@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-//import gui.User.Gender;
+import gui.User.Gender;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -112,15 +112,27 @@ public class AddController implements Initializable {
             }
 
             if (selectedRoom == null) {
-                System.out.println("Room not found.");
+                
                 return;
             }
 
-            // Create dummy organizer
-            Organizer organizer = new Organizer("ahmed", "55555", LocalDate.of(2002, 8, 6), "jjjjjj", User.Gender.MALE);
-            // Create and add event
-            Event newEvent = new Event(title, description, dateTime, price, categoryName, selectedRoom, organizer);
-            // Database.addEntity(newEvent);
+            // Find existing organizer from dummy data
+            Organizer existingOrganizer = null;
+            for (User user : Database.users) {
+                if (user instanceof Organizer && user.getUsername().equals("organizer1")) {
+                    existingOrganizer = (Organizer) user;
+                    break;
+                }
+            }
+
+            if (existingOrganizer == null) {
+                
+                return;
+            }
+
+            // Create and add event using existing organizer
+            Event newEvent = new Event(title, description, dateTime, price, categoryName, selectedRoom, existingOrganizer);
+           
 
             System.out.println("Event created: " + newEvent.getTitle());
 
@@ -129,7 +141,7 @@ public class AddController implements Initializable {
 
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Error creating event. Please check your inputs.");
+            
         }
     }
 
