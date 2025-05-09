@@ -1,5 +1,7 @@
 
 import java.io.IOException;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,74 +22,60 @@ import javafx.scene.control.ButtonType;
 
 public class EventsController {
 
-    private Organizer organizer1;
-    private Stage primaryStage;
-
-    @FXML
-    private Label MyEvents;
-
-    @FXML
-    private Button add;
-
-    @FXML
-    private Label category;
-
+    // FXML components
     @FXML
     private ComboBox<String> currentEvents;
-
     @FXML
-    private Label date;
-
-    @FXML
-    private Button delete;
-
-    @FXML
-    private Label description;
-
-    @FXML
-    private Button edit;
-
-    @FXML
-    private Button back;
-
-    @FXML
-    private Label eventDetails;
-
-    @FXML
-    private HBox hbox;
-
-    @FXML
-    private Label organizer;
-
-    @FXML
-    private Label price;
-
-    @FXML
-    private Label rooms;
-
-    @FXML
-    private Label title;
-
-    @FXML
-    private TextField txtCat;
-
-    @FXML
-    private TextField txtDate;
-
-    @FXML
-    private TextField txtTitle;
-
+    private TextField txtTitle, txtprice, txtCat, txtDate, txtrooms;
     @FXML
     private TextArea txtdesc;
 
-    @FXML
-    private TextField txtprice;
+    private Organizer currentOrganizer;
+    private Stage primaryStage;
+
+    // Correct setData method with only 2 parameters
+    public void setData(Organizer organizer, Stage stage) {
+        this.currentOrganizer = organizer;
+        this.primaryStage = stage;
+        loadOrganizerEvents();
+    }
+
+    private void loadOrganizerEvents() {
+        currentEvents.getItems().clear();
+
+        if (Database.events != null) {
+            for (Event event : Database.events) {
+                if (event.getOrganizer().equals(currentOrganizer)) {
+                    currentEvents.getItems().add(event.getTitle());
+                }
+            }
+        }
+    }
+
+    private void showSelectedEventDetails() {
+        String selectedTitle = currentEvents.getValue();
+        if (selectedTitle != null) {
+            Database.events.stream()
+                    .filter(e -> e.getTitle().equals(selectedTitle) &&
+                            e.getOrganizer().equals(currentOrganizer))
+                    .findFirst()
+                    .ifPresent(this::displayEventDetails);
+        }
+    }
+
+    private void displayEventDetails(Event event) {
+        txtTitle.setText(event.getTitle());
+        txtdesc.setText(event.getDescription());
+        txtprice.setText(String.format("%.2f", event.getPrice()));
+        txtCat.setText(event.getCategory());
+        txtDate.setText(event.getDateTime().toLocalDate().toString());
+        txtrooms.setText(event.getRoom().getName());
+    }
 
     @FXML
-    private TextField txtrooms;
-
-    @FXML
-    private VBox vbox1;
+    private void backOnAction() {
+        currentOrganizer.displayDashboard(primaryStage);
+    }
 
     @FXML
     void addOn(ActionEvent event) {
@@ -99,6 +87,11 @@ public class EventsController {
             popupStage.setTitle("Add Event");
             popupStage.setScene(new Scene(popupRoot));
             popupStage.initModality(Modality.APPLICATION_MODAL);
+
+            
+            AddController controller = loader.getController();
+            controller.setCurrentOrganizer(currentOrganizer);
+
             popupStage.showAndWait();
             currentEventsOn(null);
         } catch (IOException e) {
@@ -206,12 +199,8 @@ public class EventsController {
 
     @FXML
     void backOn(ActionEvent event) {
-        organizer1.displayDashboard(primaryStage);
-    }
+        currentOrganizer.displayDashboard(primaryStage);
 
-    public void setData(Organizer organizer1, Stage primaryStage) {
-        this.organizer1 = organizer1;
-        this.primaryStage = primaryStage;
     }
 
 }
