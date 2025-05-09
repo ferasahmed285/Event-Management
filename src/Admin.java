@@ -1,4 +1,3 @@
-import javafx.application.Application;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -14,12 +13,10 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.time.LocalDate;
-
-import static javafx.application.Application.launch;
 
 public class Admin extends User {
 
@@ -63,7 +60,7 @@ public class Admin extends User {
         usersButton.setMaxWidth(Double.MAX_VALUE);
         logoutButton.setMaxWidth(Double.MAX_VALUE);
         categoryButton.setOnAction(e -> openCategoryManager(primaryStage));
-        roomButton.setOnAction(e -> openRoomManager());
+        roomButton.setOnAction(e -> openRoomManager(primaryStage));
         eventButton.setOnAction(e -> showAllEvents(primaryStage));
         usersButton.setOnAction(e -> showAllUsers(primaryStage));
         logoutButton.setOnAction(e -> primaryStage.setScene(LoginRegisterSystem.loginScene));
@@ -98,7 +95,7 @@ public class Admin extends User {
         // A list to store all room objects for the table view
     ObservableList<Room> roomList = FXCollections.observableArrayList();
 
-    public void openRoomManager() {
+    public void openRoomManager(Stage primaryStage) {
         // Load initial dummy data from the database
         roomList.setAll(Database.rooms); // Add rooms from the database to our list
 
@@ -125,6 +122,7 @@ public class Admin extends User {
         Button addButton = new Button("Add");
         Button editButton = new Button("Edit");
         Button deleteButton = new Button("Delete");
+        Button backButton = new Button("Back");
 
         // When the Add button is clicked
         addButton.setOnAction(e -> showRoomForm(null, table));
@@ -154,18 +152,16 @@ public class Admin extends User {
                 });
             }
         });
+        backButton.setOnAction(e -> displayDashboard(primaryStage));
 
         // Layout for buttons and main window
-        HBox buttonBox = new HBox(10, addButton, editButton, deleteButton);
+        HBox buttonBox = new HBox(10, addButton, editButton, deleteButton, backButton);
         VBox layout = new VBox(10, new Label("Room List:"), table, buttonBox);
         layout.setPadding(new Insets(10));
 
         // Set up and show the main scene
-        Stage stage = new Stage();  // New window
-        Scene scene = new Scene(layout, 700, 400);
-        stage.setTitle("Room Manager");
-        stage.setScene(scene);
-        stage.show();
+        primaryStage.setScene(new Scene(layout, 700, 400));
+        primaryStage.setTitle("Room Manager");
     }
 
     // Shows the form to add or edit a room
