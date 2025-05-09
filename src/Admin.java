@@ -62,7 +62,7 @@ public class Admin extends User {
         eventButton.setMaxWidth(Double.MAX_VALUE);
         usersButton.setMaxWidth(Double.MAX_VALUE);
         logoutButton.setMaxWidth(Double.MAX_VALUE);
-        categoryButton.setOnAction(e -> openCategoryManager());
+        categoryButton.setOnAction(e -> openCategoryManager(primaryStage));
         roomButton.setOnAction(e -> openRoomManager());
         eventButton.setOnAction(e -> showAllEvents(primaryStage));
         usersButton.setOnAction(e -> showAllUsers(primaryStage));
@@ -274,76 +274,76 @@ public class Admin extends User {
         Database.categories.remove(category);
     }
 
-    public void openCategoryManager() {
-        ObservableList<Category> categoryList = FXCollections.observableArrayList();
+    public void openCategoryManager(Stage parentStage) {
+    ObservableList<Category> categoryList = FXCollections.observableArrayList();
 
-        // Initialize sample data
-        categoryList.addAll(Database.categories);
+    // Initialize sample data
+    categoryList.setAll(Database.categories);
 
-        // Table to show categories
-        TableView<Category> table = new TableView<>(categoryList);
+    // Table to show categories
+    TableView<Category> table = new TableView<>(categoryList);
 
-        // Table columns
-        TableColumn<Category, String> idCol = new TableColumn<>("ID");
-        idCol.setCellValueFactory(new PropertyValueFactory<>("categoryid"));
+    // Table columns
+    TableColumn<Category, String> idCol = new TableColumn<>("ID");
+    idCol.setCellValueFactory(new PropertyValueFactory<>("categoryid"));
 
-        TableColumn<Category, String> nameCol = new TableColumn<>("Name");
-        nameCol.setCellValueFactory(new PropertyValueFactory<>("categoryname"));
+    TableColumn<Category, String> nameCol = new TableColumn<>("Name");
+    nameCol.setCellValueFactory(new PropertyValueFactory<>("categoryname"));
 
-        TableColumn<Category, String> descCol = new TableColumn<>("Description");
-        descCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+    TableColumn<Category, String> descCol = new TableColumn<>("Description");
+    descCol.setCellValueFactory(new PropertyValueFactory<>("description"));
 
-        table.getColumns().addAll(idCol, nameCol, descCol);
+    table.getColumns().addAll(idCol, nameCol, descCol);
 
-        // Buttons
-        Button addBtn = new Button("Add");
-        Button editBtn = new Button("Edit");
-        Button deleteBtn = new Button("Delete");
+    // Buttons
+    Button addBtn = new Button("Add");
+    Button editBtn = new Button("Edit");
+    Button deleteBtn = new Button("Delete");
 
-        // Add button action
-        addBtn.setOnAction(e -> showPopup(null, table));
+    // Add button action
+    addBtn.setOnAction(e -> showPopup(null, table));
 
-        // Edit button action
-        editBtn.setOnAction(e -> {
-            Category selected = table.getSelectionModel().getSelectedItem();
-            if (selected != null) {
-                showPopup(selected, table);
-            }
-        });
+    // Edit button action
+    editBtn.setOnAction(e -> {
+        Category selected = table.getSelectionModel().getSelectedItem();
+        if (selected != null) {
+            showPopup(selected, table);
+        }
+    });
 
-        // Delete button action
-        deleteBtn.setOnAction(e -> {
-            Category selected = table.getSelectionModel().getSelectedItem();
-            if (selected != null) {
-                // Confirm before deleting
-                Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
-                confirm.setTitle("Confirm Delete");
-                confirm.setHeaderText("Delete Category?");
-                confirm.setContentText("Category will be deleted");
+    // Delete button action
+    deleteBtn.setOnAction(e -> {
+        Category selected = table.getSelectionModel().getSelectedItem();
+        if (selected != null) {
+            // Confirm before deleting
+            Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+            confirm.setTitle("Confirm Delete");
+            confirm.setHeaderText("Delete Category?");
+            confirm.setContentText("Category will be deleted");
 
-                confirm.showAndWait().ifPresent(response -> {
-                    if (response == ButtonType.OK) {
-                        // Remove events related to this category
-                        Database.events.removeIf(event -> event.getCategory().equals(selected.getCategoryname()));
-                        // Remove category
-                        categoryList.remove(selected);
-                        Database.removeEntity(selected);
-                    }
-                });
-            }
-        });
+            confirm.showAndWait().ifPresent(response -> {
+                if (response == ButtonType.OK) {
+                    // Remove events related to this category
+                    Database.events.removeIf(event -> event.getCategory().equals(selected.getCategoryname()));
+                    // Remove category
+                    categoryList.remove(selected);
+                    Database.removeEntity(selected);
+                }
+            });
+        }
+    });
 
-        // Layout
-        HBox buttonBox = new HBox(10, addBtn, editBtn, deleteBtn);
-        VBox root = new VBox(10, new Label("Categories:"), table, buttonBox);
-        root.setPadding(new Insets(10));
+    // Layout
+    HBox buttonBox = new HBox(10, addBtn, editBtn, deleteBtn);
+    VBox root = new VBox(10, new Label("Categories:"), table, buttonBox);
+    root.setPadding(new Insets(10));
 
-        // Show window
-        Stage stage = new Stage();  // New window
-        stage.setScene(new Scene(root, 600, 400));
-        stage.setTitle("Category Manager");
-        stage.show();
-    }
+    // Show window
+    Stage categoryManagerStage = new Stage();  // New window
+    categoryManagerStage.setScene(new Scene(root, 600, 400));
+    categoryManagerStage.setTitle("Category Manager");
+    categoryManagerStage.show();
+}
 
     // Show popup for adding or editing category
     private void showPopup(Category category, TableView<Category> table) {
