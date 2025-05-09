@@ -27,7 +27,7 @@ public abstract class User {
 
     public void logout() {
         System.out.println("You have logged out");
-        //Main.main(new String[]{});
+        // Main.main(new String[]{});
     }
 
     public void updatePassword(String newPassword) {
@@ -56,4 +56,23 @@ public abstract class User {
         return gender;
     }
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
 }
