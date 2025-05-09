@@ -385,7 +385,6 @@ public class Admin extends User {
 
                 // Add new category
                 Category newCategory = new Category(id, name, desc);
-                Database.addEntity(newCategory);
                 table.getItems().add(newCategory);
             } else {
                 // Update existing category
@@ -411,8 +410,6 @@ public class Admin extends User {
         alert.setContentText(message);
         alert.showAndWait();
     }
-
-
 
     public void generateReport() {
         System.out.println("--- SYSTEM REPORT ---");
