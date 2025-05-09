@@ -274,14 +274,14 @@ public class Attendee extends User {
     ListView<String> interestsListView = new ListView<>(interest);
     Label balanceLabel = new Label("Balance: EGP " + this.wallet.getBalance());
 
-    public void showProfileWindow() {
-        Stage stage = new Stage(); // New window
+    public void showProfileWindow(Stage parentStage) {
+        Stage stage = new Stage(); // New window for profile page
+        stage.initOwner(parentStage); // Set the main window as the owner
 
         interestsListView.setPrefHeight(100);
 
         HBox interestButtons = new HBox(10,
                 createButton("Add", e -> addInterest()),
-                createButton("Edit", e -> editSelectedInterest()),
                 createButton("Delete", e -> deleteSelectedInterest())
         );
         interestButtons.setPadding(new Insets(0, 0, 10, 0));
@@ -325,35 +325,25 @@ public class Attendee extends User {
     }
 
     void addInterest() {
-        TextInputDialog dialog = new TextInputDialog();
+        // Create a list to hold category names for the drop-down menu
+        ObservableList<String> categoryNames = FXCollections.observableArrayList();
+
+        // Iterate through the categories in Database.categories and add each category's name to the list
+        for (Category category : Database.categories) {
+            categoryNames.add(category.getCategoryname()); // Get category name
+        }
+
+        // Show a ChoiceDialog with the list of categories as available interests
+        ChoiceDialog<String> dialog = new ChoiceDialog<>(null, categoryNames);
         dialog.setTitle("Add Interest");
-        dialog.setContentText("Enter new interest:");
+        dialog.setHeaderText("Select an interest");
+        dialog.setContentText("Choose an interest:");
+
         dialog.showAndWait().ifPresent(input -> {
-            if (input.trim().isEmpty()) {
+            if (input == null || input.trim().isEmpty()) {
                 showAlert("Error", "Interest cannot be blank.", Alert.AlertType.ERROR);
             } else {
                 interest.add(input.trim());
-            }
-        });
-    }
-
-    void editSelectedInterest() {
-        String selected = interestsListView.getSelectionModel().getSelectedItem();
-        int selectedIndex = interestsListView.getSelectionModel().getSelectedIndex();
-
-        if (selected == null) {
-            showAlert("No Selection", "Please select an interest to edit.", Alert.AlertType.WARNING);
-            return;
-        }
-
-        TextInputDialog dialog = new TextInputDialog(selected);
-        dialog.setTitle("Edit Interest");
-        dialog.setContentText("Edit interest:");
-        dialog.showAndWait().ifPresent(input -> {
-            if (input.trim().isEmpty()) {
-                showAlert("Error", "Interest cannot be blank.", Alert.AlertType.ERROR);
-            } else {
-                interest.set(selectedIndex, input.trim());
             }
         });
     }
@@ -509,7 +499,7 @@ public class Attendee extends User {
         Button logoutButton = new Button("Logout");
         viewEventsButton.setOnAction(e -> viewEvents(primaryStage));
         myTicketsButton.setOnAction(e -> myTickets(primaryStage));
-        profileButton.setOnAction(e -> showProfileWindow());
+        profileButton.setOnAction(e -> showProfileWindow(primaryStage));
         logoutButton.setOnAction(e -> primaryStage.setScene(LoginRegisterSystem.loginScene));
         attendeePane.getChildren().addAll(attendeeLabel, viewEventsButton, myTicketsButton, profileButton, logoutButton);
         primaryStage.setScene(new Scene(attendeePane, 500, 400));
