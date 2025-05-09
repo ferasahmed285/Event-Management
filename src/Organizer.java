@@ -323,7 +323,6 @@ public class Organizer extends User {
 
             Scene profileScene = new Scene(root, 600, 500);
             this.primaryStage.setScene(profileScene);
-            this.primaryStage.setTitle("Organizer Profile");
             this.primaryStage.show();
         } catch (IOException e) {
             e.printStackTrace();

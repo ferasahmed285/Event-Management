@@ -304,7 +304,6 @@ public class Attendee extends User {
         );
 
         stage.setScene(new Scene(layout, 360, 520));
-        stage.setTitle("Attendee Profile");
         stage.show();
     }
 

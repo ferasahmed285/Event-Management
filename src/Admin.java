@@ -161,7 +161,6 @@ public class Admin extends User {
 
         // Set up and show the main scene
         primaryStage.setScene(new Scene(layout, 700, 400));
-        primaryStage.setTitle("Room Manager");
     }
 
     // Shows the form to add or edit a room
@@ -338,7 +337,6 @@ public class Admin extends User {
 
         // Show window
         parentStage.setScene(new Scene(root, 600, 400));
-        parentStage.setTitle("Category Manager");
     }
 
 // Show popup for adding or editing category
