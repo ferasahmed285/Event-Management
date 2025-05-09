@@ -410,12 +410,11 @@ public class Admin extends User {
         );
 
         TableColumn<Event, String> roomCol = new TableColumn<>("Room");
-        roomCol.setCellValueFactory(new PropertyValueFactory<>("room"));
+        roomCol.setCellValueFactory(new PropertyValueFactory<>("room.name"));
 
         TableColumn<Event, String> organizerCol = new TableColumn<>("Organizer");
         organizerCol.setCellValueFactory(cellData ->
-            new SimpleStringProperty(cellData.getValue().organizer.getUsername())
-        );
+            new SimpleStringProperty(cellData.getValue().organizer.getUsername()));
 
         tableView.getColumns().addAll(
             titleCol, descCol, categoryCol,
