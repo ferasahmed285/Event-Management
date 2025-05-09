@@ -275,79 +275,136 @@ public class Admin extends User {
     }
 
     public void openCategoryManager(Stage parentStage) {
-    ObservableList<Category> categoryList = FXCollections.observableArrayList();
+        ObservableList<Category> categoryList = FXCollections.observableArrayList();
 
-    // Initialize sample data
-    categoryList.setAll(Database.categories);
+        // Initialize sample data
+        categoryList.setAll(Database.categories);
 
-    // Table to show categories
-    TableView<Category> table = new TableView<>(categoryList);
+        // Table to show categories
+        TableView<Category> table = new TableView<>(categoryList);
 
-    // Table columns
-    TableColumn<Category, String> idCol = new TableColumn<>("ID");
-    idCol.setCellValueFactory(new PropertyValueFactory<>("categoryid"));
+        // Table columns
+        TableColumn<Category, String> idCol = new TableColumn<>("ID");
+        idCol.setCellValueFactory(new PropertyValueFactory<>("categoryid"));
 
-    TableColumn<Category, String> nameCol = new TableColumn<>("Name");
-    nameCol.setCellValueFactory(new PropertyValueFactory<>("categoryname"));
+        TableColumn<Category, String> nameCol = new TableColumn<>("Name");
+        nameCol.setCellValueFactory(new PropertyValueFactory<>("categoryname"));
 
-    TableColumn<Category, String> descCol = new TableColumn<>("Description");
-    descCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+        TableColumn<Category, String> descCol = new TableColumn<>("Description");
+        descCol.setCellValueFactory(new PropertyValueFactory<>("description"));
 
-    table.getColumns().addAll(idCol, nameCol, descCol);
+        table.getColumns().addAll(idCol, nameCol, descCol);
 
-    // Buttons
-    Button addBtn = new Button("Add");
-    Button editBtn = new Button("Edit");
-    Button deleteBtn = new Button("Delete");
+        // Buttons
+        Button addBtn = new Button("Add");
+        Button editBtn = new Button("Edit");
+        Button deleteBtn = new Button("Delete");
+        Button backBtn = new Button("Back");
 
-    // Add button action
-    addBtn.setOnAction(e -> showPopup(null, table));
+        // Add button action
+        addBtn.setOnAction(e -> showPopup(null, table));
 
-    // Edit button action
-    editBtn.setOnAction(e -> {
-        Category selected = table.getSelectionModel().getSelectedItem();
-        if (selected != null) {
-            showPopup(selected, table);
-        }
-    });
+        // Edit button action
+        editBtn.setOnAction(e -> {
+            Category selected = table.getSelectionModel().getSelectedItem();
+            if (selected != null) {
+                showPopup(selected, table);
+            }
+        });
 
-    // Delete button action
-    deleteBtn.setOnAction(e -> {
-        Category selected = table.getSelectionModel().getSelectedItem();
-        if (selected != null) {
-            // Confirm before deleting
-            Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
-            confirm.setTitle("Confirm Delete");
-            confirm.setHeaderText("Delete Category?");
-            confirm.setContentText("Category will be deleted");
+        // Delete button action
+        deleteBtn.setOnAction(e -> {
+            Category selected = table.getSelectionModel().getSelectedItem();
+            if (selected != null) {
+                // Confirm before deleting
+                Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+                confirm.setTitle("Confirm Delete");
+                confirm.setHeaderText("Delete Category?");
+                confirm.setContentText("Category will be deleted");
 
-            confirm.showAndWait().ifPresent(response -> {
-                if (response == ButtonType.OK) {
-                    // Remove events related to this category
-                    Database.events.removeIf(event -> event.getCategory().equals(selected.getCategoryname()));
-                    // Remove category
-                    categoryList.remove(selected);
-                    Database.removeEntity(selected);
-                }
-            });
-        }
-    });
+                confirm.showAndWait().ifPresent(response -> {
+                    if (response == ButtonType.OK) {
+                        // Remove events related to this category
+                        Database.events.removeIf(event -> event.getCategory().equals(selected.getCategoryname()));
+                        // Remove category
+                        categoryList.remove(selected);
+                        Database.removeEntity(selected);
+                    }
+                });
+            }
+        });
+        backBtn.setOnAction(e -> displayDashboard(parentStage));
 
-    // Layout
-    HBox buttonBox = new HBox(10, addBtn, editBtn, deleteBtn);
-    VBox root = new VBox(10, new Label("Categories:"), table, buttonBox);
-    root.setPadding(new Insets(10));
+        // Layout
+        HBox buttonBox = new HBox(10, addBtn, editBtn, deleteBtn, backBtn);
+        VBox root = new VBox(10, new Label("Categories:"), table, buttonBox);
+        root.setPadding(new Insets(10));
 
-    // Show window
-    Stage categoryManagerStage = new Stage();  // New window
-    categoryManagerStage.setScene(new Scene(root, 600, 400));
-    categoryManagerStage.setTitle("Category Manager");
-    categoryManagerStage.show();
-}
+        // Show window
+        parentStage.setScene(new Scene(root, 600, 400));
+        parentStage.setTitle("Category Manager");
+    }
 
-    // Show popup for adding or editing category
+// Show popup for adding or editing category
     private void showPopup(Category category, TableView<Category> table) {
-        // (This function remains the same)
+        Stage popup = new Stage();
+        popup.setTitle(category == null ? "Add Category" : "Edit Category");
+
+        TextField idField = new TextField();
+        idField.setPromptText("ID");
+        if (category != null) {
+            idField.setText(category.getCategoryid());
+            idField.setDisable(true); // Prevent ID editing
+        }
+
+        TextField nameField = new TextField();
+        nameField.setPromptText("Name");
+        if (category != null) nameField.setText(category.getCategoryname());
+
+        TextField descField = new TextField();
+        descField.setPromptText("Description");
+        if (category != null) descField.setText(category.getDescription());
+
+        Button saveBtn = new Button("Save");
+
+        saveBtn.setOnAction(e -> {
+            String id = idField.getText().trim();
+            String name = nameField.getText().trim();
+            String desc = descField.getText().trim();
+
+            if (id.isEmpty() || name.isEmpty() || desc.isEmpty()) {
+                showAlert(Alert.AlertType.ERROR, "Validation Error", "All fields are required.");
+                return;
+            }
+
+            if (category == null) {
+                // Check for duplicate ID
+                boolean idExists = Database.categories.stream()
+                        .anyMatch(cat -> cat.getCategoryid().equalsIgnoreCase(id));
+
+                if (idExists) {
+                    showAlert(Alert.AlertType.ERROR, "Duplicate ID", "A category with this ID already exists.");
+                    return;
+                }
+
+                // Add new category
+                Category newCategory = new Category(id, name, desc);
+                Database.addEntity(newCategory);
+                table.getItems().add(newCategory);
+            } else {
+                // Update existing category
+                category.updateDetails(name, desc);
+                table.refresh();
+            }
+
+            popup.close();
+        });
+
+        VBox layout = new VBox(10, idField, nameField, descField, saveBtn);
+        layout.setPadding(new Insets(10));
+
+        popup.setScene(new Scene(layout));
+        popup.showAndWait();
     }
 
     // Show alert method
