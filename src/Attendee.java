@@ -193,10 +193,8 @@ public class Attendee extends User {
     }
 
     private void myTickets(Stage primaryStage) {
-        // Table setup
         TableView<Event> table = new TableView<>();
 
-        // Columns
         TableColumn<Event, String> titleCol = new TableColumn<>("Event Title");
         titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
 
@@ -225,7 +223,6 @@ public class Attendee extends User {
 
         table.getColumns().addAll(titleCol, dateCol, category, dateCol1, priceCol, roomCol, organizerCol, actionCol);
 
-        // Data loading
         ObservableList<Event> data = FXCollections.observableArrayList();
         for (Event event : Database.events) {
             if (event.getAttendees().contains(this)) {
@@ -234,7 +231,6 @@ public class Attendee extends User {
         }
         table.setItems(data);
 
-        // Back button
         Button backBtn = new Button("Back");
         backBtn.setOnAction(e -> displayDashboard(primaryStage));
 
@@ -495,11 +491,16 @@ public class Attendee extends User {
     public void displayDashboard(Stage primaryStage) {
         VBox attendeePane = new VBox(10);
         attendeePane.setStyle("-fx-padding: 20; -fx-alignment: center;");
-        Label attendeeLabel = new Label("Attendee Dashboard");
+        Label attendeeLabel = new Label("Welcome, " + this.getUsername());
+        attendeeLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
         Button viewEventsButton = new Button("View Events");
         Button myTicketsButton = new Button("See My Tickets");
         Button profileButton = new Button("View Profile");
         Button logoutButton = new Button("Logout");
+        viewEventsButton.setMaxWidth(Double.MAX_VALUE);
+        myTicketsButton.setMaxWidth(Double.MAX_VALUE);
+        profileButton.setMaxWidth(Double.MAX_VALUE);
+        logoutButton.setMaxWidth(Double.MAX_VALUE);
         viewEventsButton.setOnAction(e -> viewEvents(primaryStage));
         myTicketsButton.setOnAction(e -> myTickets(primaryStage));
         profileButton.setOnAction(e -> showProfileWindow(primaryStage));
