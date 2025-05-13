@@ -495,7 +495,6 @@ public class Admin extends User {
 
         VBox layout = new VBox(10, backButton, tableView);
         layout.setPadding(new Insets(20));
-        layout.setStyle("-fx-padding: 20");
         primaryStage.setScene(new Scene(layout, 700, 400));
     }
 
