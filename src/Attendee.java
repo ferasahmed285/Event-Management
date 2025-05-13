@@ -105,11 +105,11 @@ public class Attendee extends User {
     }
 
     public void viewEvents(Stage primaryStage) {//ali
-        // Create a vertical box to hold everything
-        VBox layout = new VBox(10); // 10 is spacing between items
-        layout.setStyle("-fx-padding: 20;"); // Add some padding
 
-        // Add a title
+        VBox layout = new VBox(10);
+        layout.setStyle("-fx-padding: 20;");
+
+
         Label titleLabel = new Label("Available Events");
 
         // Create a ListView to show events
@@ -143,7 +143,7 @@ public class Attendee extends User {
                             return;
                         }
 
-                        // Try to buy the ticket
+
                         Attendee.this.buyTickets(event);
                         showAlert("Success", "Ticket bought for " + event.getTitle() + "!");
 
