@@ -4,7 +4,6 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -82,10 +81,7 @@ public class Admin extends User {
         logoutButton.setOnAction(e -> primaryStage.setScene(LoginRegisterSystem.loginScene));
 //        ,new Label("Messages from Organizers:"),messages,chatButton
         adminPane.getChildren().addAll(adminLabel, categoryButton, roomButton, eventButton, usersButton, logoutButton);
-        VBox layout = new VBox(10, adminPane);
-        layout.setStyle("-fx-padding: 20");
-        layout.setAlignment(Pos.CENTER);
-        primaryStage.setScene(new Scene(layout, 400, 400)); // Adjusted height for messages
+        primaryStage.setScene(new Scene(adminPane, 400, 400)); // Adjusted height for messages
     }
 
     public void addRoom(Room room) {
