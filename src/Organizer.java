@@ -341,7 +341,7 @@ public class Organizer extends User {
         primaryStage.setScene(new Scene(menuRoot, 400, 300));
     }
 
-    public void showAllEvents(Stage primaryStage) {
+    public void showAllEvents(Stage primaryStage) { //ali
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("EventsController.fxml"));
             Parent root = loader.load();
