@@ -442,7 +442,7 @@ public class Admin extends User {
 //            e.displaySummary();
 //
 //        }
-    private void showAllEvents(Stage primaryStage) {//ali
+    private void showAllEvents(Stage primaryStage) {//feras
         TableView<Event> tableView = new TableView<>();
 
         TableColumn<Event, String> titleCol = new TableColumn<>("Title");
